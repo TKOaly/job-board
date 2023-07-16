@@ -62,6 +62,23 @@
   resolved "https://registry.yarnpkg.com/@next/swc-win32-x64-msvc/-/swc-win32-x64-msvc-12.0.10.tgz#5c0ba98b695c4be44d8793aff42971a0dac65c2d"
   integrity sha512-oUIWRKd24jFLRWUYO1CZmML5+32BcpVfqhimGaaZIXcOkfQW+iqiAzdqsv688zaGtyKGeB9ZtiK3NDf+Q0v+Vw==
 
+"@prisma/client@5.0.0":
+  version "5.0.0"
+  resolved "https://registry.yarnpkg.com/@prisma/client/-/client-5.0.0.tgz#9f0cd4164f4ffddb28bb1811c27eb7fa1e01a087"
+  integrity sha512-XlO5ELNAQ7rV4cXIDJUNBEgdLwX3pjtt9Q/RHqDpGf43szpNJx2hJnggfFs7TKNx0cOFsl6KJCSfqr5duEU/bQ==
+  dependencies:
+    "@prisma/engines-version" "4.17.0-26.6b0aef69b7cdfc787f822ecd7cdc76d5f1991584"
+
+"@prisma/engines-version@4.17.0-26.6b0aef69b7cdfc787f822ecd7cdc76d5f1991584":
+  version "4.17.0-26.6b0aef69b7cdfc787f822ecd7cdc76d5f1991584"
+  resolved "https://registry.yarnpkg.com/@prisma/engines-version/-/engines-version-4.17.0-26.6b0aef69b7cdfc787f822ecd7cdc76d5f1991584.tgz#b36eda5620872d3fac810c302a7e46cf41daa033"
+  integrity sha512-HHiUF6NixsldsP3JROq07TYBLEjXFKr6PdH8H4gK/XAoTmIplOJBCgrIUMrsRAnEuGyRoRLXKXWUb943+PFoKQ==
+
+"@prisma/engines@5.0.0":
+  version "5.0.0"
+  resolved "https://registry.yarnpkg.com/@prisma/engines/-/engines-5.0.0.tgz#5249650eabe77c458c90f2be97d8210353c2e22e"
+  integrity sha512-kyT/8fd0OpWmhAU5YnY7eP31brW1q1YrTGoblWrhQJDiN/1K+Z8S1kylcmtjqx5wsUGcP1HBWutayA/jtyt+sg==
+
 "@types/debug@^4.0.0":
   version "4.1.8"
   resolved "https://registry.yarnpkg.com/@types/debug/-/debug-4.1.8.tgz#cef723a5d0a90990313faec2d1e22aee5eecb317"
@@ -506,6 +523,13 @@ postcss@8.4.5:
     nanoid "^3.1.30"
     picocolors "^1.0.0"
     source-map-js "^1.0.1"
+
+prisma@^5.0.0:
+  version "5.0.0"
+  resolved "https://registry.yarnpkg.com/prisma/-/prisma-5.0.0.tgz#f6571c46dc2478172cb7bc1bb62d74026a2c2630"
+  integrity sha512-KYWk83Fhi1FH59jSpavAYTt2eoMVW9YKgu8ci0kuUnt6Dup5Qy47pcB4/TLmiPAbhGrxxSz7gsSnJcCmkyPANA==
+  dependencies:
+    "@prisma/engines" "5.0.0"
 
 prop-types@^15.0.0:
   version "15.8.1"

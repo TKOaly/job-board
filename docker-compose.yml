@@ -7,3 +7,9 @@ services:
       - 127.0.0.1:3000:3000
     volumes:
       - .:/app
+
+  db:
+    image: postgres
+    environment:
+      POSTGRES_USER: job-board
+      POSTGRES_PASSWORD: unsecure
