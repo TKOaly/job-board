@@ -36,6 +36,9 @@ model Company {
   bussinessId String? @unique
   website     String?
   partner     Boolean @default(false)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt 
+  logoUrl     String?
 
   employerPosts Post[] @relation("EmployerPosts") 
   recruiterPosts Post[] @relation("RecruiterPosts") 

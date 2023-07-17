@@ -1,0 +1,59 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.tko-aly-logo {
+  .background  { fill-opacity: 0; stroke: none; stroke-width: 1; }
+  .fillable { fill: black; fill-opacity: 1; stroke: none; stroke-width: 1; }
+}
+
+.post-body {
+  p, ul, ol {
+    @apply mt-5;
+  }
+
+  ul {
+    list-style-type: disc;
+    @apply pl-8;
+  }
+
+  ol {
+    list-style-type: decimal;
+    @apply pl-8;
+  }
+
+  a {
+    @apply text-blue-500 font-bold;
+  }
+  h1, h2, h3, h4, h5, h6 {
+    @apply mt-10;
+  }
+
+  h1 {
+    @apply text-xl;
+  }
+
+  h6 {
+    @apply text-lg;
+  }
+
+  h5 {
+    @apply text-xl;
+  }
+
+  h4 {
+    @apply text-2xl;
+  }
+
+  h3 {
+    @apply text-3xl;
+  }
+
+  h2 {
+    @apply text-4xl;
+  }
+
+  h1 {
+    @apply text-5xl;
+  }
+}
