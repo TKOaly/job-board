@@ -29,6 +29,10 @@ for (const company of companies) {
   });
 }
 
+const companyIdStart = Math.max(...companies.map((c) => c.id)) + 1;
+
+await newClient.$queryRaw`SELECT setval('"Company_id_seq"', ${companyIdStart})`;
+
 console.log(`Created ${companies.length} companies.`);
 
 const posts = await oldClient.$queryRaw`SELECT * FROM jobs`;
