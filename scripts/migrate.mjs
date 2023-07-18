@@ -1,9 +1,12 @@
 import { PrismaClient } from "@prisma/client"
 
+const oldUrl = new URL(process.env.DATABASE_URL);
+oldUrl.searchParams.set('schema', 'public_old');
+
 const oldClient = new PrismaClient({
   datasources: {
     db: {
-      url: 'postgresql://job-board:unsecure@db/job-board?schema=public_old',
+      url: oldUrl.toString(),
     },
   },
 });

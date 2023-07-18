@@ -5,7 +5,7 @@ import { Company, Post } from "@prisma/client";
 import { format, isAfter, isBefore } from "date-fns";
 import { useRouter } from "next/navigation";
 import sanitize from "sanitize-html";
-import { Button } from "../../../components/Button";
+import { Button } from "@/components/Button";
 
 export type Props = {
   post: Post,

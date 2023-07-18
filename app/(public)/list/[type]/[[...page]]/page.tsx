@@ -4,8 +4,8 @@ import { Post, PrismaClient } from "@prisma/client";
 import { cva } from "class-variance-authority";
 import Link from "next/link";
 import { ComponentProps, HTMLAttributes } from "react";
-import { Button } from "../../../../components/Button";
-import { PostCard } from "../../../../components/PostCard";
+import { Button } from "@/components/Button";
+import { PostCard } from "@/components/PostCard";
 
 const getCounts = async () => {
   const client = new PrismaClient();

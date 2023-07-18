@@ -1,4 +1,5 @@
 import { cva } from "class-variance-authority";
+import React from "react";
 import { ReactNode } from "react";
 
 const buttonCva = cva([
@@ -37,11 +38,11 @@ export type Props = React.PropsWithChildren<{
   secondary?: boolean
 }> & React.HTMLAttributes<HTMLButtonElement>;
 
-export const Button = ({ children, secondary = false, icon = null, ...rest }: Props) => (
+export const Button = React.forwardRef<HTMLButtonElement>(({ children, secondary = false, icon = null, ...rest }: Props, ref) => (
   <div>
-    <button {...rest} className={buttonCva({ secondary, class: rest.className })}>
+    <button {...rest} className={buttonCva({ secondary, class: rest.className })} ref={ref}>
       {children}
       {icon}
     </button>
   </div>
-);
+));

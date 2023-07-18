@@ -12,17 +12,27 @@
   "license": "MIT",
   "dependencies": {
     "@heroicons/react": "^2.0.18",
+    "@lexical/react": "^0.11.2",
     "@prisma/client": "5.0.0",
+    "@radix-ui/react-popover": "^1.0.6",
+    "@radix-ui/react-select": "^1.2.2",
+    "@radix-ui/react-slot": "^1.0.2",
+    "@tinymce/tinymce-react": "^4.3.0",
     "class-variance-authority": "^0.7.0",
     "date-fns": "^2.30.0",
     "eslint-config-next": "^13.4.10",
+    "lexical": "^0.11.2",
     "next": "^13.4.10",
+    "next-auth": "^4.22.1",
     "next-superjson": "^0.0.4",
     "react": "^18.2.0",
+    "react-day-picker": "^8.8.0",
     "react-dom": "^18.2.0",
     "react-markdown": "8.0.0",
     "sanitize-html": "^2.11.0",
-    "superjson": "^1.12.4"
+    "superjson": "^1.12.4",
+    "tailwind-merge": "^1.14.0",
+    "zod": "^3.21.4"
   },
   "devDependencies": {
     "@types/node": "17.0.14",

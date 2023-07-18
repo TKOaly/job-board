@@ -1,10 +1,5 @@
-import { PrismaClient } from "@prisma/client";
-import { Button } from "../components/Button";
 import "../styles/globals.scss";
-import { Logo } from "./logo";
-import { ChevronDoubleRightIcon } from "@heroicons/react/24/solid";
-import { useRouter } from "next/navigation";
-import Header from "./Header";
+import { NextAuthProviders } from "./NextAuthProviders";
 
 export default async function RootLayout({
   children,
@@ -15,10 +10,9 @@ export default async function RootLayout({
     <html lang="en">
       <body>
         <div>
-          <Header />
-          <div className="w-[80ch] mx-auto">
+          <NextAuthProviders>
             {children}
-          </div>
+          </NextAuthProviders>
         </div>
       </body>
     </html>
