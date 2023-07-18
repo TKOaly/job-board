@@ -1,11 +1,12 @@
 'use client';
 
-import { ChevronLeftIcon } from "@heroicons/react/20/solid";
+import { ChevronLeftIcon, TrashIcon } from "@heroicons/react/20/solid";
 import { Company, Post } from "@prisma/client";
 import { format, isAfter, isBefore } from "date-fns";
 import { useRouter } from "next/navigation";
 import sanitize from "sanitize-html";
 import { Button } from "@/components/Button";
+import { useSession } from "next-auth/react";
 
 export type Props = {
   post: Post,
@@ -13,7 +14,10 @@ export type Props = {
 };
 
 const PostDetails = ({ post, company }: Props) => {
-  const { back } = useRouter();
+  const { back, push } = useRouter();
+  const session = useSession();
+
+  const admin = !!(session?.data?.user?.admin);
 
   let isOpen = true;
 
@@ -25,12 +29,30 @@ const PostDetails = ({ post, company }: Props) => {
     isOpen = isOpen && isBefore(new Date(), post.closesAt);
   }
 
+  const handleDelete = async () => {
+    const result = await fetch(`/api/posts/${post.id}`, {
+      method: 'DELETE',
+    });
+
+    if (result.ok) {
+      push('/');
+    }
+  };
+
   return (
     <div>
-      <Button className="mt-5" onClick={() => back()}>
-        <ChevronLeftIcon className="h-5 w-5 -mr-1 -ml-1" />
-        Takaisin
-      </Button>
+      <div className="flex items-center mt-5">
+        <Button onClick={() => back()}>
+          <ChevronLeftIcon className="h-5 w-5 -mr-1 -ml-1" />
+          Takaisin
+        </Button>
+        { admin && (
+          <>
+            <div className="grow" />
+            <Button secondary onClick={handleDelete}>Poista <TrashIcon className="h-4 w-4"/></Button>
+          </>
+        )}
+      </div>
       <div className="bg-white shadow rounded border mt-5 p-10">
         <div className="flex">
           <div className="grow">
