@@ -21,6 +21,7 @@
     "class-variance-authority": "^0.7.0",
     "date-fns": "^2.30.0",
     "eslint-config-next": "^13.4.10",
+    "immer": "^10.0.2",
     "lexical": "^0.11.2",
     "next": "^13.4.10",
     "next-auth": "^4.22.1",

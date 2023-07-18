@@ -2,22 +2,20 @@
 
 import { Company, Post } from "@prisma/client";
 import { Button } from "@/components/Button";
-import { DatePicker } from "@/components/DatePicker";
-import { Input } from "@/components/Input";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/Select";
-import { Textarea } from "@/components/TextArea";
-import { SparklesIcon } from "@heroicons/react/24/outline";
 import { useState } from "react";
 import { formatISO, isBefore } from "date-fns";
 import PostEditor from "./PostEditor";
+import { useRouter } from "next/navigation";
 
 export type Props = {
+  post: Post,
   companies: Company[],
 };
 
-export const CreatePost = ({ companies }: Props) => {
+export const EditPost = ({ companies, post: originalPost }: Props) => {
   const [error, setError] = useState<string | null>(null);
-  const [post, setPost] = useState<Partial<Post>>({});
+  const { push } = useRouter();
+  const [post, setPost] = useState(originalPost);
 
   const handleSubmit = async () => {
     if (post.title && post.title.length <= 3) {
@@ -35,8 +33,8 @@ export const CreatePost = ({ companies }: Props) => {
       return;
     }
 
-    const response = await fetch('/api/posts/create', {
-      method: 'POST',
+    const response = await fetch(`/api/posts/${post.id}`, {
+      method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
       },
@@ -44,7 +42,7 @@ export const CreatePost = ({ companies }: Props) => {
         title: post.title,
         closesAt: formatISO(post.closesAt),
         opensAt: formatISO(post.opensAt),
-        company: post.employingCompanyId,
+        employingCompanyId: post.employingCompanyId,
         body: post.body,
       })
     });
@@ -55,12 +53,13 @@ export const CreatePost = ({ companies }: Props) => {
       setError(json.message ?? 'Unknown error occurred.');
     } else {
       setError(null);
+      push(`/posts/${json.payload.id}`);
     }
   };
 
   return (
     <div>
-      <h1 className="text-2xl font-bold">Create Post</h1>
+      <h1 className="text-2xl font-bold">Edit Post</h1>
       { error && (
         <div className="rounded-md shadow py-2 px-3 border-l-[7px] border border-l-red-500 mt-5">
           <h4 className="font-bold mb-1">Failed to create post</h4>
@@ -69,7 +68,7 @@ export const CreatePost = ({ companies }: Props) => {
       )}
       <PostEditor post={post} onChange={setPost} companies={companies} />
       <div className="mt-5">
-        <Button onClick={handleSubmit}>Publish</Button>
+        <Button onClick={handleSubmit}>Save</Button>
       </div>
     </div>
   );

@@ -3,17 +3,26 @@ import { NextApiRequest, NextApiResponse } from "next";
 import { getServerSession } from "next-auth";
 import { config } from '@/next-auth';
 import { z } from 'zod';
+import { parseISO } from "date-fns";
 
 const querySchema = z.object({
   id: z.string(),
 })
 
+const updateSchema = z.object({
+  title: z.string(),
+  body: z.string(),
+  employingCompanyId: z.number().int().positive(),
+  opensAt: z.string().datetime({ offset: true }),
+  closesAt: z.string().datetime({ offset: true }),
+});
+
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   const session = await getServerSession(req, res, config);
 
-  if (req.method === 'DELETE') {
-    console.log(session);
+  const client = new PrismaClient();
 
+  if (req.method === 'DELETE') {
     if (!session?.user?.admin) {
       res.status(403).json({
         result: 'error',
@@ -22,8 +31,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
       return;
     }
-
-    const client = new PrismaClient();
 
     const { id } = querySchema.parse(req.query);
 
@@ -38,5 +45,35 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       .json({
         result: 'success',
       });
+  } else if (req.method === 'PUT') {
+    if (!session?.user?.admin) {
+      res.status(403).json({
+        result: 'error',
+        message: 'Unauthorized.',
+      });
+
+      return;
+    }
+
+    const { id } = querySchema.parse(req.query);
+    const body = updateSchema.parse(req.body);
+
+    const updatedPost = await client.post.update({
+      where: {
+        id: parseInt(id, 10),
+      },
+      data: {
+        title: body.title,
+        body: body.body,
+        employingCompanyId: body.employingCompanyId,
+        opensAt: parseISO(body.opensAt),
+        closesAt: parseISO(body.closesAt),
+      },
+    })
+
+    res.status(200).json({
+      result: 'success',
+      payload: updatedPost,
+    });
   }
 }

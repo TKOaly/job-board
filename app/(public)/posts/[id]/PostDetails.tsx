@@ -1,6 +1,6 @@
 'use client';
 
-import { ChevronLeftIcon, TrashIcon } from "@heroicons/react/20/solid";
+import { ChevronLeftIcon, TrashIcon, PencilSquareIcon } from "@heroicons/react/20/solid";
 import { Company, Post } from "@prisma/client";
 import { format, isAfter, isBefore } from "date-fns";
 import { useRouter } from "next/navigation";
@@ -41,7 +41,7 @@ const PostDetails = ({ post, company }: Props) => {
 
   return (
     <div>
-      <div className="flex items-center mt-5">
+      <div className="flex items-center mt-5 gap-3">
         <Button onClick={() => back()}>
           <ChevronLeftIcon className="h-5 w-5 -mr-1 -ml-1" />
           Takaisin
@@ -49,6 +49,7 @@ const PostDetails = ({ post, company }: Props) => {
         { admin && (
           <>
             <div className="grow" />
+            <Button secondary onClick={() => push(`/admin/posts/${post.id}/edit`)}>Muokkaa <PencilSquareIcon className="h-4 w-4"/></Button>
             <Button secondary onClick={handleDelete}>Poista <TrashIcon className="h-4 w-4"/></Button>
           </>
         )}
@@ -61,7 +62,7 @@ const PostDetails = ({ post, company }: Props) => {
 
             <div className="my-3">
               <span className="text-xs text-gray-600 uppercase font-bold">Hakuaika</span>
-              <div className="flex items-center gap-3">
+              <div suppressHydrationWarning className="flex items-center gap-3">
                 {post.opensAt ? format(post.opensAt, 'dd.MM.yyyy') : ''} &ndash; {post.closesAt ? format(post.closesAt, 'dd.MM.yyyy') : ''} 
                 { isOpen && (
                   <span className="text-sm rounded py-0.5 px-1.5 bg-green-50 text-green-600 inline-flex items-center gap-1">
