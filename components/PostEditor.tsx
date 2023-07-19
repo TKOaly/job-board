@@ -1,21 +1,21 @@
-import { Company, Post } from "@prisma/client";
+import { Company, Post, Tag } from "@prisma/client";
 import { Input } from "@/components/Input";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/Select";
 import { Textarea } from "@/components/TextArea";
+import { TagSelect } from "./TagSelect";
 import { DatePicker } from "@/components/DatePicker";
-import { SparklesIcon } from "@heroicons/react/24/outline";
 import { CompanySelect } from "./CompanySelect";
 import { produce } from "immer";
 
-type EditorPost = Partial<Pick<Post, 'title' | 'body' | 'employingCompanyId' | 'opensAt' | 'closesAt'>>;
+type EditorPost = Partial<Pick<Post, 'title' | 'body' | 'employingCompanyId' | 'opensAt' | 'closesAt'> & { tags: Tag[] }>;
 
 export type Props = {
   post: EditorPost,
   onChange: (newPost: EditorPost) => void,
   companies: Company[],
+  tags: Tag[],
 }
 
-const PostEditor = ({ post, onChange, companies }: Props) => {
+const PostEditor = ({ post, onChange, tags, companies }: Props) => {
   const setField = <K extends keyof EditorPost>(field: K, value: EditorPost[K]) => {
     onChange(produce(post, (draft) => {
       draft[field] = value;
@@ -43,8 +43,12 @@ const PostEditor = ({ post, onChange, companies }: Props) => {
         <CompanySelect value={post.employingCompanyId} onChange={(id) => setField('employingCompanyId', id)} companies={companies} className="w-full" />
       </div>
       <div className="mt-5">
+        <div className="uppercase text-xs font-bold mb-2 tracking-wide text-gray-600">Tags</div>
+        <TagSelect value={post.tags ?? []} onChange={(id) => setField('tags', id)} tags={tags} className="w-full" />
+      </div>
+      <div className="mt-5">
         <div className="uppercase text-xs font-bold mb-2 tracking-wide text-gray-600">Content</div>
-        <Textarea onChange={(evt) => setField('body', evt.target.value)} value={post.body} className="font-[monospace]" />
+        <Textarea onChange={(evt) => setField('body', evt.target.value)} value={post.body} className="font-[monospace] min-h-[20em]" />
       </div>
     </div>
   );

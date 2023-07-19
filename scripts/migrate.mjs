@@ -32,7 +32,7 @@ for (const company of companies) {
 const tags = await oldClient.$queryRaw`SELECT * FROM tags`;
 
 await newClient.tag.createMany({
-  data: tags.map((t) => ({ id: t.id, name: t.name })),
+  data: tags.map((t) => ({ name: t.name })),
   skipDuplicates: true,
 });
 

@@ -1,6 +1,6 @@
 'use client';
 
-import { Company, Post } from "@prisma/client";
+import { Company, Post, Tag } from "@prisma/client";
 import { Button } from "@/components/Button";
 import { useState } from "react";
 import { formatISO, isBefore } from "date-fns";
@@ -8,11 +8,12 @@ import PostEditor from "./PostEditor";
 import { useRouter } from "next/navigation";
 
 export type Props = {
-  post: Post,
+  post: Post & { tags: Tag[] },
   companies: Company[],
+  tags: Tag[]
 };
 
-export const EditPost = ({ companies, post: originalPost }: Props) => {
+export const EditPost = ({ companies, post: originalPost, tags }: Props) => {
   const [error, setError] = useState<string | null>(null);
   const { push } = useRouter();
   const [post, setPost] = useState(originalPost);
@@ -44,6 +45,7 @@ export const EditPost = ({ companies, post: originalPost }: Props) => {
         opensAt: formatISO(post.opensAt),
         employingCompanyId: post.employingCompanyId,
         body: post.body,
+        tags: post.tags.map((t) => t.id),
       })
     });
 
@@ -66,7 +68,7 @@ export const EditPost = ({ companies, post: originalPost }: Props) => {
           <p>{error}</p>
         </div>
       )}
-      <PostEditor post={post} onChange={setPost} companies={companies} />
+      <PostEditor post={post} onChange={setPost} companies={companies} tags={tags} />
       <div className="mt-5">
         <Button onClick={handleSubmit}>Save</Button>
       </div>

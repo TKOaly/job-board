@@ -1,23 +1,21 @@
 'use client';
 
-import { Company, Post } from "@prisma/client";
+import { Company, Post, Tag } from "@prisma/client";
 import { Button } from "@/components/Button";
-import { DatePicker } from "@/components/DatePicker";
-import { Input } from "@/components/Input";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/Select";
-import { Textarea } from "@/components/TextArea";
-import { SparklesIcon } from "@heroicons/react/24/outline";
 import { useState } from "react";
 import { formatISO, isBefore } from "date-fns";
 import PostEditor from "./PostEditor";
+import { useRouter } from "next/navigation";
 
 export type Props = {
   companies: Company[],
+  tags: Tag[],
 };
 
-export const CreatePost = ({ companies }: Props) => {
+export const CreatePost = ({ companies, tags }: Props) => {
   const [error, setError] = useState<string | null>(null);
-  const [post, setPost] = useState<Partial<Post>>({});
+  const [post, setPost] = useState<Partial<Post & { tags: Tag[] }>>({});
+  const { push } = useRouter();
 
   const handleSubmit = async () => {
     if (post.title && post.title.length <= 3) {
@@ -46,6 +44,7 @@ export const CreatePost = ({ companies }: Props) => {
         opensAt: formatISO(post.opensAt),
         company: post.employingCompanyId,
         body: post.body,
+        tags: post.tags.map((tag) => tag.id),
       })
     });
 
@@ -55,6 +54,7 @@ export const CreatePost = ({ companies }: Props) => {
       setError(json.message ?? 'Unknown error occurred.');
     } else {
       setError(null);
+      push(`/posts/${json.payload.id}`);
     }
   };
 
@@ -67,7 +67,7 @@ export const CreatePost = ({ companies }: Props) => {
           <p>{error}</p>
         </div>
       )}
-      <PostEditor post={post} onChange={setPost} companies={companies} />
+      <PostEditor post={post} onChange={setPost} companies={companies} tags={tags} />
       <div className="mt-5">
         <Button onClick={handleSubmit}>Publish</Button>
       </div>
