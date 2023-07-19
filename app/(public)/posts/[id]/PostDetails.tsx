@@ -91,7 +91,7 @@ const PostDetails = ({ post, company }: Props) => {
           </div>
 
           { company.partner && company.logoUrl && (
-            <div className="w-[10rem] h-[7rem] rounded bg-gray-100 text-gray-500 text-xl flex items-center justify-center" style={{ backgroundImage: `url(${company.logoUrl})` }}></div>
+            <div className="w-[10rem] shrink-0 h-[7rem] rounded bg-gray-100 text-gray-500 text-xl flex items-center justify-center" style={{ backgroundImage: `url(${company.logoUrl})` }}></div>
           )}
         </div>
 
