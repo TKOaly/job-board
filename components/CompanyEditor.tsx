@@ -7,7 +7,7 @@ type EditorCompany = Partial<Pick<Company, 'name' | 'partner' | 'website'>>;
 
 export type Props = {
   company: EditorCompany,
-  onChange: (newPost: EditorCompany) => void,
+  onChange: (newCompany: EditorCompany) => void,
 }
 
 const CompanyEditor = ({ company, onChange }: Props) => {

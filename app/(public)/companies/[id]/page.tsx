@@ -1,0 +1,19 @@
+import { CompanyDetails } from "@/components/CompanyDetails";
+import { PrismaClient } from "@prisma/client";
+
+export default async function CompanyDetailsPage({ params }) {
+  const client = new PrismaClient();
+
+  const company = await client.company.findUnique({
+    where: {
+      id: parseInt(params.id, 10),
+    },
+    include: {
+      employerPosts: true,
+    },
+  });
+
+  return (
+    <CompanyDetails company={company} />
+  );
+}

@@ -11,9 +11,10 @@ import Card from "./Card";
 export type Props = {
   post: Post,
   company: Company,
+  className?: string
 }
 
-export const PostCard = ({ post, company }: Props) => {
+export const PostCard = ({ post, company, className }: Props) => {
   const { push } = useRouter();
 
   let isOpen = true;
@@ -27,13 +28,13 @@ export const PostCard = ({ post, company }: Props) => {
   }
 
   return (
-    <Card>
+    <Card className={className}>
       <div className="grow">
         <h3 className="text-xl font-bold">{post.title}</h3>
         <div className="my-3">
           <span className="text-xs text-gray-600 uppercase font-bold">Ilmoittaja</span>
           <div className="flex items-center gap-2">
-            <Link href={`/company/${company.id}`}>{company.name}</Link>
+            <Link href={`/companies/${company.id}`}>{company.name}</Link>
             {company.partner && (
               <span className="text-sm rounded py-0.5 px-1.5 bg-yellow-100 text-yellow-700 inline-flex items-center gap-1">
                 <SparklesIcon className="h-4 w-4" />

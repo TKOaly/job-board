@@ -61,7 +61,7 @@ const PostEditor = ({ post, onChange, companies }: Props) => {
       </div>
       <div className="mt-5">
         <div className="uppercase text-xs font-bold mb-2 tracking-wide text-gray-600">Content</div>
-        <Textarea onChange={(evt) => setField('body', evt.target.value)} value={post.body} />
+        <Textarea onChange={(evt) => setField('body', evt.target.value)} value={post.body} className="font-[monospace]" />
       </div>
     </div>
   );
