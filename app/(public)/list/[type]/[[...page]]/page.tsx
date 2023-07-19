@@ -57,6 +57,7 @@ const getPosts = async (type: 'open' | 'closed', page: number = 1) => {
     where,
     include: {
       employingCompany: true,
+      tags: true,
     },
     orderBy: {
       createdAt: 'desc',

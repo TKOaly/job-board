@@ -4,12 +4,13 @@ import { ChevronLeftIcon, TrashIcon, PencilSquareIcon } from "@heroicons/react/2
 import { Company, Post } from "@prisma/client";
 import { format, isAfter, isBefore } from "date-fns";
 import { useRouter } from "next/navigation";
-import sanitize from "sanitize-html";
+import sanitize, { Tag } from "sanitize-html";
 import { Button } from "@/components/Button";
 import { useSession } from "next-auth/react";
+import Link from "next/link";
 
 export type Props = {
-  post: Post,
+  post: Post & { tags: Tag[] },
   company: Company,
 };
 
@@ -58,7 +59,7 @@ const PostDetails = ({ post, company }: Props) => {
         <div className="flex">
           <div className="grow">
             <h1 className="text-3xl font-bold">{post.title}</h1>
-            <span className="text-xl">{company.name}</span>
+            <span className="text-xl"><Link href={`/companies/${company.id}`}>{company.name}</Link></span>
 
             <div className="my-3">
               <span className="text-xs text-gray-600 uppercase font-bold">Hakuaika</span>
@@ -75,6 +76,18 @@ const PostDetails = ({ post, company }: Props) => {
                 )}
               </div>
             </div>
+            {post.tags.length > 0 && (
+              <div className="my-3">
+                <span className="text-xs text-gray-600 uppercase font-bold">Tunnisteet</span>
+                <div suppressHydrationWarning className="flex items-center gap-2 mt-1 flex-wrap">
+                  {post.tags.map((tag) => (
+                    <span className="text-sm rounded py-0.5 px-1.5 bg-gray-100 text-gray-700 inline-flex items-center gap-1">
+                      {tag.name}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            )}
           </div>
 
           { company.partner && company.logoUrl && (

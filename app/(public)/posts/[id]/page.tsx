@@ -10,6 +10,7 @@ const getPost = async (id: number) => {
     where: { id },
     include: {
       employingCompany: true,
+      tags: true,
     },
   });
 

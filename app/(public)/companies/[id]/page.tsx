@@ -4,12 +4,16 @@ import { PrismaClient } from "@prisma/client";
 export default async function CompanyDetailsPage({ params }) {
   const client = new PrismaClient();
 
-  const company = await client.company.findUnique({
+  const company = await client.company.findFirst({
     where: {
       id: parseInt(params.id, 10),
     },
     include: {
-      employerPosts: true,
+      employerPosts: {
+        include: {
+          tags: true,
+        },
+      },
     },
   });
 

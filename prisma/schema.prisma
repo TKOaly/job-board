@@ -3,17 +3,26 @@
 
 generator client {
   provider = "prisma-client-js"
+  previewFeatures = ["postgresqlExtensions"]
 }
 
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
+  extensions = [citext]
+}
+
+model Tag {
+  id Int @id @default(autoincrement())
+  name String @db.Citext @unique
+  posts Post[]
 }
 
 model Post {
   id Int @id @default(autoincrement())
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt 
+  tags Tag[]
 
   title String
   body String
