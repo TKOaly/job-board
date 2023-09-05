@@ -54,6 +54,6 @@ jobs:
         with:
           token: ${{ secrets.DEPLOYMENT_PAT }}
           workflow: Bump Service
-          inputs: '{"service": "user-service", "tag": "sha-${{ steps.sha.outputs.value }}"}'
+          inputs: '{"service": "job-board", "tag": "sha-${{ steps.sha.outputs.value }}"}'
           repo: TKOaly/tko-aly-k8s-configs
           ref: main
