@@ -1,5 +1,7 @@
 const { withSuperjson } = require('next-superjson');
 
-const nextConfig = {};
+const nextConfig = {
+  output: 'standalone',
+};
 
 module.exports = withSuperjson()(nextConfig);

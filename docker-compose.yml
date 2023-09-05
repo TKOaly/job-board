@@ -2,7 +2,9 @@ version: '3'
 
 services:
   next:
-    build: .
+    build:
+      context: .
+      target: runner
     ports:
       - 127.0.0.1:3000:3000
     volumes:
