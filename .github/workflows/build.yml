@@ -34,7 +34,7 @@ jobs:
             type=ref,event=branch
             type=ref,event=tag
             type=ref,event=pr
-            type=raw,value=${{ steps.sha.outputs.value }}
+            type=raw,value=sha-${{ steps.sha.outputs.value }}
 
       # Build and push Docker image with Buildx (don't push on PR)
       # https://github.com/docker/build-push-action
@@ -54,6 +54,6 @@ jobs:
         with:
           token: ${{ secrets.DEPLOYMENT_PAT }}
           workflow: Bump Service
-          inputs: '{"service": "user-service", "tag": "${{ steps.sha.outputs.value }}"}'
+          inputs: '{"service": "user-service", "tag": "sha-${{ steps.sha.outputs.value }}"}'
           repo: TKOaly/tko-aly-k8s-configs
           ref: main
