@@ -1,11 +1,8 @@
-import { PrismaClient } from "@prisma/client";
+import client from "@/db";
 import { notFound } from "next/navigation";
-import sanitize from "sanitize-html";
 import PostDetails from "./PostDetails";
 
 const getPost = async (id: number) => {
-  const client = new PrismaClient();
-
   const result = await client.post.findUnique({
     where: { id },
     include: {

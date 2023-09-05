@@ -1,10 +1,8 @@
 import { CompanyDetails } from "@/components/CompanyDetails";
-import { PrismaClient } from "@prisma/client";
+import client from "@/db";
 import { notFound } from "next/navigation";
 
 export default async function CompanyDetailsPage({ params }) {
-  const client = new PrismaClient();
-
   const company = await client.company.findFirst({
     where: {
       id: parseInt(params.id, 10),

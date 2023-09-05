@@ -1,6 +1,6 @@
 import { parseISO } from "date-fns";
-import { PrismaClient } from "@prisma/client";
 import { z } from "zod";
+import client from "@/db";
 
 const schema = z.object({
   title: z.string(),
@@ -12,8 +12,6 @@ const schema = z.object({
 });
 
 export default async function handler(req, res) {
-  const client = new PrismaClient();
-
   const body = schema.parse(req.body);
 
   const post = await client.post.create({

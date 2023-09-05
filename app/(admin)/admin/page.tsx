@@ -1,9 +1,8 @@
 import Card from "@/components/Card";
 import { CompanyList } from "@/components/CompanyList";
-import { PrismaClient } from "@prisma/client";
+import client from "@/db";
 
 const AdminFrontPage = async () => {
-  const client = new PrismaClient();
   const companies = await client.company.findMany({
     include: {
       _count: {

@@ -1,4 +1,4 @@
-import { PrismaClient } from "@prisma/client";
+import client from "@/db";
 import { NextApiRequest, NextApiResponse } from "next";
 import { getServerSession } from "next-auth";
 import { config } from '@/next-auth';
@@ -20,8 +20,6 @@ const updateSchema = z.object({
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   const session = await getServerSession(req, res, config);
-
-  const client = new PrismaClient();
 
   if (req.method === 'DELETE') {
     if (!session?.user?.admin) {

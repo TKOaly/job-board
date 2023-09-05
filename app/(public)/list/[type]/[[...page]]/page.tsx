@@ -1,6 +1,7 @@
 import { ArrowTopRightOnSquareIcon } from "@heroicons/react/20/solid";
 import { ChevronLeftIcon, ChevronRightIcon, FaceFrownIcon } from "@heroicons/react/24/outline";
-import { Post, PrismaClient } from "@prisma/client";
+import { Post } from "@prisma/client";
+import client from "@/db";
 import { cva } from "class-variance-authority";
 import Link from "next/link";
 import { ComponentProps, HTMLAttributes } from "react";
@@ -8,8 +9,6 @@ import { Button } from "@/components/Button";
 import { PostCard } from "@/components/PostCard";
 
 const getCounts = async () => {
-  const client = new PrismaClient();
-
   const open = await client.post.count({
     where: {
       opensAt: { lte: new Date() },
@@ -37,9 +36,7 @@ const getCounts = async () => {
 
 
 const getPosts = async (type: 'open' | 'closed', page: number = 1) => {
-  const prisma = new PrismaClient();
-
-  let where: NonNullable<Parameters<typeof prisma.post.findMany>[0]>['where'] = undefined;
+  let where: NonNullable<Parameters<typeof client.post.findMany>[0]>['where'] = undefined;
 
   if (type === 'open') {
     where = {
@@ -53,7 +50,7 @@ const getPosts = async (type: 'open' | 'closed', page: number = 1) => {
 
   let skip = ((page ?? 1) - 1) * 10;
 
-  const posts = await prisma.post.findMany({
+  const posts = await client.post.findMany({
     where,
     include: {
       employingCompany: true,

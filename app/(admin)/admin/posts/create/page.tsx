@@ -1,8 +1,7 @@
 import { CreatePost } from "@/components/CreatePost";
-import { PrismaClient } from "@prisma/client";
+import client from "@/db";
 
 const CreatePostPage = async () => {
-  const client = new PrismaClient();
   const tags = await client.tag.findMany();
   const companies = await client.company.findMany();
 

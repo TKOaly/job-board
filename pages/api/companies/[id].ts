@@ -1,5 +1,5 @@
 import { config } from "@/next-auth";
-import { PrismaClient } from "@prisma/client";
+import client from "@/db";
 import { NextApiRequest, NextApiResponse } from "next";
 import { getServerSession } from "next-auth";
 import { z } from "zod";
@@ -16,7 +16,6 @@ const bodySchema = z.object({
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   const session = await getServerSession(req, res, config);
-  const client = new PrismaClient();
 
   if (req.method === 'PUT') {
     if (!session?.user?.admin) {
