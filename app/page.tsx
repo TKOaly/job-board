@@ -6,7 +6,7 @@ import { Post, PrismaClient } from "@prisma/client"
 import { PostCard } from "../components/PostCard"
 import { redirect } from "next/navigation";
 
-const Blog: React.FC = () => {
+const Blog = () => {
   redirect('/list/open');
 }
 

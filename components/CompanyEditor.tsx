@@ -25,7 +25,7 @@ const CompanyEditor = ({ company, onChange }: Props) => {
       </div>
       <div className="mt-5">
         <div className="uppercase text-xs font-bold mb-2 tracking-wide text-gray-600">Website</div>
-        <Input value={company.website} onChange={(evt) => setField('website', evt.target.value)} />
+        <Input value={company.website ?? ''} onChange={(evt) => setField('website', evt.target.value)} />
       </div>
       <div className="mt-5 flex items-center space-x-2">
         <Checkbox checked={company.partner === true} id="partner" onCheckedChange={(e) => setField('partner', !!e)} />

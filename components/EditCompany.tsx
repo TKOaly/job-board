@@ -52,7 +52,7 @@ export const EditCompany = ({ company: originalCompany }: Props) => {
           <p>{error}</p>
         </div>
       )}
-      <CompanyEditor company={company} onChange={setCompany} />
+      <CompanyEditor company={company} onChange={(newCompany) => setCompany({ ...company, ...newCompany })} />
       <div className="mt-5">
         <Button onClick={handleSubmit}>Save</Button>
       </div>

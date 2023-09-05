@@ -1,5 +1,6 @@
 import { CompanyDetails } from "@/components/CompanyDetails";
 import { PrismaClient } from "@prisma/client";
+import { notFound } from "next/navigation";
 
 export default async function CompanyDetailsPage({ params }) {
   const client = new PrismaClient();
@@ -16,6 +17,10 @@ export default async function CompanyDetailsPage({ params }) {
       },
     },
   });
+
+  if (!company) {
+    return notFound();
+  }
 
   return (
     <CompanyDetails company={company} />

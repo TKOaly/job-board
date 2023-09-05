@@ -1,4 +1,4 @@
-import NextAuth, { AuthOptions, DefaultUser } from "next-auth";
+import { AuthOptions, DefaultUser } from "next-auth";
 
 declare module 'next-auth' {
   interface Session {
@@ -8,7 +8,9 @@ declare module 'next-auth' {
   interface User {
     admin: boolean
   }
+}
 
+declare module 'next-auth/jwt' {
   interface JWT {
     admin: boolean
   }
@@ -26,7 +28,10 @@ export const config: AuthOptions = {
     },
 
     async session({ session, token }) {
-      session.user.admin = token.admin;
+      if (session.user) {
+        session.user.admin = token.admin;
+      }
+
       return session;
     },
   },

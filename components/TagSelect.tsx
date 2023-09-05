@@ -57,7 +57,7 @@ const CreateTagCommandItem = ({ onCreated, tags }: { tags: Tag[], onCreated: (ta
     >
       { state === 'idle' && <PlusIcon className="h-4 w-4 mr-2" /> }
       { state === 'loading' && <ArrowPathIcon className="h-4 w-4 animate-spin mr-2" /> }
-      Create tag "{search}"
+      Create tag &quot;{search}&quot;
     </CommandItem>
   );
 }
@@ -78,8 +78,8 @@ export const TagSelect = ({ value, onChange, tags, className }: Props) => {
           { !value?.length && 'Select tags...' }
           { !!value?.length && (
             <div className="flex flex-wrap gap-1">
-              {value.map(({ name }) => (
-                <span className="text-sm rounded py-0.5 px-1.5 bg-gray-100 text-gray-700 inline-flex items-center gap-1">
+              {value.map(({ name, id }) => (
+                <span className="text-sm rounded py-0.5 px-1.5 bg-gray-100 text-gray-700 inline-flex items-center gap-1" key={id}>
                   {name}
                 </span>
               ))}
@@ -123,14 +123,20 @@ export const TagSelect = ({ value, onChange, tags, className }: Props) => {
               <CommandItem
                 key={tag.id}
                 value={String(tag.id)}
-                onSelect={(currentValue: number) => {
+                onSelect={(currentValue: string) => {
                   const newValue = [...value];
                   const existingIndex = newValue.findIndex((t) => t.id == parseInt(currentValue, 10));
 
                   if (existingIndex !== -1) {
                     newValue.splice(existingIndex, 1);
                   } else {
-                    newValue.push(tags.find((t) => t.id == parseInt(currentValue, 10)));
+                    const tag = tags.find((t) => t.id == parseInt(currentValue, 10));
+
+                    if (!tag) {
+                      return;
+                    }
+
+                    newValue.push(tag);
                   }
                   
                   onChange(newValue);

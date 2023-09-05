@@ -11,7 +11,7 @@ export const CompanyList = ({ companies }: Props) => {
   return (
     <div className="space-y-5">
       {companies.map((company) => (
-        <Card>
+        <Card key={company.id}>
           <Link href={`/companies/${company.id}`}>
             <h1 className="text-xl font-bold">
               {company.name}

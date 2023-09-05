@@ -41,8 +41,8 @@ export const EditPost = ({ companies, post: originalPost, tags }: Props) => {
       },
       body: JSON.stringify({
         title: post.title,
-        closesAt: formatISO(post.closesAt),
-        opensAt: formatISO(post.opensAt),
+        closesAt: post.closesAt ? formatISO(post.closesAt) : null,
+        opensAt: post.opensAt ? formatISO(post.opensAt) : null,
         employingCompanyId: post.employingCompanyId,
         body: post.body,
         tags: post.tags.map((t) => t.id),
@@ -68,7 +68,7 @@ export const EditPost = ({ companies, post: originalPost, tags }: Props) => {
           <p>{error}</p>
         </div>
       )}
-      <PostEditor post={post} onChange={setPost} companies={companies} tags={tags} />
+      <PostEditor post={post} onChange={(newPost) => setPost({ ...post, ...newPost })} companies={companies} tags={tags} />
       <div className="mt-5">
         <Button onClick={handleSubmit}>Save</Button>
       </div>

@@ -44,6 +44,7 @@
     "@types/react": "17.0.38",
     "@types/sanitize-html": "^2.9.0",
     "autoprefixer": "^10.4.14",
+    "eslint": "8.48.0",
     "postcss": "^8.4.26",
     "prisma": "^5.0.0",
     "sass": "^1.63.6",

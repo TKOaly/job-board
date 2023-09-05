@@ -1,10 +1,10 @@
 'use client';
 
 import { ChevronLeftIcon, TrashIcon, PencilSquareIcon, SparklesIcon } from "@heroicons/react/20/solid";
-import { Company, Post } from "@prisma/client";
+import { Company, Post, Tag } from "@prisma/client";
 import { format, isAfter, isBefore } from "date-fns";
 import { useRouter } from "next/navigation";
-import sanitize, { Tag } from "sanitize-html";
+import sanitize from "sanitize-html";
 import { Button } from "@/components/Button";
 import { useSession } from "next-auth/react";
 import Link from "next/link";
@@ -89,7 +89,7 @@ const PostDetails = ({ post, company }: Props) => {
                 <span className="text-xs text-gray-600 uppercase font-bold">Tunnisteet</span>
                 <div suppressHydrationWarning className="flex items-center gap-2 mt-1 flex-wrap">
                   {post.tags.map((tag) => (
-                    <span className="text-sm rounded py-0.5 px-1.5 bg-gray-100 text-gray-700 inline-flex items-center gap-1">
+                    <span className="text-sm rounded py-0.5 px-1.5 bg-gray-100 text-gray-700 inline-flex items-center gap-1" key={tag.id}>
                       {tag.name}
                     </span>
                   ))}

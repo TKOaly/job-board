@@ -1,6 +1,6 @@
 import { EditPost } from "@/components/EditPost";
 import { PrismaClient } from "@prisma/client";
-import { useRouter } from "next/navigation";
+import { notFound, useRouter } from "next/navigation";
 
 export default async function EditPostPage({ params }) {
   const client = new PrismaClient();
@@ -15,6 +15,10 @@ export default async function EditPostPage({ params }) {
       tags: true,
     },
   })
+
+  if (!post) {
+    return notFound();
+  }
 
   return (
     <EditPost

@@ -26,7 +26,7 @@ const PostPage = async ({ params }) => {
   
   return (
     <div>
-      <PostDetails post={post} company={post.employingCompany} />
+      <PostDetails post={post} company={post.employingCompany!} />
     </div>
   );
 };

@@ -2,7 +2,7 @@
 
 import { ChevronLeftIcon, PencilSquareIcon, SparklesIcon } from "@heroicons/react/20/solid";
 import { ArrowTopRightOnSquareIcon } from "@heroicons/react/20/solid";
-import { Company, Post } from "@prisma/client";
+import { Company, Post, Tag } from "@prisma/client";
 import { useSession } from "next-auth/react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -11,7 +11,7 @@ import Card from "./Card";
 import { PostCard } from "./PostCard";
 
 type Props = {
-  company: Company & { employerPosts: Post[] },
+  company: Company & { employerPosts: (Post & { tags: Tag[] })[] },
 }
 
 export const CompanyDetails = ({ company }: Props) => {
@@ -56,7 +56,7 @@ export const CompanyDetails = ({ company }: Props) => {
       </Card>
       <h2 className="text-2xl font-bold mt-10">Ilmoitukset</h2>
       {company.employerPosts.map((post) => (
-        <PostCard post={post} company={company} className="mt-5" />
+        <PostCard post={post} company={company} className="mt-5" key={post.id} />
       ))}
     </div>
   );

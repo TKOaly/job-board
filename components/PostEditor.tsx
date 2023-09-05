@@ -40,7 +40,7 @@ const PostEditor = ({ post, onChange, tags, companies }: Props) => {
       </div>
       <div className="mt-5">
         <div className="uppercase text-xs font-bold mb-2 tracking-wide text-gray-600">Company</div>
-        <CompanySelect value={post.employingCompanyId} onChange={(id) => setField('employingCompanyId', id)} companies={companies} className="w-full" />
+        <CompanySelect value={post.employingCompanyId ?? null} onChange={(id) => setField('employingCompanyId', id ?? undefined)} companies={companies} className="w-full" />
       </div>
       <div className="mt-5">
         <div className="uppercase text-xs font-bold mb-2 tracking-wide text-gray-600">Tags</div>

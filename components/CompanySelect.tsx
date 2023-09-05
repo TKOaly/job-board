@@ -43,8 +43,8 @@ export const CompanySelect = ({ value, onChange, companies, className }: Props) 
               <CommandItem
                 key={company.id}
                 value={String(company.id)}
-                onSelect={(currentValue: number) => {
-                  onChange(currentValue === value ? null : parseInt(currentValue, 10))
+                onSelect={(currentValue: string) => {
+                  onChange(parseInt(currentValue, 10))
                   setOpen(false)
                 }}
               >

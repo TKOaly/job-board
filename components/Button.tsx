@@ -38,13 +38,13 @@ const buttonCva = cva([
   },
 });
 
-export type Props = React.PropsWithChildren<{
+export interface Props extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   icon?: ReactNode
   secondary?: boolean
   outline?: boolean 
-}> & React.HTMLAttributes<HTMLButtonElement>;
+}
 
-export const Button = React.forwardRef<HTMLButtonElement>(({ children, secondary = false, icon = null, outline, ...rest }: Props, ref) => {
+export const Button = React.forwardRef<HTMLButtonElement, Props>(({ children, secondary = false, icon = null, outline, ...rest }, ref) => {
   let variant: 'primary' | 'secondary' | 'outline' = 'primary';
 
   if (secondary) {
@@ -64,3 +64,5 @@ export const Button = React.forwardRef<HTMLButtonElement>(({ children, secondary
     </div>
   );
 });
+
+Button.displayName = 'Button';

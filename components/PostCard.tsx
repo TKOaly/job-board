@@ -1,11 +1,10 @@
 'use client';
 
 import { SparklesIcon } from "@heroicons/react/20/solid";
-import { Company, Post } from "@prisma/client";
+import { Company, Post, Tag } from "@prisma/client";
 import { format, isAfter, isBefore, isWithinInterval } from "date-fns";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { Tag } from "sanitize-html";
 import { Button } from "./Button";
 import Card from "./Card";
 
@@ -69,7 +68,7 @@ export const PostCard = ({ post, company, className }: Props) => {
               <span className="text-xs text-gray-600 uppercase font-bold">Tunnisteet</span>
               <div suppressHydrationWarning className="flex items-center gap-2 mt-1 flex-wrap">
                 {post.tags.map((tag) => (
-                  <span className="text-sm rounded py-0.5 px-1.5 bg-gray-100 text-gray-700 inline-flex items-center gap-1">
+                  <span className="text-sm rounded py-0.5 px-1.5 bg-gray-100 text-gray-700 inline-flex items-center gap-1" key={tag.id}>
                     {tag.name}
                   </span>
                 ))}

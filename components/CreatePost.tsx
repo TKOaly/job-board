@@ -40,11 +40,11 @@ export const CreatePost = ({ companies, tags }: Props) => {
       },
       body: JSON.stringify({
         title: post.title,
-        closesAt: formatISO(post.closesAt),
-        opensAt: formatISO(post.opensAt),
+        closesAt: post.closesAt ? formatISO(post.closesAt) : null,
+        opensAt: post.opensAt ? formatISO(post.opensAt) : null,
         company: post.employingCompanyId,
         body: post.body,
-        tags: post.tags.map((tag) => tag.id),
+        tags: (post.tags ?? []).map((tag) => tag.id),
       })
     });
 

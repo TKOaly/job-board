@@ -39,7 +39,7 @@ const getCounts = async () => {
 const getPosts = async (type: 'open' | 'closed', page: number = 1) => {
   const prisma = new PrismaClient();
 
-  let where = undefined;
+  let where: NonNullable<Parameters<typeof prisma.post.findMany>[0]>['where'] = undefined;
 
   if (type === 'open') {
     where = {
@@ -77,7 +77,7 @@ type ChipProps = {
   label: string
   count: number
   active: boolean
-  onClick: HTMLAttributes<HTMLDivElement>['onClick']
+  onClick?: HTMLAttributes<HTMLDivElement>['onClick']
 };
 
 const chipCva = cva([
@@ -126,7 +126,7 @@ const ListPage = async ({ params }) => {
           <Chip label="Päättyneet" count={closed} active={params.type === 'closed'} />
         </Link>
       </div>
-      {posts.length > 0 && posts.map((post) => <PostCard key={post.id} post={post} company={post.employingCompany} className="mt-5" />)}
+      {posts.length > 0 && posts.map((post) => <PostCard key={post.id} post={post} company={post.employingCompany!} className="mt-5" />)}
       {posts.length === 0 && (
         <div className="mx-auto border border-gray-200 rounded bg-white shadow">
           <div className="p-5">
