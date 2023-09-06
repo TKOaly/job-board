@@ -17,7 +17,6 @@ declare module 'next-auth/jwt' {
 }
 
 export const config: AuthOptions = {
-  secret: 'unsecure',
   session: {
     strategy: 'jwt',
   },
@@ -47,17 +46,17 @@ export const config: AuthOptions = {
           admin: ['yllapitaja', 'virkailija'].includes(profile.role),
         };
       },
-      issuer: 'http://users.tko-aly.localhost/',
-      clientId: '47496d92-ce34-46db-92d1-00c107101894',
-      clientSecret: 'unsecure',
+      issuer: process.env.OAUTH_ISSUER,
+      clientId: process.env.SERVICE_ID,
+      clientSecret: process.env.SERVICE_SECRET,
       authorization: {
-        url: 'http://users.tko-aly.localhost/oauth/authorize',
+        url: process.env.OAUTH_AUTHORIZATION_URL,
         params: { scope: 'openid role profile' },
       },
       client: {
         id_token_signed_response_alg: 'HS256',
       },
-      token: 'http://user-service:3030/oauth/token',
+      token: process.env.OAUTH_TOKEN_URL,
     },
   ],
 };

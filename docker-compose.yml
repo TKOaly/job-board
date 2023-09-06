@@ -7,8 +7,17 @@ services:
       target: runner
     ports:
       - 127.0.0.1:3000:3000
+    env_file: .env
     volumes:
       - .:/app
+
+  migrations:
+    build:
+      context: .
+      target: migrations
+    env_file: .env
+    volumes:
+      - ./prisma:/app/prisma:ro
 
   db:
     image: postgres
