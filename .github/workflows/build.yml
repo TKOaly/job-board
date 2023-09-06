@@ -24,8 +24,8 @@ jobs:
         id: sha
         run: echo "value=$(git rev-parse --short HEAD)" >> $GITHUB_OUTPUT
 
-      - name: Extract Docker metadata
-        id: meta
+      - name: Extract Docker metadata for the server image
+        id: server-meta
         uses: docker/metadata-action@v4
         with:
           images: ${{ secrets.PRIVATE_REGISTRY_URL }}/job-board
@@ -36,16 +36,37 @@ jobs:
             type=ref,event=pr
             type=raw,value=sha-${{ steps.sha.outputs.value }}
 
-      # Build and push Docker image with Buildx (don't push on PR)
-      # https://github.com/docker/build-push-action
-      - name: Build and push Docker image
+      - name: Extract Docker metadata for the migration runner image
+        id: migrate-meta
+        uses: docker/metadata-action@v4
+        with:
+          images: ${{ secrets.PRIVATE_REGISTRY_URL }}/job-board-migrate
+          tags: |
+            type=schedule
+            type=ref,event=branch
+            type=ref,event=tag
+            type=ref,event=pr
+            type=raw,value=sha-${{ steps.sha.outputs.value }}
+
+      - name: Build and push the server Docker image
         uses: docker/build-push-action@ad44023a93711e3deb337508980b4b5e9bcdc5dc
         with:
           context: .
           target: runner
           push: true 
-          tags: ${{ steps.meta.outputs.tags }}
-          labels: ${{ steps.meta.outputs.labels }}
+          tags: ${{ steps.server-meta.outputs.tags }}
+          labels: ${{ steps.server-meta.outputs.labels }}
+          cache-to: type=gha
+          cache-from: type=gha
+
+      - name: Build and push the migration Docker image
+        uses: docker/build-push-action@ad44023a93711e3deb337508980b4b5e9bcdc5dc
+        with:
+          context: .
+          target: migrate
+          push: true 
+          tags: ${{ steps.migrate-meta.outputs.tags }}
+          labels: ${{ steps.migrate-meta.outputs.labels }}
           cache-to: type=gha
           cache-from: type=gha
 
