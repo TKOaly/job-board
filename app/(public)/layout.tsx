@@ -8,7 +8,7 @@ export default async function PublicLayout({ children }) {
   return (
     <>
       <Header session={session} />
-      <div className="w-[80ch] mx-auto">
+      <div className="md:w-[80ch] mx-auto">
         {children}
       </div>
     </>

@@ -106,7 +106,7 @@ const Logo = ({ color }) => (
 const Layout: React.FC<Props> = (props) => (
   <div>
     <div className="bg-[#FFD54F] min-h-[20em] p-10">
-      <div className="mx-auto w-[80ch] flex items-center h-full gap-10">
+      <div className="mx-auto md:w-[80ch] flex items-center h-full gap-10">
         <div className="h-[12em] shrink-0">
           <Logo color="black" />
         </div>

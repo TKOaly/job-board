@@ -18,33 +18,8 @@ const Header: React.FC<Props> = ({ session }) => {
 
   return (
     <div className="bg-[#FFD54F] min-h-[20em] p-10 relative">
-      <div className="mx-auto w-[80ch] flex items-center h-full gap-10">
-        <div className="h-[12em] shrink-0">
-          <Logo color="black" />
-        </div>
-        <div>
-          <h1 className="text-2xl font-bold mb-3 flex items-center gap-3">
-            Job Board
-          </h1>
-          <p>
-            Job Board on TKO-äly ry:n tarjoama Helsingin Yliopiston tietojenkäsittely- ja datatieteen opiskelijoille suunnattu sivusto, jossa alan yritykset voivat ilmoittaa avoimista työpaikoista.
-            Sivusto tavoittaa 900 Helsingin Yliopiston opiskelijaa ja välittää ilmoituksia niin TKO-älyn yhteistöykumppaneilta kuin ulkopuolisiltakin yrityksiltä.
-          </p>
-          <div className="flex gap-5 mt-5">
-            <Button secondary icon={<ChevronDoubleRightIcon className="h-5 w-5" />} onClick={() => push('https://tko-aly.fi/')}>Yhdistys</Button>
-            <Button secondary icon={<ChevronDoubleRightIcon className="h-5 w-5" />} onClick={() => window.location.replace('https://tko-aly.fi/yrityksille')}>Yrityksille</Button>
-          </div>
-        </div>
-      </div>
-      { !session && (
-        <ArrowLeftOnRectangleIcon
-          style={{ transform: 'scale(-1,1)' }}
-          className="h-10 w-10 flip absolute top-0 right-0 m-5 hover:bg-black/10 p-2 rounded"
-          onClick={() => signIn('tkoaly')}
-        />
-      )}
       { session && (
-        <div className="absolute top-0 right-0 m-5 flex items-center gap-2">
+        <div className="md:absolute top-0 right-0 justify-end md:m-5 -mt-4 -mr-4 mb-4 flex items-center gap-2">
           <div className="hover:bg-black/10 p-2 rounded flex items-center gap-2">
             <UserCircleIcon className="h-6 w-6" />
             {session.user?.name}
@@ -57,6 +32,31 @@ const Header: React.FC<Props> = ({ session }) => {
             onClick={() => signOut()}
           />
         </div>
+      )}
+      <div className="mx-auto md:w-[80ch] flex items-center h-full gap-10">
+        <div className="h-[12em] shrink-0 hidden md:block">
+          <Logo color="black" />
+        </div>
+        <div>
+          <h1 className="text-2xl font-bold mb-3 flex items-center gap-3">
+            Job Board
+          </h1>
+          <p>
+            Job Board on TKO-äly ry:n tarjoama Helsingin Yliopiston tietojenkäsittely- ja datatieteen opiskelijoille suunnattu sivusto, jossa alan yritykset voivat ilmoittaa avoimista työpaikoista.
+            Sivusto tavoittaa 900 Helsingin Yliopiston opiskelijaa ja välittää ilmoituksia niin TKO-älyn yhteistöykumppaneilta kuin ulkopuolisiltakin yrityksiltä.
+          </p>
+          <div className="flex gap-5 mt-8">
+            <Button secondary icon={<ChevronDoubleRightIcon className="h-5 w-5" />} onClick={() => push('https://tko-aly.fi/')}>Yhdistys</Button>
+            <Button secondary icon={<ChevronDoubleRightIcon className="h-5 w-5" />} onClick={() => window.location.replace('https://tko-aly.fi/yrityksille')}>Yrityksille</Button>
+          </div>
+        </div>
+      </div>
+      { !session && (
+        <ArrowLeftOnRectangleIcon
+          style={{ transform: 'scale(-1,1)' }}
+          className="h-10 w-10 flip absolute top-0 right-0 m-5 hover:bg-black/10 p-2 rounded"
+          onClick={() => signIn('tkoaly')}
+        />
       )}
     </div>
   );

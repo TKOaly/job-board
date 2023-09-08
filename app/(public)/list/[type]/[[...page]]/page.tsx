@@ -123,7 +123,11 @@ const ListPage = async ({ params }) => {
           <Chip label="Päättyneet" count={closed} active={params.type === 'closed'} />
         </Link>
       </div>
-      {posts.length > 0 && posts.map((post) => <PostCard key={post.id} post={post} company={post.employingCompany!} className="mt-5" />)}
+      {posts.length > 0 && (
+        <div className="mx-4">
+          {posts.map((post) => <PostCard key={post.id} post={post} company={post.employingCompany!} className="mt-5" />)}
+        </div>
+      )}
       {posts.length === 0 && (
         <div className="mx-auto border border-gray-200 rounded bg-white shadow">
           <div className="p-5">

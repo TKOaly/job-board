@@ -22,7 +22,7 @@ const PostPage = async ({ params }) => {
   }
   
   return (
-    <div>
+    <div className="mx-4">
       <PostDetails post={post} company={post.employingCompany!} />
     </div>
   );
