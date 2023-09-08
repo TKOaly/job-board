@@ -59,7 +59,7 @@ const PostDetails = ({ post, company }: Props) => {
         <div className="flex">
           <div className="grow">
             <h1 className="text-3xl font-bold">{post.title}</h1>
-            <div className="flex items-center gap-2 mt-2">
+            <div className="flex flex-col md:flex-row items-start md:items-center gap-2 mt-2">
               <span className="text-xl"><Link href={`/companies/${company.id}`}>{company.name}</Link></span>
               {company.partner && (
                 <span className="text-sm rounded py-0.5 px-1.5 bg-yellow-100 text-yellow-700 inline-flex items-center gap-1">
@@ -71,7 +71,7 @@ const PostDetails = ({ post, company }: Props) => {
 
             <div className="my-3">
               <span className="text-xs text-gray-600 uppercase font-bold">Hakuaika</span>
-              <div suppressHydrationWarning className="flex items-center gap-3">
+              <div suppressHydrationWarning className="flex flex-col md:flex-row items-start md:items-center gap-x-3 gap-y-1">
                 {post.opensAt ? format(post.opensAt, 'dd.MM.yyyy') : ''} &ndash; {post.closesAt ? format(post.closesAt, 'dd.MM.yyyy') : ''} 
                 { isOpen && (
                   <span className="text-sm rounded py-0.5 px-1.5 bg-green-50 text-green-600 inline-flex items-center gap-1">
