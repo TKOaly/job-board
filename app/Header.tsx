@@ -32,7 +32,7 @@ const Header: React.FC<Props> = ({ session }) => {
           </p>
           <div className="flex gap-5 mt-5">
             <Button secondary icon={<ChevronDoubleRightIcon className="h-5 w-5" />} onClick={() => push('https://tko-aly.fi/')}>Yhdistys</Button>
-            <Button secondary icon={<ChevronDoubleRightIcon className="h-5 w-5" />} onClick={() => push('/employers')}>Ilmoittajalle</Button>
+            <Button secondary icon={<ChevronDoubleRightIcon className="h-5 w-5" />} onClick={() => window.location.replace('https://tko-aly.fi/yrityksille')}>Yrityksille</Button>
           </div>
         </div>
       </div>
