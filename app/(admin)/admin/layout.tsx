@@ -1,10 +1,15 @@
+'use client';
+
 import { Button } from "@/components/Button";
 import Card from "@/components/Card";
 import { ChevronRightIcon } from "@heroicons/react/20/solid";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { PropsWithChildren } from "react";
 
 const AdminLayout: React.FC<PropsWithChildren<{}>> = ({ children }) => {
+  const { push } = useRouter();
+
   return (
     <div>
       <div className="bg-[#FFD54F] border-b border-yellow-400 shadow flex justify-center">
@@ -21,7 +26,7 @@ const AdminLayout: React.FC<PropsWithChildren<{}>> = ({ children }) => {
             <Button>New company</Button>
           </Link>
           <div className="grow" />
-          <Button secondary>Back to public site</Button>
+          <Button secondary onClick={() => push('/')}>Back to public site</Button>
         </div>
       </div>
       <div className="mx-auto w-[80ch] mt-10">
