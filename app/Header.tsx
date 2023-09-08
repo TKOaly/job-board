@@ -53,7 +53,7 @@ const Header: React.FC<Props> = ({ session }) => {
             <Cog6ToothIcon className="h-10 w-10 flip hover:bg-black/10 p-2 rounded" />
           </Link>
           <ArrowRightOnRectangleIcon
-            className="h-10 w-10 flip hover:bg-black/10 p-2 rounded"
+            className="h-10 w-10 flip hover:bg-black/10 p-2 rounded cursor-pointer"
             onClick={() => signOut()}
           />
         </div>
