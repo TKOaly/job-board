@@ -9,6 +9,7 @@ import { ApplicationOpenBadge } from "./ApplicationOpenBadge";
 import { Button } from "./Button";
 import Card, { CardField } from "./Card";
 import { PartnerBadge } from "./PartnerBadge";
+import { TagBadge } from "./TagBadge";
 
 export type Props = {
   post: Post & { tags: Tag[] },
@@ -47,11 +48,9 @@ export const PostCard = ({ post, company, className }: Props) => {
           </CardField>
           {post.tags.length > 0 && (
             <CardField label="Tunnisteet">
-              <div className="mt-1">
+              <div className="mt-1 flex flex-wrap gap-1">
                 {post.tags.map((tag) => (
-                  <span className="text-sm rounded py-0.5 px-1.5 bg-gray-100 text-gray-700 dark:bg-[#464542] dark:text-gray-300 inline-flex items-center gap-1" key={tag.id}>
-                    {tag.name}
-                  </span>
+                  <TagBadge key={tag.id}>{tag.name}</TagBadge>
                 ))}
               </div>
             </CardField>

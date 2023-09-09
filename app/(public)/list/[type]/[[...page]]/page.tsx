@@ -172,23 +172,20 @@ const ListPage = async ({ params, searchParams }) => {
         </div>
       )}
       {posts.length === 0 && (
-        <div className="mx-auto border border-gray-200 rounded bg-white shadow">
-          <div className="p-5">
-            <h3 className="text-xl text-gray-800 flex items-center">Pahus, ei avoimia ilmoituksia. <FaceFrownIcon className="h-8 w-8 ml-2" /></h3>
-            <p className="text-gray-800 mt-5">
-              Voit saada tiedon uusista ilmoituksista liittymällä TKO-älyn tiedotuskanavalle Telegramissa tai liittymällä rekry-sähköpostilistalle.
-            </p>
-            <div className="flex gap-3 mt-10">
-              <Link href="https://t.me/Tekis2023">
-                <Button secondary icon={<ArrowTopRightOnSquareIcon className="h-4 w-4" />}>Telegram</Button>
-              </Link>
-              <Link href="https://www.tko-aly.fi/yhdistys/tiedotus">
-                <Button secondary icon={<ArrowTopRightOnSquareIcon className="h-4 w-4" />}>Sähköpostilistat</Button>
-              </Link>
-            </div>
+        <Card className="mx-5">
+          <h3 className="text-xl flex items-center">Pahus, ei avoimia ilmoituksia. <FaceFrownIcon className="h-8 w-8 ml-2" /></h3>
+          <p className="mt-5">
+            Voit saada tiedon uusista ilmoituksista liittymällä TKO-älyn tiedotuskanavalle Telegramissa tai liittymällä rekry-sähköpostilistalle.
+          </p>
+          <div className="flex gap-3 mt-10">
+            <Link href="https://t.me/Tekis2023">
+              <Button secondary icon={<ArrowTopRightOnSquareIcon className="h-4 w-4" />}>Telegram</Button>
+            </Link>
+            <Link href="https://www.tko-aly.fi/yhdistys/tiedotus">
+              <Button secondary icon={<ArrowTopRightOnSquareIcon className="h-4 w-4" />}>Sähköpostilistat</Button>
+            </Link>
           </div>
-          <div className="h-3 bg-[#FFD54F] rounded-b-md border-yellow-400 border-x border-b"></div>
-        </div>
+        </Card>
       )}
       <div className="flex justify-center mt-5 gap-5 mb-10">
         {page > 1 && (

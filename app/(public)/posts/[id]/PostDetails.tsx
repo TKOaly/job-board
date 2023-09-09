@@ -76,7 +76,7 @@ const PostDetails = ({ post, company }: Props) => {
 
             {post.tags.length > 0 && (
               <CardField label="Tunnisteet">
-                <div className="mt-1">
+                <div className="mt-1 flex flex-wrap gap-1">
                   {post.tags.map((tag) => <TagBadge key={tag.id}>{tag.name}</TagBadge>)}
                 </div>
               </CardField>
