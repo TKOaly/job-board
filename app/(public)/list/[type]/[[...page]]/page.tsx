@@ -2,15 +2,30 @@ import { ArrowTopRightOnSquareIcon } from "@heroicons/react/20/solid";
 import { ChevronLeftIcon, ChevronRightIcon, FaceFrownIcon } from "@heroicons/react/24/outline";
 import { Post } from "@prisma/client";
 import client from "@/db";
+import tsquery from "pg-tsquery";
 import { cva } from "class-variance-authority";
 import Link from "next/link";
 import { ComponentProps, HTMLAttributes } from "react";
 import { Button } from "@/components/Button";
 import { PostCard } from "@/components/PostCard";
+import { Input } from "@/components/Input";
+import { Search } from "@/components/Search";
+import Card from "@/components/Card";
 
-const getCounts = async () => {
+const getCounts = async ({ search: textSearch }: { search?: string }) => {
+  const search = textSearch ? tsquery()(textSearch) : undefined;
+
+  let where: NonNullable<Parameters<typeof client.post.findMany>[0]>['where'] = {
+    title: {
+      search,
+    },
+    body: {
+      search,
+    },
+  };
   const open = await client.post.count({
     where: {
+      ...where,
       opensAt: { lte: new Date() },
       closesAt: { gte: new Date() },
     },
@@ -18,6 +33,7 @@ const getCounts = async () => {
 
   const closed = await client.post.count({
     where: {
+      ...where,
       OR: [
         { opensAt: { gt: new Date() } },
         { closesAt: { lt: new Date() } },
@@ -27,6 +43,7 @@ const getCounts = async () => {
 
   const upcoming = await client.post.count({
     where: {
+      ...where,
       opensAt: { gt: new Date() },
     },
   });
@@ -34,16 +51,32 @@ const getCounts = async () => {
   return { upcoming, open, closed };
 };
 
+type GetPostsOpts = {
+  type: 'open' | 'closed',
+  page?: number,
+  search?: string,
+}
 
-const getPosts = async (type: 'open' | 'closed', page: number = 1) => {
-  let where: NonNullable<Parameters<typeof client.post.findMany>[0]>['where'] = undefined;
+const getPosts = async ({ type, page = 1, search: textSearch }: GetPostsOpts) => {
+  const search = textSearch ? tsquery()(textSearch) : undefined;
+
+  let where: NonNullable<Parameters<typeof client.post.findMany>[0]>['where'] = {
+    title: {
+      search,
+    },
+    body: {
+      search,
+    },
+  };
 
   if (type === 'open') {
     where = {
+      ...where,
       closesAt: { gte: new Date() },
     };
   } else if (type === 'closed') {
     where = {
+      ...where,
       closesAt: { lt: new Date() },
     };
   }
@@ -112,19 +145,24 @@ const Chip = ({ label, count, active, onClick }: ChipProps) => (
   </div>
 );
 
-const ListPage = async ({ params }) => {
+const ListPage = async ({ params, searchParams }) => {
+  const search = searchParams.search ? searchParams.search.toString() : undefined;
+
   const type = params.type;
   const page: number = parseInt(params.page?.[0] ?? '1', 10);
-  const { upcoming, open, closed } = await getCounts();
-  const posts = await getPosts(type, page);
+  const { upcoming, open, closed } = await getCounts({ search });
+  const posts = await getPosts({ type, page, search });
 
   return (
     <div>
-      <div className="my-10 flex gap-3 justify-center">
-        <Link href="/list/open/1">
+      <div className="flex gap-2 mt-10 px-10 justify-center">
+        <Search type={type} initialSearch={search} />
+      </div>
+      <div className="mb-10 mt-5 flex gap-3 justify-center">
+        <Link href={`/list/open/1?search=${encodeURIComponent(search)}`}>
           <Chip label="Tulevat ja avoimet" count={open + upcoming} active={params.type === 'open'} />
         </Link>
-        <Link href="/list/closed/1">
+        <Link href={`/list/closed/1?search=${encodeURIComponent(search)}`}>
           <Chip label="Päättyneet" count={closed} active={params.type === 'closed'} />
         </Link>
       </div>
@@ -154,12 +192,12 @@ const ListPage = async ({ params }) => {
       )}
       <div className="flex justify-center mt-5 gap-5 mb-10">
         {page > 1 && (
-          <Link href={`/list/${type}/${page - 1}`}>
+          <Link href={`/list/${type}/${page - 1}?search=${encodeURIComponent(search)}`}>
             <Button secondary><ChevronLeftIcon className="w-5 h-5 -mx-1" />Edellinen</Button>
           </Link>
         )}
         { posts.length === 10 && (
-          <Link href={`/list/${type}/${page + 1}`}>
+          <Link href={`/list/${type}/${page + 1}?search=${encodeURIComponent(search)}`}>
             <Button secondary>Seuraava <ChevronRightIcon className="w-5 h-5 -ml-1" /></Button>
           </Link>
         )}
