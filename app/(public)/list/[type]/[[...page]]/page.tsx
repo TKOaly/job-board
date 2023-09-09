@@ -159,10 +159,10 @@ const ListPage = async ({ params, searchParams }) => {
         <Search type={type} initialSearch={search} />
       </div>
       <div className="mb-10 mt-5 flex gap-3 justify-center">
-        <Link href={`/list/open/1?search=${encodeURIComponent(search)}`}>
+        <Link href={`/list/open/1?search=${encodeURIComponent(search ?? '')}`}>
           <Chip label="Tulevat ja avoimet" count={open + upcoming} active={params.type === 'open'} />
         </Link>
-        <Link href={`/list/closed/1?search=${encodeURIComponent(search)}`}>
+        <Link href={`/list/closed/1?search=${encodeURIComponent(search ?? '')}`}>
           <Chip label="Päättyneet" count={closed} active={params.type === 'closed'} />
         </Link>
       </div>
@@ -189,12 +189,12 @@ const ListPage = async ({ params, searchParams }) => {
       )}
       <div className="flex justify-center mt-5 gap-5 mb-10">
         {page > 1 && (
-          <Link href={`/list/${type}/${page - 1}?search=${encodeURIComponent(search)}`}>
+          <Link href={`/list/${type}/${page - 1}?search=${encodeURIComponent(search ?? '')}`}>
             <Button secondary><ChevronLeftIcon className="w-5 h-5 -mx-1" />Edellinen</Button>
           </Link>
         )}
         { posts.length === 10 && (
-          <Link href={`/list/${type}/${page + 1}?search=${encodeURIComponent(search)}`}>
+          <Link href={`/list/${type}/${page + 1}?search=${encodeURIComponent(search ?? '')}`}>
             <Button secondary>Seuraava <ChevronRightIcon className="w-5 h-5 -ml-1" /></Button>
           </Link>
         )}
