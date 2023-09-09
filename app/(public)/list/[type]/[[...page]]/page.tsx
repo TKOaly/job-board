@@ -79,6 +79,7 @@ type ChipProps = {
 
 const chipCva = cva([
   'text-sm',
+  'text-black',
   'shadow-sm',
   'inline-block',
   'py-1',
@@ -90,11 +91,15 @@ const chipCva = cva([
     active: {
       true: [
         'bg-[#FFD54F]',
+        'dark:bg-[#b7962e]',
         'border-[rgb(247,205,74)]',
+        'dark:border-[#b7962e]',
       ],
       false: [
         'bg-white',
+        'dark:bg-[#a6a29a]',
         'border-gray-200',
+        'dark:border-[#a6a29a]',
       ],
     },
   },

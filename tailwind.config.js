@@ -4,6 +4,7 @@ module.exports = {
     "./components/**/*.tsx",
     "./app/**/*.tsx",
   ],
+  darkMode: 'class',
   theme: {
     extend: {},
   },

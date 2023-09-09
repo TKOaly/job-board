@@ -10,7 +10,7 @@ export const Logo = ({ color }) => (
 
       <style jsx scoped>{`
         .background  { fill-opacity: 0; stroke: none; stroke-width: 1; }
-        .fillable { fill: ${color}; fill-opacity: 1; stroke: none; stroke-width: 1; }
+        .fillable { fill: var(--logo-color); fill-opacity: 1; stroke: none; stroke-width: 1; }
       `}</style>
 
       <g id="background">

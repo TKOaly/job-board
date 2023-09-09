@@ -8,6 +8,10 @@ import sanitize from "sanitize-html";
 import { Button } from "@/components/Button";
 import { useSession } from "next-auth/react";
 import Link from "next/link";
+import Card, { CardField } from "@/components/Card";
+import { PartnerBadge } from "@/components/PartnerBadge";
+import { ApplicationOpenBadge } from "@/components/ApplicationOpenBadge";
+import { TagBadge } from "@/components/TagBadge";
 
 export type Props = {
   post: Post & { tags: Tag[] },
@@ -55,46 +59,27 @@ const PostDetails = ({ post, company }: Props) => {
           </>
         )}
       </div>
-      <div className="bg-white shadow rounded border mt-5 p-10">
+      <Card className="mt-5">
         <div className="flex">
           <div className="grow">
             <h1 className="text-3xl font-bold">{post.title}</h1>
+
             <div className="flex flex-col md:flex-row items-start md:items-center gap-2 mt-2">
               <span className="text-xl"><Link href={`/companies/${company.id}`}>{company.name}</Link></span>
-              {company.partner && (
-                <span className="text-sm rounded py-0.5 px-1.5 bg-yellow-100 text-yellow-700 inline-flex items-center gap-1">
-                  <SparklesIcon className="h-4 w-4" />
-                  Yhteistökumppani
-                </span>
-              )}
+              {company.partner && <PartnerBadge />}
             </div>
 
-            <div className="my-3">
-              <span className="text-xs text-gray-600 uppercase font-bold">Hakuaika</span>
-              <div suppressHydrationWarning className="flex flex-col md:flex-row items-start md:items-center gap-x-3 gap-y-1">
-                {post.opensAt ? format(post.opensAt, 'dd.MM.yyyy') : ''} &ndash; {post.closesAt ? format(post.closesAt, 'dd.MM.yyyy') : ''} 
-                { isOpen && (
-                  <span className="text-sm rounded py-0.5 px-1.5 bg-green-50 text-green-600 inline-flex items-center gap-1">
-                    <div className="w-1.5 h-1.5 relative">
-                      <div className="absolute animate-ping rounded-full bg-green-500 w-full h-full"></div>
-                      <div className="rounded-full bg-green-400 w-full h-full"></div>
-                    </div>
-                    Haku auki
-                  </span>
-                )}
-              </div>
-            </div>
+            <CardField label="Hakuaika">
+              {post.opensAt ? format(post.opensAt, 'dd.MM.yyyy') : ''} &ndash; {post.closesAt ? format(post.closesAt, 'dd.MM.yyyy') : ''} 
+              { isOpen && <ApplicationOpenBadge /> }
+            </CardField>
+
             {post.tags.length > 0 && (
-              <div className="my-3">
-                <span className="text-xs text-gray-600 uppercase font-bold">Tunnisteet</span>
-                <div suppressHydrationWarning className="flex items-center gap-2 mt-1 flex-wrap">
-                  {post.tags.map((tag) => (
-                    <span className="text-sm rounded py-0.5 px-1.5 bg-gray-100 text-gray-700 inline-flex items-center gap-1" key={tag.id}>
-                      {tag.name}
-                    </span>
-                  ))}
+              <CardField label="Tunnisteet">
+                <div className="mt-1">
+                  {post.tags.map((tag) => <TagBadge key={tag.id}>{tag.name}</TagBadge>)}
                 </div>
-              </div>
+              </CardField>
             )}
           </div>
 
@@ -103,10 +88,10 @@ const PostDetails = ({ post, company }: Props) => {
           )}
         </div>
 
-        <div className="mt-10 mb-5 border-t h-4 -mx-10 overflow-hidden shadow-[0px_10px_10px_-10px_#0000000a_inset]"></div>
+        <div className="mt-10 mb-5 border-t dark:border-[#35322b] h-4 -mx-5 overflow-hidden shadow-[0px_10px_10px_-10px_#0000000a_inset]"></div>
 
         <div className="post-body" dangerouslySetInnerHTML={{ __html: sanitize(post.body) }}></div>
-      </div>
+      </Card>
     </div>
   );
 }

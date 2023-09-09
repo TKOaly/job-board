@@ -1,4 +1,7 @@
+import { DarkModeProvider, useDarkMode } from "@/components/DarkModeProvider";
+import { PropsWithChildren } from "react";
 import "../styles/globals.scss";
+import { InnerLayout } from "./InnerLayout";
 import { NextAuthProviders } from "./NextAuthProviders";
 
 export default async function RootLayout({
@@ -7,14 +10,10 @@ export default async function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="en">
-      <body>
-        <div>
-          <NextAuthProviders>
-            {children}
-          </NextAuthProviders>
-        </div>
-      </body>
-    </html>
+    <DarkModeProvider>
+      <NextAuthProviders>
+        <InnerLayout>{children}</InnerLayout>
+      </NextAuthProviders>
+    </DarkModeProvider>
   )
 }
