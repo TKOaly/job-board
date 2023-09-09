@@ -52,7 +52,7 @@ const Header: React.FC<Props> = ({ session }) => {
         { !session && (
           <ArrowLeftOnRectangleIcon
             style={{ transform: 'scale(-1,1)' }}
-            className="h-10 w-10 flip hover:bg-black/10 p-2 rounded"
+            className="h-10 w-10 flip hover:bg-black/10 p-2 rounded cursor-pointer"
             onClick={() => signIn('tkoaly')}
           />
         )}
