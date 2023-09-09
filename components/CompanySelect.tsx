@@ -35,14 +35,25 @@ export const CompanySelect = ({ value, onChange, companies, className }: Props) 
         </Button>
       </PopoverTrigger>
       <PopoverContent className="w-[30em] p-0">
-        <Command>
+        <Command
+          filter={(value, search) => {
+            const id = parseInt(value, 10);
+            const company = companies.find((c) => c.id === id);
+
+            if (company && company.name.includes(search)) {
+              return 1;
+            }
+
+            return 0;
+          }}
+        >
           <CommandInput placeholder="Search company..." />
-          <CommandEmpty>No framework found.</CommandEmpty>
+          <CommandEmpty>No company found.</CommandEmpty>
           <CommandGroup className="max-h-[40em] overflow-y-scroll">
             {companies.map((company) => (
               <CommandItem
                 key={company.id}
-                value={String(company.id)}
+                value={company.id.toString()}
                 onSelect={(currentValue: string) => {
                   onChange(parseInt(currentValue, 10))
                   setOpen(false)
