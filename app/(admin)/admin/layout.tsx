@@ -15,7 +15,9 @@ const AdminLayout: React.FC<PropsWithChildren<{}>> = ({ children }) => {
       <div className="bg-[#FFD54F] border-b border-yellow-400 shadow flex justify-center">
         <div className="max-w-[80ch] w-full h-16 flex items-center mx-8">
           <h1 className="flex items-center gap-1 text-lg">
-            Job Board <ChevronRightIcon className="h-5 w-5" /> Admin
+            <Link href="/">Job Board</Link>{' '}
+            <ChevronRightIcon className="h-5 w-5" />{' '}
+            <Link href="/admin">Admin</Link>
           </h1>
         </div>
       </div>
