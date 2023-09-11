@@ -21,6 +21,9 @@ const AdminLayout: React.FC<PropsWithChildren<{}>> = ({ children }) => {
       </div>
       <div className="bg-gray-50 flex justify-center border-b border-gray-100 shadow">
         <div className="max-w-[80ch] w-full h-16 flex items-center mx-8 gap-5">
+          <Link href="/admin">
+            <Button secondary>Dashboard</Button>
+          </Link>
           <Link href="/admin/posts/create">
             <Button>New post</Button>
           </Link>
@@ -28,9 +31,9 @@ const AdminLayout: React.FC<PropsWithChildren<{}>> = ({ children }) => {
             <Button>New company</Button>
           </Link>
           <div className="grow" />
-          <Button secondary onClick={() => push('/')}>
-            Back to public site
-          </Button>
+          <Link href="/">
+            <Button secondary>Back to public site</Button>
+          </Link>
         </div>
       </div>
       <div className="mx-auto w-[80ch] my-10">{children}</div>

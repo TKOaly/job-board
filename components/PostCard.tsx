@@ -10,14 +10,16 @@ import { Button } from './Button';
 import Card, { CardField } from './Card';
 import { PartnerBadge } from './PartnerBadge';
 import { TagBadge } from './TagBadge';
+import { PencilIcon, PencilSquareIcon } from '@heroicons/react/24/outline';
 
 export type Props = {
   post: Post & { tags: Tag[] };
   company: Company;
   className?: string;
+  editable?: boolean;
 };
 
-export const PostCard = ({ post, company, className }: Props) => {
+export const PostCard = ({ post, company, className, editable }: Props) => {
   const { push } = useRouter();
 
   let isOpen = true;
@@ -32,7 +34,13 @@ export const PostCard = ({ post, company, className }: Props) => {
 
   return (
     <Card className={className}>
-      <div className="flex">
+      <div className="flex relative">
+        {editable && (
+          <Link href={`/admin/posts/${post.id}/edit`}>
+            <PencilSquareIcon className="h-5 w-5 absolute top-0 right-0 text-yellow-600 hover:text-yellow-800" />
+            <p className="sr-only">Muokkaa</p>
+          </Link>
+        )}
         <div className="grow">
           <h3 className="text-xl font-bold">{post.title}</h3>
           <CardField label="Ilmoittaja">

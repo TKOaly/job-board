@@ -1,5 +1,7 @@
+import { Accordion } from '@/components/Accordion';
 import Card from '@/components/Card';
 import { CompanyList } from '@/components/CompanyList';
+import { PostList } from '@/components/PostList';
 import client from '@/db';
 
 const AdminFrontPage = async () => {
@@ -13,14 +15,31 @@ const AdminFrontPage = async () => {
     },
   });
 
+  const openPosts = await client.post.findMany({
+    where: {
+      closesAt: { gte: new Date() },
+    },
+    orderBy: {
+      createdAt: 'desc',
+    },
+    include: {
+      employingCompany: true,
+      tags: true,
+    },
+  });
+
   return (
     <>
       <Card>
         <h1 className="text-xl font-bold">Admin Dashboard</h1>
         <p className="mt-5">Select an action from the above toolbar.</p>
       </Card>
-      <h1 className="text-xl font-bold mt-10 mb-5">Companies</h1>
-      <CompanyList companies={companies} />
+      <Accordion title="Open posts">
+        <PostList posts={openPosts} />
+      </Accordion>
+      <Accordion title="Companies">
+        <CompanyList companies={companies} />
+      </Accordion>
     </>
   );
 };

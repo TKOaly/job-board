@@ -5,16 +5,22 @@ import {
 import { Company } from '@prisma/client';
 import Link from 'next/link';
 import Card from './Card';
+import { PencilSquareIcon } from '@heroicons/react/24/outline';
 
 export type Props = {
   companies: (Company & { _count: { employerPosts: number } })[];
+  editable?: boolean;
 };
 
 export const CompanyList = ({ companies }: Props) => {
   return (
     <div className="space-y-5">
       {companies.map(company => (
-        <Card key={company.id}>
+        <Card key={company.id} className="relative">
+          <Link href={`/admin/companies/${company.id}/edit`}>
+            <PencilSquareIcon className="h-5 w-5 absolute top-4 right-4 text-yellow-600 hover:text-yellow-800" />
+            <p className="sr-only">Muokkaa</p>
+          </Link>
           <Link href={`/companies/${company.id}`}>
             <h1 className="text-xl font-bold">
               {company.name}
