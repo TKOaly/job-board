@@ -1,15 +1,18 @@
 'use client';
 
-import { useDarkMode } from "@/components/DarkModeProvider";
-import { UserCircleIcon, Cog6ToothIcon, MoonIcon, SunIcon } from "@heroicons/react/24/outline";
+import { UserCircleIcon, Cog6ToothIcon } from "@heroicons/react/24/outline";
 import { ArrowLeftOnRectangleIcon, ArrowRightOnRectangleIcon, ChevronDoubleRightIcon } from "@heroicons/react/24/solid";
 import { Session } from "next-auth";
-import { signIn, signOut, useSession } from "next-auth/react";
+import { signIn, signOut } from "next-auth/react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
 import { Button } from "../components/Button";
 import { Logo } from "./logo";
+import dynamic from "next/dynamic";
+
+const DarkModeToggle = dynamic(() => import("@/components/DarkModeToggle"), {
+  ssr: false,
+});
 
 type Props = {
   session: Session | null
@@ -17,24 +20,12 @@ type Props = {
 
 const Header: React.FC<Props> = ({ session }) => {
   const { push } = useRouter();
-  const [dark, setDark] = useDarkMode();
 
   return (
     <div className="bg-[#FFD54F] dark:bg-[#25231F] min-h-[20em] p-10 pt-3 relative">
       <div className="flex justify-between mb-3 -mx-5">
-        <div onClick={() => setDark(!dark)} className="flex items-center gap-2 hover:bg-black/10 p-2 rounded cursor-pointer">
-          { dark && (
-            <>
-              <SunIcon className="h-5 w-5" /> <span className="hidden md:inline">Light mode</span>
-            </>
-          ) }
-          { !dark && (
-            <>
-              <MoonIcon className="h-5 w-5" /> <span className="hidden md:inline">Dark mode</span>
-            </>
-          ) }
-        </div>
-        { session && (
+        <DarkModeToggle />
+        {session && (
           <div className="flex items-center gap-2">
             <div className="hover:bg-black/10 p-2 rounded flex items-center gap-2">
               <UserCircleIcon className="h-6 w-6" />

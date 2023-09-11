@@ -1,5 +1,4 @@
-import { DarkModeProvider, useDarkMode } from "@/components/DarkModeProvider";
-import { PropsWithChildren } from "react";
+import { DarkModeProvider } from "@/components/DarkModeProvider";
 import "../styles/globals.scss";
 import { InnerLayout } from "./InnerLayout";
 import { NextAuthProviders } from "./NextAuthProviders";
