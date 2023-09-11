@@ -53,9 +53,11 @@ export const PostCard = ({ post, company, className, editable }: Props) => {
             </div>
           </CardField>
           <CardField label="Hakuaika">
-            {post.opensAt ? format(post.opensAt, 'dd.MM.yyyy') : ''} &ndash;{' '}
-            {post.closesAt ? format(post.closesAt, 'dd.MM.yyyy') : ''}
-            {isOpen && <ApplicationOpenBadge className="ml-0.5" />}
+            <div suppressHydrationWarning>
+              {post.opensAt ? format(post.opensAt, 'dd.MM.yyyy') : ''} &ndash;{' '}
+              {post.closesAt ? format(post.closesAt, 'dd.MM.yyyy') : ''}
+              {isOpen && <ApplicationOpenBadge className="ml-0.5" />}
+            </div>
           </CardField>
           {post.tags.length > 0 && (
             <CardField label="Tunnisteet">
