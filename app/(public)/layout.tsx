@@ -8,7 +8,7 @@ export default async function PublicLayout({ children }) {
 
   return (
     <DarkModeWrapper>
-      <div className="dark:bg-[#171613] dark:text-[#e8e4da] min-h-100vh mb-[-1px] pb-[1px] w-full h-full">
+      <div className="dark:bg-[#171613] dark:text-[#e8e4da] min-h-[100dvh] mb-[-1px] pb-[1px] w-full h-full">
         <Header session={session} />
         <div className="md:w-[80ch] mx-auto">
           {children}
