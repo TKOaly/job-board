@@ -1,0 +1,6 @@
+# Run `git config blame.ignoreRevsFile .git-blame-ignore-revs`
+# to make git-blame ignore the commits in these commits. Add
+# a commit hash here if you e.g. run prettier on the entire repo.
+
+# Run Prettier on entire repo
+f15735d70f7a104033dfafde39900a73bab540a9
