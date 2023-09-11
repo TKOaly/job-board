@@ -64,6 +64,7 @@ const CreateTagCommandItem = ({ onCreated, tags }: { tags: Tag[], onCreated: (ta
 
 export const TagSelect = ({ value, onChange, tags, className }: Props) => {
   const [open, setOpen] = useState(false);
+  const [inputValue, setInputValue] = useState('');
   const allTags = R.uniqBy(R.prop('id'), [...value, ...tags]);
 
   return (
@@ -108,13 +109,14 @@ export const TagSelect = ({ value, onChange, tags, className }: Props) => {
             return 0;
           }}
         >
-          <CommandInput placeholder="Search company..." />
+          <CommandInput value={inputValue} onValueChange={setInputValue} placeholder="Search tags or create a new one" />
           <CommandEmpty>No tag found.</CommandEmpty>
           <CommandGroup>
             <CreateTagCommandItem
               tags={allTags}
               onCreated={(tag) => {
                 onChange([...value, tag]);
+                setInputValue('');
               }}
             />
           </CommandGroup>
