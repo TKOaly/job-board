@@ -1,7 +1,7 @@
 import { getServerSession } from "next-auth/next";
 import Header from "@/app/Header";
-import { config } from '@/next-auth';
-import { DarkModeWrapper, useDarkMode } from "@/components/DarkModeProvider";
+import { config } from "@/next-auth";
+import { DarkModeWrapper } from "@/components/DarkModeProvider";
 
 export default async function PublicLayout({ children }) {
   const session = await getServerSession(config);
