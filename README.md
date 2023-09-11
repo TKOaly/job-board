@@ -31,7 +31,11 @@ The easiest way to develop Job Board is to set up the [tko-aly.localhost](https:
 Currently it might be necessary to generate the prisma client in the docker container.  
 Connect to the container and run `yarn prisma generate`, if you receive an error about `@prisma/client`.
 
-Seeding data can be done by connecting to the container and running `yarn prisma db seed`.
+Seeding data can be done by connecting to the container and running `yarn prisma db seed`.  
+Amounts can be specified with `yarn seed` using the command line arguments `--companies`, `--tags` and `--posts`.  
+For example, to seed the database with 75 companies, 500 posts and 15 tags: `yarn seed --companies 75 --posts 500 --tags 15`.
 
 You may also reset the database to just seed data with `yarn prisma migrate reset`.  
 The data is completely random. The seeds script can be run multiple times in succession to generate large amounts of mock data.
+
+Emptying the database is done with `yarn prisma migrate reset --skip-seed`.

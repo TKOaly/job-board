@@ -63,7 +63,15 @@ const randomPostFactory = (
   };
 };
 
-async function main({ companies = 50, tags = 15, posts = 250 }) {
+async function main({
+  companies,
+  tags,
+  posts,
+}: {
+  companies: number;
+  tags: number;
+  posts: number;
+}) {
   console.info(chalk.greenBright`◌  Creating companies...`);
   const _companies = new Array(companies).fill(0).map(randomCompany);
   console.info(chalk.green.italic`   Inserting companies...`);
@@ -135,4 +143,15 @@ async function main({ companies = 50, tags = 15, posts = 250 }) {
   console.info();
 }
 
-main({});
+import cargs from 'command-line-args';
+const options = cargs([
+  { name: 'companies', alias: 'c', type: Number, defaultValue: 50 },
+  { name: 'tags', alias: 't', type: Number, defaultValue: 15 },
+  { name: 'posts', alias: 'p', type: Number, defaultValue: 250 },
+]);
+
+main({
+  companies: options.companies,
+  tags: options.tags,
+  posts: options.posts,
+});

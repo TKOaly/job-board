@@ -6,7 +6,8 @@
     "dev": "next",
     "build": "next build",
     "start": "next start",
-    "format": "prettier -w ."
+    "format": "prettier -w .",
+    "seed": "tsx prisma/seed.ts"
   },
   "prisma": {
     "seed": "tsx prisma/seed.ts"
@@ -47,11 +48,13 @@
   },
   "devDependencies": {
     "@faker-js/faker": "^8.0.2",
+    "@types/command-line-args": "^5.2.1",
     "@types/node": "17.0.14",
     "@types/react": "17.0.38",
     "@types/sanitize-html": "^2.9.0",
     "autoprefixer": "^10.4.14",
     "chalk": "^5.3.0",
+    "command-line-args": "^5.2.1",
     "eslint": "8.48.0",
     "postcss": "^8.4.26",
     "prettier": "^3.0.3",
