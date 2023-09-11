@@ -1,5 +1,5 @@
-import { MoonIcon, SunIcon } from "@heroicons/react/24/outline";
-import { useDarkMode } from "./DarkModeProvider";
+import { MoonIcon, SunIcon } from '@heroicons/react/24/outline';
+import { useDarkMode } from './DarkModeProvider';
 
 export default function DarkModeToggle() {
   const [dark, setDark] = useDarkMode();
@@ -11,13 +11,13 @@ export default function DarkModeToggle() {
     >
       {dark && (
         <>
-          <SunIcon className="h-5 w-5" />{" "}
+          <SunIcon className="h-5 w-5" />{' '}
           <span className="hidden md:inline">Light mode</span>
         </>
       )}
       {!dark && (
         <>
-          <MoonIcon className="h-5 w-5" />{" "}
+          <MoonIcon className="h-5 w-5" />{' '}
           <span className="hidden md:inline">Dark mode</span>
         </>
       )}

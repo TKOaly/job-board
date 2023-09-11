@@ -1,6 +1,6 @@
-import { parseISO } from "date-fns";
-import { z } from "zod";
-import client from "@/db";
+import { parseISO } from 'date-fns';
+import { z } from 'zod';
+import client from '@/db';
 
 const schema = z.object({
   title: z.string(),
@@ -22,14 +22,13 @@ export default async function handler(req, res) {
       opensAt: parseISO(body.opensAt),
       closesAt: parseISO(body.closesAt),
       tags: {
-        connect: body.tags.map((id) => ({ id })),
-      }
+        connect: body.tags.map(id => ({ id })),
+      },
     },
   });
-  
-  res.status(200)
-    .json({
-      result: 'success',
-      payload: post,
-    });
+
+  res.status(200).json({
+    result: 'success',
+    payload: post,
+  });
 }

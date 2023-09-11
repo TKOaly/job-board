@@ -1,6 +1,6 @@
-import { EditPost } from "@/components/EditPost";
-import client from "@/db";
-import { notFound } from "next/navigation";
+import { EditPost } from '@/components/EditPost';
+import client from '@/db';
+import { notFound } from 'next/navigation';
 
 export default async function EditPostPage({ params }) {
   const companies = await client.company.findMany();
@@ -12,17 +12,11 @@ export default async function EditPostPage({ params }) {
     include: {
       tags: true,
     },
-  })
+  });
 
   if (!post) {
     return notFound();
   }
 
-  return (
-    <EditPost
-      post={post}
-      companies={companies}
-      tags={tags}
-    />
-  );
+  return <EditPost post={post} companies={companies} tags={tags} />;
 }

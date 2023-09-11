@@ -1,4 +1,4 @@
-import { PrismaClient } from "@prisma/client"
+import { PrismaClient } from '@prisma/client';
 
 const oldUrl = new URL(process.env.DATABASE_URL);
 oldUrl.searchParams.set('schema', 'public_old');
@@ -32,11 +32,11 @@ for (const company of companies) {
 const tags = await oldClient.$queryRaw`SELECT * FROM tags`;
 
 await newClient.tag.createMany({
-  data: tags.map((t) => ({ name: t.name })),
+  data: tags.map(t => ({ name: t.name })),
   skipDuplicates: true,
 });
 
-const companyIdStart = Math.max(...companies.map((c) => c.id)) + 1;
+const companyIdStart = Math.max(...companies.map(c => c.id)) + 1;
 
 await newClient.$queryRaw`SELECT setval('"Company_id_seq"', ${companyIdStart})`;
 
@@ -60,7 +60,11 @@ for (const post of posts) {
       updatedAt: post.updated_at,
       employingCompanyId: post.company_id,
       tags: {
-        connect: post.tags ? [...(new Set(post.tags.map(t => t.toLowerCase())))].map(name => ({ name })) : [],
+        connect: post.tags
+          ? [...new Set(post.tags.map(t => t.toLowerCase()))].map(name => ({
+              name,
+            }))
+          : [],
       },
     },
   });

@@ -1,6 +1,6 @@
-import { CompanyDetails } from "@/components/CompanyDetails";
-import client from "@/db";
-import { notFound } from "next/navigation";
+import { CompanyDetails } from '@/components/CompanyDetails';
+import client from '@/db';
+import { notFound } from 'next/navigation';
 
 export default async function CompanyDetailsPage({ params }) {
   const company = await client.company.findFirst({
@@ -20,7 +20,5 @@ export default async function CompanyDetailsPage({ params }) {
     return notFound();
   }
 
-  return (
-    <CompanyDetails company={company} />
-  );
+  return <CompanyDetails company={company} />;
 }

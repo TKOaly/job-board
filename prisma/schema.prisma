@@ -2,53 +2,53 @@
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
 generator client {
-  provider = "prisma-client-js"
+  provider        = "prisma-client-js"
   previewFeatures = ["postgresqlExtensions", "fullTextSearch"]
 }
 
 datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
+  provider   = "postgresql"
+  url        = env("DATABASE_URL")
   extensions = [citext]
 }
 
 model Tag {
-  id Int @id @default(autoincrement())
-  name String @db.Citext @unique
+  id    Int    @id @default(autoincrement())
+  name  String @unique @db.Citext
   posts Post[]
 }
 
 model Post {
-  id Int @id @default(autoincrement())
+  id        Int      @id @default(autoincrement())
   createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt 
-  tags Tag[]
+  updatedAt DateTime @updatedAt
+  tags      Tag[]
 
   title String
-  body String
+  body  String
 
-  opensAt DateTime?
+  opensAt  DateTime?
   closesAt DateTime?
 
   recruitingCompanyId Int?
-  employingCompanyId Int
+  employingCompanyId  Int
 
   recruitingCompany Company? @relation("RecruiterPosts", fields: [recruitingCompanyId], references: [id])
-  employingCompany Company? @relation("EmployerPosts", fields: [employingCompanyId], references: [id])
+  employingCompany  Company? @relation("EmployerPosts", fields: [employingCompanyId], references: [id])
 
   displayRecruitingCompany Boolean @default(false)
 }
 
 model Company {
-  id Int @id @default(autoincrement())
+  id          Int      @id @default(autoincrement())
   name        String
-  bussinessId String? @unique
+  bussinessId String?  @unique
   website     String?
-  partner     Boolean @default(false)
+  partner     Boolean  @default(false)
   createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt 
+  updatedAt   DateTime @updatedAt
   logoUrl     String?
 
-  employerPosts Post[] @relation("EmployerPosts") 
-  recruiterPosts Post[] @relation("RecruiterPosts") 
+  employerPosts  Post[] @relation("EmployerPosts")
+  recruiterPosts Post[] @relation("RecruiterPosts")
 }

@@ -1,6 +1,6 @@
-import client from "@/db";
-import { notFound } from "next/navigation";
-import PostDetails from "./PostDetails";
+import client from '@/db';
+import { notFound } from 'next/navigation';
+import PostDetails from './PostDetails';
 
 const getPost = async (id: number) => {
   const result = await client.post.findUnique({
@@ -20,7 +20,7 @@ const PostPage = async ({ params }) => {
   if (!post) {
     notFound();
   }
-  
+
   return (
     <div className="mx-4 mb-4">
       <PostDetails post={post} company={post.employingCompany!} />

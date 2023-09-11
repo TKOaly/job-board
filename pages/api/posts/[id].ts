@@ -1,13 +1,13 @@
-import client from "@/db";
-import { NextApiRequest, NextApiResponse } from "next";
-import { getServerSession } from "next-auth";
+import client from '@/db';
+import { NextApiRequest, NextApiResponse } from 'next';
+import { getServerSession } from 'next-auth';
 import { config } from '@/next-auth';
 import { z } from 'zod';
-import { parseISO } from "date-fns";
+import { parseISO } from 'date-fns';
 
 const querySchema = z.object({
   id: z.string(),
-})
+});
 
 const updateSchema = z.object({
   title: z.string(),
@@ -18,7 +18,10 @@ const updateSchema = z.object({
   tags: z.array(z.number()),
 });
 
-export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+export default async function handler(
+  req: NextApiRequest,
+  res: NextApiResponse,
+) {
   const session = await getServerSession(req, res, config);
 
   if (req.method === 'DELETE') {
@@ -36,14 +39,12 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     await client.post.delete({
       where: {
         id: parseInt(id, 10),
-      }
+      },
     });
 
-    res
-      .status(200)
-      .json({
-        result: 'success',
-      });
+    res.status(200).json({
+      result: 'success',
+    });
   } else if (req.method === 'PUT') {
     if (!session?.user?.admin) {
       res.status(403).json({
@@ -68,10 +69,10 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         opensAt: parseISO(body.opensAt),
         closesAt: parseISO(body.closesAt),
         tags: {
-          connect: body.tags.map((id) => ({ id })),
+          connect: body.tags.map(id => ({ id })),
         },
       },
-    })
+    });
 
     res.status(200).json({
       result: 'success',

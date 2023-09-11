@@ -4,7 +4,7 @@ This is a rewrite of the old TKO-äly job board with modern frameworks and libra
 
 ## What is it used for?
 
-Job Board is a specific use-case application for TKO-äly's needs. TKO-äly offers sponsorships to promote CS-oriented jobs to the University of Helsinki's Computer Science students.  
+Job Board is a specific use-case application for TKO-äly's needs. TKO-äly offers sponsorships to promote CS-oriented jobs to the University of Helsinki's Computer Science students.
 
 Users can visit the site to view current and expired job postings, view the details and find contact information to apply for the job. Users can also search for keywords.
 

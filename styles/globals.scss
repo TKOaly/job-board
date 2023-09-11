@@ -2,18 +2,30 @@
 @tailwind components;
 @tailwind utilities;
 
-body, html {
+body,
+html {
   min-height: 100%;
   min-width: 100%;
 }
 
 .tko-aly-logo {
-  .background  { fill-opacity: 0; stroke: none; stroke-width: 1; }
-  .fillable { fill: black; fill-opacity: 1; stroke: none; stroke-width: 1; }
+  .background {
+    fill-opacity: 0;
+    stroke: none;
+    stroke-width: 1;
+  }
+  .fillable {
+    fill: black;
+    fill-opacity: 1;
+    stroke: none;
+    stroke-width: 1;
+  }
 }
 
 .post-body {
-  p, ul, ol {
+  p,
+  ul,
+  ol {
     @apply mt-5;
   }
 
@@ -30,7 +42,12 @@ body, html {
   a {
     @apply text-blue-500 font-bold;
   }
-  h1, h2, h3, h4, h5, h6 {
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
     @apply mt-10;
   }
 

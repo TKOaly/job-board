@@ -53,7 +53,7 @@ jobs:
         with:
           context: .
           target: runner
-          push: true 
+          push: true
           tags: ${{ steps.server-meta.outputs.tags }}
           labels: ${{ steps.server-meta.outputs.labels }}
           cache-to: type=gha
@@ -64,7 +64,7 @@ jobs:
         with:
           context: .
           target: migrate
-          push: true 
+          push: true
           tags: ${{ steps.migrate-meta.outputs.tags }}
           labels: ${{ steps.migrate-meta.outputs.labels }}
           cache-to: type=gha

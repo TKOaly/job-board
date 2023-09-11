@@ -1,14 +1,17 @@
-import { config } from "@/next-auth";
-import client from "@/db";
-import { NextApiRequest, NextApiResponse } from "next";
-import { getServerSession } from "next-auth";
+import { config } from '@/next-auth';
+import client from '@/db';
+import { NextApiRequest, NextApiResponse } from 'next';
+import { getServerSession } from 'next-auth';
 import { z } from 'zod';
 
 const createSchema = z.object({
   name: z.string(),
 });
 
-export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+export default async function handler(
+  req: NextApiRequest,
+  res: NextApiResponse,
+) {
   const session = await getServerSession(req, res, config);
 
   if (req.method === 'POST') {

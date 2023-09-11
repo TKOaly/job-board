@@ -1,8 +1,8 @@
-import { config } from "@/next-auth";
-import client from "@/db";
-import { NextApiRequest, NextApiResponse } from "next";
-import { getServerSession } from "next-auth";
-import { z } from "zod";
+import { config } from '@/next-auth';
+import client from '@/db';
+import { NextApiRequest, NextApiResponse } from 'next';
+import { getServerSession } from 'next-auth';
+import { z } from 'zod';
 
 const createSchema = z.object({
   name: z.string(),
@@ -10,7 +10,10 @@ const createSchema = z.object({
   partner: z.boolean().default(false),
 });
 
-export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+export default async function handler(
+  req: NextApiRequest,
+  res: NextApiResponse,
+) {
   const session = await getServerSession(req, res, config);
 
   if (req.method === 'POST') {
@@ -33,11 +36,9 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       },
     });
 
-    res
-      .status(200)
-      .json({
-        result: 'success',
-        payload: newCompany,
-      });
+    res.status(200).json({
+      result: 'success',
+      payload: newCompany,
+    });
   }
 }

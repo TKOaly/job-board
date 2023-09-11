@@ -1,22 +1,33 @@
 'use client';
 
-import { CheckIcon, ChevronUpDownIcon } from "@heroicons/react/24/outline";
-import { Company } from "@prisma/client";
-import { useState } from "react";
-import { Button } from "./Button";
-import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem } from "./Command";
-import { Popover, PopoverContent, PopoverTrigger } from "./Popover";
-import { twMerge } from "tailwind-merge";
-import { SparklesIcon } from "@heroicons/react/20/solid";
+import { CheckIcon, ChevronUpDownIcon } from '@heroicons/react/24/outline';
+import { Company } from '@prisma/client';
+import { useState } from 'react';
+import { Button } from './Button';
+import {
+  Command,
+  CommandEmpty,
+  CommandGroup,
+  CommandInput,
+  CommandItem,
+} from './Command';
+import { Popover, PopoverContent, PopoverTrigger } from './Popover';
+import { twMerge } from 'tailwind-merge';
+import { SparklesIcon } from '@heroicons/react/20/solid';
 
 export type Props = {
-  value: number | null
-  companies: Company[]
-  onChange: (value: number | null) => void
-  className?: string
-}
+  value: number | null;
+  companies: Company[];
+  onChange: (value: number | null) => void;
+  className?: string;
+};
 
-export const CompanySelect = ({ value, onChange, companies, className }: Props) => {
+export const CompanySelect = ({
+  value,
+  onChange,
+  companies,
+  className,
+}: Props) => {
   const [open, setOpen] = useState(false);
 
   return (
@@ -29,8 +40,8 @@ export const CompanySelect = ({ value, onChange, companies, className }: Props) 
           className={twMerge('w-[200px] justify-between', className)}
         >
           {value
-            ? companies.find((comapny) => comapny.id === value)?.name
-            : "Select company..."}
+            ? companies.find(comapny => comapny.id === value)?.name
+            : 'Select company...'}
           <ChevronUpDownIcon className="ml-2 h-4 w-4 shrink-0 opacity-50" />
         </Button>
       </PopoverTrigger>
@@ -38,7 +49,7 @@ export const CompanySelect = ({ value, onChange, companies, className }: Props) 
         <Command
           filter={(value, search) => {
             const id = parseInt(value, 10);
-            const company = companies.find((c) => c.id === id);
+            const company = companies.find(c => c.id === id);
 
             if (company && company.name.includes(search)) {
               return 1;
@@ -50,19 +61,19 @@ export const CompanySelect = ({ value, onChange, companies, className }: Props) 
           <CommandInput placeholder="Search company..." />
           <CommandEmpty>No company found.</CommandEmpty>
           <CommandGroup className="max-h-[40em] overflow-y-scroll">
-            {companies.map((company) => (
+            {companies.map(company => (
               <CommandItem
                 key={company.id}
                 value={company.id.toString()}
                 onSelect={(currentValue: string) => {
-                  onChange(parseInt(currentValue, 10))
-                  setOpen(false)
+                  onChange(parseInt(currentValue, 10));
+                  setOpen(false);
                 }}
               >
                 <CheckIcon
                   className={twMerge(
-                    "mr-2 h-4 w-4",
-                    value === company.id ? "opacity-100" : "opacity-0"
+                    'mr-2 h-4 w-4',
+                    value === company.id ? 'opacity-100' : 'opacity-0',
                   )}
                 />
                 {company.name}
@@ -78,4 +89,4 @@ export const CompanySelect = ({ value, onChange, companies, className }: Props) 
       </PopoverContent>
     </Popover>
   );
-}
+};

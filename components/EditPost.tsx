@@ -1,16 +1,16 @@
 'use client';
 
-import { Company, Post, Tag } from "@prisma/client";
-import { Button } from "@/components/Button";
-import { useState } from "react";
-import { formatISO, isBefore } from "date-fns";
-import PostEditor from "./PostEditor";
-import { useRouter } from "next/navigation";
+import { Company, Post, Tag } from '@prisma/client';
+import { Button } from '@/components/Button';
+import { useState } from 'react';
+import { formatISO, isBefore } from 'date-fns';
+import PostEditor from './PostEditor';
+import { useRouter } from 'next/navigation';
 
 export type Props = {
-  post: Post & { tags: Tag[] },
-  companies: Company[],
-  tags: Tag[]
+  post: Post & { tags: Tag[] };
+  companies: Company[];
+  tags: Tag[];
 };
 
 export const EditPost = ({ companies, post: originalPost, tags }: Props) => {
@@ -24,7 +24,11 @@ export const EditPost = ({ companies, post: originalPost, tags }: Props) => {
       return;
     }
 
-    if (post.closesAt && post.opensAt && isBefore(post.closesAt, post.opensAt)) {
+    if (
+      post.closesAt &&
+      post.opensAt &&
+      isBefore(post.closesAt, post.opensAt)
+    ) {
       setError('Post cannot close before it opens.');
       return;
     }
@@ -45,8 +49,8 @@ export const EditPost = ({ companies, post: originalPost, tags }: Props) => {
         opensAt: post.opensAt ? formatISO(post.opensAt) : null,
         employingCompanyId: post.employingCompanyId,
         body: post.body,
-        tags: post.tags.map((t) => t.id),
-      })
+        tags: post.tags.map(t => t.id),
+      }),
     });
 
     const json = await response.json();
@@ -62,13 +66,18 @@ export const EditPost = ({ companies, post: originalPost, tags }: Props) => {
   return (
     <div>
       <h1 className="text-2xl font-bold">Edit Post</h1>
-      { error && (
+      {error && (
         <div className="rounded-md shadow py-2 px-3 border-l-[7px] border border-l-red-500 mt-5">
           <h4 className="font-bold mb-1">Failed to create post</h4>
           <p>{error}</p>
         </div>
       )}
-      <PostEditor post={post} onChange={(newPost) => setPost({ ...post, ...newPost })} companies={companies} tags={tags} />
+      <PostEditor
+        post={post}
+        onChange={newPost => setPost({ ...post, ...newPost })}
+        companies={companies}
+        tags={tags}
+      />
       <div className="mt-5">
         <Button onClick={handleSubmit}>Save</Button>
       </div>

@@ -1,20 +1,25 @@
-import { config } from "@/next-auth";
-import client from "@/db";
-import { NextApiRequest, NextApiResponse } from "next";
-import { getServerSession } from "next-auth";
-import { z } from "zod";
+import { config } from '@/next-auth';
+import client from '@/db';
+import { NextApiRequest, NextApiResponse } from 'next';
+import { getServerSession } from 'next-auth';
+import { z } from 'zod';
 
 const querySchema = z.object({
   id: z.string(),
 });
 
-const bodySchema = z.object({
-  name: z.string(),
-  partner: z.boolean(),
-  website: z.string().url(),
-}).partial();
+const bodySchema = z
+  .object({
+    name: z.string(),
+    partner: z.boolean(),
+    website: z.string().url(),
+  })
+  .partial();
 
-export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+export default async function handler(
+  req: NextApiRequest,
+  res: NextApiResponse,
+) {
   const session = await getServerSession(req, res, config);
 
   if (req.method === 'PUT') {

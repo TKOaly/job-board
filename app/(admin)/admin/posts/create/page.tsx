@@ -1,5 +1,5 @@
-import { CreatePost } from "@/components/CreatePost";
-import client from "@/db";
+import { CreatePost } from '@/components/CreatePost';
+import client from '@/db';
 
 const CreatePostPage = async () => {
   const tags = await client.tag.findMany();
@@ -9,4 +9,3 @@ const CreatePostPage = async () => {
 };
 
 export default CreatePostPage;
-

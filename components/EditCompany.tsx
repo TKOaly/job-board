@@ -1,13 +1,13 @@
 'use client';
 
-import { Company, Post } from "@prisma/client";
-import { Button } from "@/components/Button";
-import { useState } from "react";
-import CompanyEditor from "./CompanyEditor";
-import { useRouter } from "next/navigation";
+import { Company, Post } from '@prisma/client';
+import { Button } from '@/components/Button';
+import { useState } from 'react';
+import CompanyEditor from './CompanyEditor';
+import { useRouter } from 'next/navigation';
 
 export type Props = {
-  company: Company,
+  company: Company;
 };
 
 export const EditCompany = ({ company: originalCompany }: Props) => {
@@ -30,7 +30,7 @@ export const EditCompany = ({ company: originalCompany }: Props) => {
         name: company.name,
         website: company.website,
         partner: company.partner,
-      })
+      }),
     });
 
     const json = await response.json();
@@ -46,13 +46,16 @@ export const EditCompany = ({ company: originalCompany }: Props) => {
   return (
     <div>
       <h1 className="text-2xl font-bold">Edit Company</h1>
-      { error && (
+      {error && (
         <div className="rounded-md shadow py-2 px-3 border-l-[7px] border border-l-red-500 mt-5">
           <h4 className="font-bold mb-1">Failed to save company</h4>
           <p>{error}</p>
         </div>
       )}
-      <CompanyEditor company={company} onChange={(newCompany) => setCompany({ ...company, ...newCompany })} />
+      <CompanyEditor
+        company={company}
+        onChange={newCompany => setCompany({ ...company, ...newCompany })}
+      />
       <div className="mt-5">
         <Button onClick={handleSubmit}>Save</Button>
       </div>

@@ -1,12 +1,12 @@
-import { DarkModeProvider } from "@/components/DarkModeProvider";
-import "../styles/globals.scss";
-import { InnerLayout } from "./InnerLayout";
-import { NextAuthProviders } from "./NextAuthProviders";
+import { DarkModeProvider } from '@/components/DarkModeProvider';
+import '../styles/globals.scss';
+import { InnerLayout } from './InnerLayout';
+import { NextAuthProviders } from './NextAuthProviders';
 
 export default async function RootLayout({
   children,
 }: {
-  children: React.ReactNode
+  children: React.ReactNode;
 }) {
   return (
     <DarkModeProvider>
@@ -14,5 +14,5 @@ export default async function RootLayout({
         <InnerLayout>{children}</InnerLayout>
       </NextAuthProviders>
     </DarkModeProvider>
-  )
+  );
 }

@@ -1,18 +1,18 @@
-import { AuthOptions, DefaultUser } from "next-auth";
+import { AuthOptions, DefaultUser } from 'next-auth';
 
 declare module 'next-auth' {
   interface Session {
-    user?: DefaultUser & { admin: boolean }
+    user?: DefaultUser & { admin: boolean };
   }
-  
+
   interface User {
-    admin: boolean
+    admin: boolean;
   }
 }
 
 declare module 'next-auth/jwt' {
   interface JWT {
-    admin: boolean
+    admin: boolean;
   }
 }
 
@@ -39,7 +39,7 @@ export const config: AuthOptions = {
       id: 'tkoaly',
       name: 'TKO-äly Member Account',
       type: 'oauth',
-      profile: async (profile) => {
+      profile: async profile => {
         return {
           id: profile.sub,
           name: profile.nickname,

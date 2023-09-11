@@ -1,23 +1,27 @@
 'use client';
 
-import { ChevronLeftIcon, PencilSquareIcon, SparklesIcon } from "@heroicons/react/20/solid";
-import { ArrowTopRightOnSquareIcon } from "@heroicons/react/20/solid";
-import { Company, Post, Tag } from "@prisma/client";
-import { useSession } from "next-auth/react";
-import Link from "next/link";
-import { useRouter } from "next/navigation";
-import { Button } from "./Button";
-import Card from "./Card";
-import { PostCard } from "./PostCard";
+import {
+  ChevronLeftIcon,
+  PencilSquareIcon,
+  SparklesIcon,
+} from '@heroicons/react/20/solid';
+import { ArrowTopRightOnSquareIcon } from '@heroicons/react/20/solid';
+import { Company, Post, Tag } from '@prisma/client';
+import { useSession } from 'next-auth/react';
+import Link from 'next/link';
+import { useRouter } from 'next/navigation';
+import { Button } from './Button';
+import Card from './Card';
+import { PostCard } from './PostCard';
 
 type Props = {
-  company: Company & { employerPosts: (Post & { tags: Tag[] })[] },
-}
+  company: Company & { employerPosts: (Post & { tags: Tag[] })[] };
+};
 
 export const CompanyDetails = ({ company }: Props) => {
   const { back, push } = useRouter();
   const session = useSession();
-  const admin = !!(session?.data?.user?.admin);
+  const admin = !!session?.data?.user?.admin;
 
   return (
     <div>
@@ -26,10 +30,15 @@ export const CompanyDetails = ({ company }: Props) => {
           <ChevronLeftIcon className="h-5 w-5 -mr-1 -ml-1" />
           Takaisin
         </Button>
-        { admin && (
+        {admin && (
           <>
             <div className="grow" />
-            <Button secondary onClick={() => push(`/admin/companies/${company.id}/edit`)}>Muokkaa <PencilSquareIcon className="h-4 w-4"/></Button>
+            <Button
+              secondary
+              onClick={() => push(`/admin/companies/${company.id}/edit`)}
+            >
+              Muokkaa <PencilSquareIcon className="h-4 w-4" />
+            </Button>
           </>
         )}
       </div>
@@ -45,18 +54,29 @@ export const CompanyDetails = ({ company }: Props) => {
         </h1>
         {company.website && (
           <div className="my-3">
-            <span className="text-xs text-gray-600 uppercase font-bold">Verkkosivut</span>
+            <span className="text-xs text-gray-600 uppercase font-bold">
+              Verkkosivut
+            </span>
             <div suppressHydrationWarning>
-              <Link href={company.website} className="flex items-center gap-1 text-blue-500">
+              <Link
+                href={company.website}
+                className="flex items-center gap-1 text-blue-500"
+              >
                 {company.website}
                 <ArrowTopRightOnSquareIcon className="h-4 w-4" />
-              </Link></div>
+              </Link>
+            </div>
           </div>
         )}
       </Card>
       <h2 className="text-2xl font-bold mt-10">Ilmoitukset</h2>
-      {company.employerPosts.map((post) => (
-        <PostCard post={post} company={company} className="mt-5" key={post.id} />
+      {company.employerPosts.map(post => (
+        <PostCard
+          post={post}
+          company={company}
+          className="mt-5"
+          key={post.id}
+        />
       ))}
     </div>
   );
