@@ -7,21 +7,11 @@ RUN apk add --no-cache libc6-compat
 WORKDIR /app
 
 # Install dependencies based on the preferred package manager
-COPY package.json yarn.lock .
+COPY package.json yarn.lock* ./
 RUN yarn --frozen-lockfile
 
-FROM base AS development
-
-COPY --from=deps /app/node_modules ./node_modules
-RUN yarn start
-
-FROM base AS migrate
-
-COPY --from=deps /app/node_modules ./node_modules
-COPY package.json .
-COPY ./prisma . 
-
-CMD yarn prisma migrate deploy 
+COPY prisma ./prisma/
+RUN yarn prisma generate
 
 # Rebuild the source code only when needed
 FROM base AS builder
@@ -34,22 +24,31 @@ COPY . .
 # Uncomment the following line in case you want to disable telemetry during the build.
 # ENV NEXT_TELEMETRY_DISABLED 1
 
-RUN yarn prisma generate
-RUN yarn build --build-mode=experimental-compile
+RUN yarn build
 
-# If using npm comment out above and use below instead
-# RUN npm run build
+FROM deps AS development
+WORKDIR /app
+COPY . .
+
+ENV NODE_ENV development
+
+CMD yarn dev
+
+# Run Prisma migration scripts
+FROM deps AS migrate
+
+CMD yarn prisma migrate deploy 
 
 # Production image, copy all the files and run next
 FROM base AS runner
 WORKDIR /app
 
 ENV NODE_ENV production
-# Uncomment the following line in case you want to disable telemetry during runtime.
-# ENV NEXT_TELEMETRY_DISABLED 1
 
 RUN addgroup --system --gid 1001 nodejs
 RUN adduser --system --uid 1001 nextjs
+
+COPY --from=builder /app/public ./public
 
 # Set the correct permission for prerender cache
 RUN mkdir .next
