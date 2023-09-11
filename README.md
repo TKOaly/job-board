@@ -25,3 +25,13 @@ Job Board uses next-auth to authenticate adminstratos through TKO-äly's [user s
 While Job Board can be run in isolation, it would require the authentication service to be mocked (or disabled). The provided [docker-compose.yml](https://github.com/TKOaly/job-board-next/blob/main/docker-compose.yml) sets up a local development database.
 
 The easiest way to develop Job Board is to set up the [tko-aly.localhost](https://github.com/tkoaly/tko-aly.localhost) environment. Job Board is currently not included in the environment, but can be run separately with `docker-compose up` in the project root.
+
+### Database problems & seeding
+
+Currently it might be necessary to generate the prisma client in the docker container.  
+Connect to the container and run `yarn prisma generate`, if you receive an error about `@prisma/client`.
+
+Seeding data can be done by connecting to the container and running `yarn prisma db seed`.
+
+You may also reset the database to just seed data with `yarn prisma migrate reset`.  
+The data is completely random. The seeds script can be run multiple times in succession to generate large amounts of mock data.
