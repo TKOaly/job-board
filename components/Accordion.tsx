@@ -9,16 +9,15 @@ interface AccordionProps {
    * Whether the accordion is collapsed on mount.
    * @default true
    */
-  initialCollapsed?: boolean;
+  open?: boolean;
 }
 
 export const Accordion = ({
   title,
   children,
-  initialCollapsed = true,
-  ...rest
+  open = true,
 }: PropsWithChildren<AccordionProps>) => {
-  const [collapsed, setCollapsed] = useState(initialCollapsed);
+  const [collapsed, setCollapsed] = useState(!open);
   const toggle = useCallback(() => setCollapsed(c => !c), [setCollapsed]);
 
   return (
