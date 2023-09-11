@@ -29,7 +29,7 @@ const AdminLayout: React.FC<PropsWithChildren<{}>> = ({ children }) => {
           <Button secondary onClick={() => push('/')}>Back to public site</Button>
         </div>
       </div>
-      <div className="mx-auto w-[80ch] mt-10">
+      <div className="mx-auto w-[80ch] my-10">
         {children}
       </div>
     </div>
