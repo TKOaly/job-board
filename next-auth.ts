@@ -46,17 +46,12 @@ export const config: AuthOptions = {
           admin: ['yllapitaja', 'virkailija'].includes(profile.role),
         };
       },
-      issuer: process.env.OAUTH_ISSUER,
+      wellKnown: `${process.env.USER_SERVICE_URL}/.well-known/openid-configuration`,
       clientId: process.env.SERVICE_ID,
       clientSecret: process.env.SERVICE_SECRET,
       authorization: {
-        url: process.env.OAUTH_AUTHORIZATION_URL,
         params: { scope: 'openid role profile' },
       },
-      client: {
-        id_token_signed_response_alg: 'HS256',
-      },
-      token: process.env.OAUTH_TOKEN_URL,
     },
   ],
 };
