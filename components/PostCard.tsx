@@ -72,10 +72,11 @@ export const PostCard = ({ post, company, className, editable }: Props) => {
             Lue lisää
           </Button>
         </div>
+
         {company.partner && company.logoUrl && (
           <div
-            className="w-[10rem] h-[7rem] rounded bg-gray-100 text-gray-500 text-xl flex items-center justify-center"
-            style={{ backgroundImage: `url(${company.logoUrl})` }}
+            className="w-[10rem] h-[7rem] text-gray-500 text-xl flex items-center justify-center bg-center bg-no-repeat bg-contain bg-transparent"
+            style={{ backgroundImage: `url('${company.logoUrl}')` }}
           ></div>
         )}
       </div>

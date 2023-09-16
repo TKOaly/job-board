@@ -3,7 +3,7 @@ import { Input } from '@/components/Input';
 import { produce } from 'immer';
 import { Checkbox } from './Checkbox';
 
-type EditorCompany = Partial<Pick<Company, 'name' | 'partner' | 'website'>>;
+type EditorCompany = Partial<Pick<Company, 'name' | 'partner' | 'website'> & { logo: File }>;
 
 export type Props = {
   company: EditorCompany;
@@ -40,6 +40,15 @@ const CompanyEditor = ({ company, onChange }: Props) => {
         <Input
           value={company.website ?? ''}
           onChange={evt => setField('website', evt.target.value)}
+        />
+      </div>
+      <div className="mt-5">
+        <div className="uppercase text-xs font-bold mb-2 tracking-wide text-gray-600">
+          Logo
+        </div>
+        <Input
+          type="file"
+          onChange={evt => setField('logo', evt.target.files?.[0])}
         />
       </div>
       <div className="mt-5 flex items-center space-x-2">

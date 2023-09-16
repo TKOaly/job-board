@@ -1,5 +1,6 @@
 'use client';
 
+import { getLogoUploadUrl } from '@/actions';
 import { Company } from '@prisma/client';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
@@ -35,10 +36,21 @@ export const CreateCompany = () => {
 
     if (!response.ok) {
       setError(json.message ?? 'Unknown error occurred.');
-    } else {
-      setError(null);
-      push(`/companies/${json.payload.id}`);
+      return;
     }
+
+    if (company.logo) {
+      const url = await getLogoUploadUrl(json.payload);
+
+      await fetch(url, {
+        method: 'PUT',
+        body: company.logo,
+      });
+    }
+
+    setError(null);
+    push(`/companies/${json.payload.id}`);
+
   };
 
   return (

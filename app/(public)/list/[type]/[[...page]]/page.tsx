@@ -15,6 +15,7 @@ import { PostCard } from '@/components/PostCard';
 import { Input } from '@/components/Input';
 import { Search } from '@/components/Search';
 import Card from '@/components/Card';
+import minio from '@/minio';
 
 const getCounts = async ({ search: textSearch }: { search?: string }) => {
   const search = textSearch ? tsquery()(textSearch) : undefined;
@@ -102,6 +103,19 @@ const getPosts = async ({
     take: 10,
     skip,
   });
+
+  for (const { employingCompany } of posts) {
+    if (!employingCompany) {
+      continue;
+    }
+
+    try {
+      const r = await minio.statObject('logos', `${employingCompany!.id}`);
+      employingCompany.logoUrl = `${process.env.MINIO_PUBLIC_URL ?? process.env.MINIO_URL}/logos/${employingCompany!.id}`;
+      console.log(r);
+    } catch (err) {
+    }
+  }
 
   return posts;
 };

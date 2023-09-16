@@ -8,9 +8,10 @@ import { useRouter } from 'next/navigation';
 
 export type Props = {
   company: Company;
+  logoUploadUrl: string;
 };
 
-export const EditCompany = ({ company: originalCompany }: Props) => {
+export const EditCompany = ({ logoUploadUrl, company: originalCompany }: Props) => {
   const [error, setError] = useState<string | null>(null);
   const { push } = useRouter();
   const [company, setCompany] = useState(originalCompany);
@@ -19,6 +20,13 @@ export const EditCompany = ({ company: originalCompany }: Props) => {
     if (company.name && company.name.length <= 1) {
       setError('Name must be 1 characters or longer.');
       return;
+    }
+
+    if (company.logo) {
+      await fetch(logoUploadUrl, {
+        method: 'PUT',
+        body: company.logo,
+      });
     }
 
     const response = await fetch(`/api/companies/${company.id}`, {
