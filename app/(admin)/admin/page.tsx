@@ -2,17 +2,10 @@ import { Accordion } from '@/components/Accordion';
 import { CompanyList } from '@/components/CompanyList';
 import { PostList } from '@/components/PostList';
 import client from '@/db';
+import { getCompanies } from '@/lib/companies';
 
 const AdminFrontPage = async () => {
-  const companies = await client.company.findMany({
-    include: {
-      _count: {
-        select: {
-          employerPosts: true,
-        },
-      },
-    },
-  });
+  const companies = await getCompanies();
 
   const openPosts = await client.post.findMany({
     where: {

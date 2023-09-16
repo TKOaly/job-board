@@ -2,13 +2,13 @@ import {
   ArrowTopRightOnSquareIcon,
   SparklesIcon,
 } from '@heroicons/react/20/solid';
-import { Company } from '@prisma/client';
+import { Company } from '@/lib/companies';
 import Link from 'next/link';
 import Card from './Card';
 import { PencilSquareIcon } from '@heroicons/react/24/outline';
 
 export type Props = {
-  companies: (Company & { _count: { employerPosts: number } })[];
+  companies: Company[];
   editable?: boolean;
 };
 
@@ -52,7 +52,7 @@ export const CompanyList = ({ companies }: Props) => {
             <span className="text-xs text-gray-600 uppercase font-bold">
               Ilmoituksia
             </span>
-            <div>{company._count.employerPosts} kpl</div>
+            <div>{company.employerPostCount} kpl</div>
           </div>
         </Card>
       ))}

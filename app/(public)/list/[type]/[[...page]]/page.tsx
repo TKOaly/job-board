@@ -5,124 +5,15 @@ import {
   FaceFrownIcon,
 } from '@heroicons/react/24/outline';
 import { Post } from '@prisma/client';
-import client from '@/db';
-import tsquery from 'pg-tsquery';
 import { cva } from 'class-variance-authority';
 import Link from 'next/link';
-import { ComponentProps, HTMLAttributes } from 'react';
+import { HTMLAttributes } from 'react';
 import { Button } from '@/components/Button';
 import { PostCard } from '@/components/PostCard';
-import { Input } from '@/components/Input';
 import { Search } from '@/components/Search';
 import Card from '@/components/Card';
-import minio from '@/minio';
-
-const getCounts = async ({ search: textSearch }: { search?: string }) => {
-  const search = textSearch ? tsquery()(textSearch) : undefined;
-
-  let where: NonNullable<Parameters<typeof client.post.findMany>[0]>['where'] =
-    {
-      title: {
-        search,
-      },
-      body: {
-        search,
-      },
-    };
-  const open = await client.post.count({
-    where: {
-      ...where,
-      opensAt: { lte: new Date() },
-      closesAt: { gte: new Date() },
-    },
-  });
-
-  const closed = await client.post.count({
-    where: {
-      ...where,
-      OR: [{ opensAt: { gt: new Date() } }, { closesAt: { lt: new Date() } }],
-    },
-  });
-
-  const upcoming = await client.post.count({
-    where: {
-      ...where,
-      opensAt: { gt: new Date() },
-    },
-  });
-
-  return { upcoming, open, closed };
-};
-
-type GetPostsOpts = {
-  type: 'open' | 'closed';
-  page?: number;
-  search?: string;
-};
-
-const getPosts = async ({
-  type,
-  page = 1,
-  search: textSearch,
-}: GetPostsOpts) => {
-  const search = textSearch ? tsquery()(textSearch) : undefined;
-
-  let where: NonNullable<Parameters<typeof client.post.findMany>[0]>['where'] =
-    {
-      title: {
-        search,
-      },
-      body: {
-        search,
-      },
-    };
-
-  if (type === 'open') {
-    where = {
-      ...where,
-      closesAt: { gte: new Date() },
-    };
-  } else if (type === 'closed') {
-    where = {
-      ...where,
-      closesAt: { lt: new Date() },
-    };
-  }
-
-  let skip = ((page ?? 1) - 1) * 10;
-
-  const posts = await client.post.findMany({
-    where,
-    include: {
-      employingCompany: true,
-      tags: true,
-    },
-    orderBy: {
-      createdAt: 'desc',
-    },
-    take: 10,
-    skip,
-  });
-
-  for (const { employingCompany } of posts) {
-    if (!employingCompany) {
-      continue;
-    }
-
-    try {
-      const r = await minio.statObject('logos', `${employingCompany!.id}`);
-      employingCompany.logoUrl = `${process.env.MINIO_PUBLIC_URL ?? process.env.MINIO_URL}/logos/${employingCompany!.id}`;
-      console.log(r);
-    } catch (err) {
-    }
-  }
-
-  return posts;
-};
-
-type Props = {
-  posts: Post[];
-};
+import { getPaginatedSearchResults, getPostCounts } from '@/lib/posts';
+import { getCompany } from '@/lib/companies';
 
 type ChipProps = {
   label: string;
@@ -176,8 +67,14 @@ const ListPage = async ({ params, searchParams }) => {
 
   const type = params.type;
   const page: number = parseInt(params.page?.[0] ?? '1', 10);
-  const { upcoming, open, closed } = await getCounts({ search });
-  const posts = await getPosts({ type, page, search });
+  const { upcoming, open, closed } = await getPostCounts({ search });
+
+  const posts = await getPaginatedSearchResults({ type, page, search });
+
+  const postsWithCompanies = await Promise.all(posts.map(async (post) => ({
+    post,
+    company: (await getCompany(post.employingCompanyId))!,
+  })));
 
   return (
     <div>
@@ -204,11 +101,11 @@ const ListPage = async ({ params, searchParams }) => {
       </div>
       {posts.length > 0 && (
         <div className="mx-4">
-          {posts.map(post => (
+          {postsWithCompanies.map(({ post, company }) => (
             <PostCard
               key={post.id}
               post={post}
-              company={post.employingCompany!}
+              company={company}
               className="mt-5"
             />
           ))}

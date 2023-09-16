@@ -1,7 +1,8 @@
 'use client';
 
 import { SparklesIcon } from '@heroicons/react/20/solid';
-import { Company, Post, Tag } from '@prisma/client';
+import { Post, Tag } from '@prisma/client';
+import { Company } from '@/lib/companies';
 import { format, isAfter, isBefore, isWithinInterval } from 'date-fns';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';

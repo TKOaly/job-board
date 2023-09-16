@@ -1,24 +1,26 @@
 'use client';
 
+import { Company } from '@/lib/companies';
 import {
   ChevronLeftIcon,
   PencilSquareIcon,
   SparklesIcon,
 } from '@heroicons/react/20/solid';
 import { ArrowTopRightOnSquareIcon } from '@heroicons/react/20/solid';
-import { Company, Post, Tag } from '@prisma/client';
 import { useSession } from 'next-auth/react';
 import Link from 'next/link';
+import { Post } from '@/lib/posts';
 import { useRouter } from 'next/navigation';
 import { Button } from './Button';
 import Card from './Card';
 import { PostCard } from './PostCard';
 
 type Props = {
-  company: Company & { logoUrl?: string, employerPosts: (Post & { tags: Tag[] })[] };
+  company: Company;
+  posts: Post[],
 };
 
-export const CompanyDetails = ({ company }: Props) => {
+export const CompanyDetails = ({ company, posts }: Props) => {
   const { back, push } = useRouter();
   const session = useSession();
   const admin = !!session?.data?.user?.admin;
@@ -80,7 +82,7 @@ export const CompanyDetails = ({ company }: Props) => {
         </div>
       </Card>
       <h2 className="text-2xl font-bold mt-10">Ilmoitukset</h2>
-      {company.employerPosts.map(post => (
+      {posts.map(post => (
         <PostCard
           post={post}
           company={company}

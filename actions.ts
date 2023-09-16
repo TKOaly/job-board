@@ -12,7 +12,6 @@ export async function getLogoUploadUrl(company: Company): Promise<string> {
     const publicUrl = new URL(process.env.MINIO_PUBLIC_URL);
 
     logoUploadUrl.host = publicUrl.host;
-    logoUploadUrl.port = publicUrl.port;
     logoUploadUrl.protocol = publicUrl.protocol;
   }
 

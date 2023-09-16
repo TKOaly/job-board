@@ -1,10 +1,11 @@
+import { getCompanies } from '@/lib/companies';
 import { MetadataRoute } from 'next';
 import prisma from '../db';
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const pages: Array<{ url: string; lastModified: Date }> = [];
 
-  const companies = await prisma.company.findMany();
+  const companies = await getCompanies();
 
   pages.push(
     ...companies.map(company => ({

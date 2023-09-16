@@ -4,7 +4,7 @@ const createMinioSingleton = () => {
   const minioUrl = new URL(process.env.MINIO_URL!);
 
   return new Minio.Client({
-    endPoint: minioUrl.host,
+    endPoint: minioUrl.hostname,
     port: parseInt(minioUrl.port, 10),
     useSSL: false,
     accessKey: process.env.MINIO_ACCESS_KEY!,
