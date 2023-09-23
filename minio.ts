@@ -9,13 +9,17 @@ const createMinioSingleton = () => {
 
   console.log(`Connecting to MinIO: endPoint=${JSON.stringify(endPoint)} port=${JSON.stringify(port)} useSSL=${JSON.stringify(useSSL)}`);
 
-  return new Minio.Client({
+  const minio = new Minio.Client({
     endPoint,
     port,
     useSSL,
     accessKey: process.env.MINIO_ACCESS_KEY!,
     secretKey: process.env.MINIO_SECRET_KEY!,
   });
+
+  minio.traceOn(process.stdout);
+
+  return minio;
 };
 
 type MinioClientSingleton = ReturnType<typeof createMinioSingleton>;
