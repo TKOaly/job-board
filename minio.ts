@@ -5,7 +5,7 @@ const createMinioSingleton = () => {
 
   const endPoint = minioUrl.hostname;
   const port = parseInt(minioUrl.port, 10);
-  const useSSL = minioUrl.protocol === 'https';
+  const useSSL = minioUrl.protocol === 'https:';
 
   console.log(`Connecting to MinIO: endPoint=${JSON.stringify(endPoint)} port=${JSON.stringify(port)} useSSL=${JSON.stringify(useSSL)}`);
 
