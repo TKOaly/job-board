@@ -6,7 +6,7 @@ const createMinioSingleton = () => {
   return new Minio.Client({
     endPoint: minioUrl.hostname,
     port: parseInt(minioUrl.port, 10),
-    useSSL: false,
+    useSSL: minioUrl.protocol === 'https',
     accessKey: process.env.MINIO_ACCESS_KEY!,
     secretKey: process.env.MINIO_SECRET_KEY!,
   });
