@@ -25,7 +25,7 @@ const formatCompany = async (company: PrismaCompany & { _count: { employerPosts:
   return {
     ...company,
     logoUrl,
-    employerPostCount: company._count.employerPosts,
+    employerPostCount: company?._count?.employerPosts,
   };
 }
 
@@ -62,4 +62,14 @@ export const getCompany = async (id: number): Promise<Company | null> => {
   }
 
   return await formatCompany(company);
+};
+
+export const getPartners = async () => {
+  const companies = await prisma.company.findMany({
+    where: {
+      partner: true,
+    },
+  });
+
+  return Promise.all(companies.map(formatCompany));
 };
