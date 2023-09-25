@@ -5,6 +5,7 @@ import { Metadata } from 'next';
 import Head from 'next/head';
 import { notFound } from 'next/navigation';
 import PostDetails from './PostDetails';
+import { stripHtml } from 'string-strip-html';
 
 export async function generateMetadata({ params }): Promise<Metadata> {
   const post = await getPost(parseInt(params.id, 10));
@@ -13,10 +14,13 @@ export async function generateMetadata({ params }): Promise<Metadata> {
 
   const company = await getCompany(post.employingCompanyId);
 
+  const description = stripHtml(post.body).result.substring(0, 64) + ' ...';
+
   return {
     title: `${post.title} - Job Board - TKO-äly` ,
     openGraph: {
       title: post.title,
+      description,
       images: company?.logoUrl
         ? [
             {
