@@ -44,7 +44,7 @@ const PostPage = async ({ params }) => {
 
   return (
     <>
-      <div className="mx-4 mb-4">
+      <div className="mb-4">
         <PostDetails post={post} company={company} />
       </div>
     </>

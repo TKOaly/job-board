@@ -110,7 +110,7 @@ const ListPage = async ({ params, searchParams }) => {
         </Link>
       </div>
       {posts.length > 0 && (
-        <div className="mx-4">
+        <div>
           {postsWithCompanies.map(({ post, company }) => (
             <PostCard
               key={post.id}
@@ -122,7 +122,7 @@ const ListPage = async ({ params, searchParams }) => {
         </div>
       )}
       {posts.length === 0 && (
-        <Card className="mx-5">
+        <Card>
           <h3 className="text-xl flex items-center">
             Pahus, ei{' '}
             {params.type === 'open' ? 'avoimia ilmoituksia' : 'ilmoituksia'}.{' '}
