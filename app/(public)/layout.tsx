@@ -2,6 +2,7 @@ import { getServerSession } from 'next-auth/next';
 import Header from '@/app/Header';
 import { config } from '@/next-auth';
 import { DarkModeWrapper } from '@/components/DarkModeProvider';
+import { Metadata } from 'next';
 
 export default async function PublicLayout({ children }) {
   const session = await getServerSession(config);
@@ -15,3 +16,14 @@ export default async function PublicLayout({ children }) {
     </DarkModeWrapper>
   );
 }
+
+export const metadata: Metadata = {
+  title: {
+    template: '%s - Job Board - TKO-äly',
+    default: 'Job Board - TKO-äly',
+  },
+  openGraph: {
+    siteName: 'Job Board - TKO-äly',
+    type: 'website',
+  },
+};

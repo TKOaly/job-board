@@ -6,17 +6,27 @@ import Head from 'next/head';
 import { notFound } from 'next/navigation';
 import PostDetails from './PostDetails';
 
-const getPost = async (id: number) => {
-  const result = await client.post.findUnique({
-    where: { id },
-    include: {
-      employingCompany: true,
-      tags: true,
-    },
-  });
+export async function generateMetadata({ params }): Promise<Metadata> {
+  const post = await getPost(parseInt(params.id, 10));
 
-  return result;
-};
+  if (!post) return {};
+
+  const company = await getCompany(post.employingCompanyId);
+
+  return {
+    title: `${post.title} - Job Board - TKO-äly` ,
+    openGraph: {
+      title: post.title,
+      images: company?.logoUrl
+        ? [
+            {
+              url: company.logoUrl
+            }
+          ]
+        : undefined,
+    },
+  };
+}
 
 const PostPage = async ({ params }) => {
   const post = await getPost(parseInt(params.id, 10));

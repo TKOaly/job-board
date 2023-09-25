@@ -14,6 +14,7 @@ import { Search } from '@/components/Search';
 import Card from '@/components/Card';
 import { getPaginatedSearchResults, getPostCounts } from '@/lib/posts';
 import { getCompany } from '@/lib/companies';
+import { Metadata } from 'next';
 
 type ChipProps = {
   label: string;
@@ -59,6 +60,15 @@ const Chip = ({ label, count, active, onClick }: ChipProps) => (
     <span className="ml-2">{count}</span>
   </div>
 );
+
+export async function generateMetadata({ params }): Promise<Metadata> {
+  return {
+    title: {
+      open: 'Open postings',
+      closed: 'Past postings',
+    }[params.type],
+  };
+};
 
 const ListPage = async ({ params, searchParams }) => {
   const search = searchParams.search
