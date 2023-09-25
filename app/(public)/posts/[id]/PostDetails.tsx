@@ -6,7 +6,8 @@ import {
   PencilSquareIcon,
   SparklesIcon,
 } from '@heroicons/react/20/solid';
-import { Company, Post, Tag } from '@prisma/client';
+import { Company } from '@/lib/companies';
+import { Post } from '@/lib/posts';
 import { format, isAfter, isBefore } from 'date-fns';
 import { useRouter } from 'next/navigation';
 import sanitize from 'sanitize-html';
@@ -19,7 +20,7 @@ import { ApplicationOpenBadge } from '@/components/ApplicationOpenBadge';
 import { TagBadge } from '@/components/TagBadge';
 
 export type Props = {
-  post: Post & { tags: Tag[] };
+  post: Post;
   company: Company;
 };
 
@@ -74,6 +75,13 @@ const PostDetails = ({ post, company }: Props) => {
       <Card className="mt-5">
         <div className="flex">
           <div className="grow">
+            {company.partner && company.logoUrl && (
+              <div
+                className="w-[10rem] float-right h-[7rem] text-gray-500 text-xl flex items-center justify-center bg-center bg-no-repeat bg-contain bg-transparent"
+                style={{ backgroundImage: `url('${company.logoUrl}')` }}
+              ></div>
+            )}
+
             <h1 className="text-3xl font-bold">{post.title}</h1>
 
             <div className="flex flex-col md:flex-row items-start md:items-center gap-2 mt-2">
@@ -99,13 +107,6 @@ const PostDetails = ({ post, company }: Props) => {
               </CardField>
             )}
           </div>
-
-          {company.partner && company.logoUrl && (
-            <div
-              className="w-[10rem] shrink-0 h-[7rem] rounded bg-gray-100 text-gray-500 text-xl flex items-center justify-center"
-              style={{ backgroundImage: `url(${company.logoUrl})` }}
-            ></div>
-          )}
         </div>
 
         <div className="mt-10 mb-5 border-t dark:border-[#35322b] h-4 -mx-5 overflow-hidden shadow-[0px_10px_10px_-10px_#0000000a_inset]"></div>

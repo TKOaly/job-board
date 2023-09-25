@@ -29,16 +29,25 @@ export async function generateMetadata({ params }): Promise<Metadata> {
 }
 
 const PostPage = async ({ params }) => {
-  const post = await getPost(parseInt(params.id, 10));
+  const id = parseInt(params.id, 10)
+  const post = await getPost(id);
 
   if (!post) {
     notFound();
   }
 
+  const company = await getCompany(post?.employingCompanyId);
+
+  if (!company) {
+    notFound();
+  }
+
   return (
-    <div className="mx-4 mb-4">
-      <PostDetails post={post} company={post.employingCompany!} />
-    </div>
+    <>
+      <div className="mx-4 mb-4">
+        <PostDetails post={post} company={company} />
+      </div>
+    </>
   );
 };
 
