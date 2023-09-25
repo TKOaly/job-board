@@ -49,7 +49,9 @@ export const PostCard = ({ post, company, className, editable }: Props) => {
               style={{ backgroundImage: `url('${company.logoUrl}')` }}
             ></div>
           )}
-          <h3 className="text-xl font-bold grow">{post.title}</h3>
+          <Link href={`/posts/${post.id}`}>
+            <h3 className="text-xl font-bold grow">{post.title}</h3>
+          </Link>
           <CardField label="Ilmoittaja">
             <Link href={`/companies/${company.id}`}>{company.name}</Link>
             {company.partner && <PartnerBadge />}
