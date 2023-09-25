@@ -77,7 +77,7 @@ const PostDetails = ({ post, company }: Props) => {
           <div className="grow">
             {company.partner && company.logoUrl && (
               <div
-                className="w-[10rem] float-right h-[7rem] text-gray-500 text-xl flex items-center justify-center bg-center bg-no-repeat bg-contain bg-transparent"
+                className="w-[10rem] float-right h-[7rem] text-gray-500 text-xl flex items-center justify-center bg-right-top bg-no-repeat bg-contain bg-transparent"
                 style={{ backgroundImage: `url('${company.logoUrl}')` }}
               ></div>
             )}
