@@ -1,4 +1,8 @@
 import client from '@/db';
+import { getCompany } from '@/lib/companies';
+import { getPost } from '@/lib/posts';
+import { Metadata } from 'next';
+import Head from 'next/head';
 import { notFound } from 'next/navigation';
 import PostDetails from './PostDetails';
 

@@ -115,3 +115,15 @@ export const getPaginatedSearchResults = async (params: SearchOpts): Promise<Arr
 
   return await Promise.all(posts.map(formatPost));
 };
+
+export const getPost = async (id: number): Promise<Post | null> => {
+  const result = await prisma.post.findUnique({
+    where: { id },
+    include: {
+      employingCompany: true,
+      tags: true,
+    },
+  });
+
+  return result && formatPost(result);
+};
