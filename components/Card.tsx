@@ -6,7 +6,7 @@ export type Props = PropsWithChildren<{
 }>;
 
 export const CardField = ({ label, children }) => (
-  <div className="my-3">
+  <div className="my-3 clear-both">
     <span className="text-xs text-gray-600 dark:text-[#938e86] uppercase font-bold">
       {label}
     </span>

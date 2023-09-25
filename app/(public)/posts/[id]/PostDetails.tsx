@@ -84,7 +84,7 @@ const PostDetails = ({ post, company }: Props) => {
 
             <h1 className="text-3xl font-bold">{post.title}</h1>
 
-            <div className="flex flex-col md:flex-row items-start md:items-center gap-2 mt-2">
+            <div className="flex clear-both flex-col md:flex-row items-start md:items-center gap-2 mt-2">
               <span className="text-xl">
                 <Link href={`/companies/${company.id}`}>{company.name}</Link>
               </span>
