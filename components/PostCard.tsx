@@ -43,7 +43,13 @@ export const PostCard = ({ post, company, className, editable }: Props) => {
           </Link>
         )}
         <div className="grow">
-          <h3 className="text-xl font-bold">{post.title}</h3>
+          {company.partner && company.logoUrl && (
+            <div
+              className="w-[10rem] float-right h-[7rem] text-gray-500 text-xl flex items-center justify-center bg-center bg-no-repeat bg-contain bg-transparent"
+              style={{ backgroundImage: `url('${company.logoUrl}')` }}
+            ></div>
+          )}
+          <h3 className="text-xl font-bold grow">{post.title}</h3>
           <CardField label="Ilmoittaja">
             <Link href={`/companies/${company.id}`}>{company.name}</Link>
             {company.partner && <PartnerBadge />}
@@ -73,13 +79,6 @@ export const PostCard = ({ post, company, className, editable }: Props) => {
             Lue lisää
           </Button>
         </div>
-
-        {company.partner && company.logoUrl && (
-          <div
-            className="w-[10rem] h-[7rem] text-gray-500 text-xl flex items-center justify-center bg-center bg-no-repeat bg-contain bg-transparent"
-            style={{ backgroundImage: `url('${company.logoUrl}')` }}
-          ></div>
-        )}
       </div>
     </Card>
   );
