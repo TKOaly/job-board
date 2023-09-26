@@ -79,9 +79,9 @@ const Header: React.FC<Props> = ({ session }) => {
             <Button
               secondary
               icon={<ChevronDoubleRightIcon className="h-5 w-5" />}
-              onClick={() =>
-                window.location.replace('https://tko-aly.fi/yrityksille')
-              }
+              onClick={() => {
+                window.location.assign('https://tko-aly.fi/yrityksille');
+              }}
             >
               Yrityksille
             </Button>
