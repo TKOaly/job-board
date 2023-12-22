@@ -20,6 +20,15 @@ export const CreateCompany = () => {
       return;
     }
 
+    if (company.website) {
+      try {
+        new URL(company.website)
+      } catch (e) {
+        setError('Website must be a valid URL!');
+        return;
+      }
+    }
+
     const response = await fetch('/api/companies', {
       method: 'POST',
       headers: {
