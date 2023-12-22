@@ -38,8 +38,14 @@ const CompanyEditor = ({ company, onChange }: Props) => {
           Website
         </div>
         <Input
-          value={company.website ?? ''}
-          onChange={evt => setField('website', evt.target.value)}
+          value={company.website ?? undefined}
+          onChange={evt => {
+            if (evt.target.value === '') {
+              setField('website', null);
+            } else {
+              setField('website', evt.target.value);
+            }
+          }}
         />
       </div>
       <div className="mt-5">
