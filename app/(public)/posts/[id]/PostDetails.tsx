@@ -113,7 +113,15 @@ const PostDetails = ({ post, company }: Props) => {
 
         <div
           className="post-body"
-          dangerouslySetInnerHTML={{ __html: sanitize(post.body) }}
+          dangerouslySetInnerHTML={{
+            __html: sanitize(post.body, {
+              allowedTags: sanitize.defaults.allowedTags.concat([ 'img' ]),
+              allowedAttributes: {
+                ...sanitize.defaults.allowedAttributes,
+                '*': ['style'],
+              },
+            })
+          }}
         ></div>
       </Card>
     </div>
