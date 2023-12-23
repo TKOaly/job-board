@@ -1,0 +1,37 @@
+lightMode: Dark mode 
+darkMode: Light mode 
+header:
+  organizationButton: Organization
+  forCompaniesButton: For companies
+  description: |-
+    The Job Board offered by TKO-äly ry is a site intended for students
+    of the University of Helsinki's Department of Computer Science and
+    Data Science, where companies in the field can announce job openings.
+    The site reaches 900 students at the University of Helsinki and
+    distributes announcements from both TKO-äly's partners and external
+    companies.
+
+search:
+  placeholder: Search postings...
+  button: Search
+
+list:
+  prevButton: Previous
+  nextButton: Next
+  emailLists: E-mail Lists
+  telegram: Telegram
+  channelsInfo: |-
+    You can get notified about new job openings by joining TKO-äly's
+    announcement channel in Telegram or by joining the recruitment e-mail list.
+  emptyHeader:
+    open: Bummer, no current job openings.
+    closed: Bummer, no postings found.
+  closedChip: Closed
+  upcomingAndOpenChip: Current and upcoming 
+
+post:
+  back: Back
+  delete: Delete
+  edit: Edit
+  applicationPeriod: Application period
+  tags: Keywords

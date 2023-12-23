@@ -18,6 +18,7 @@ import Card, { CardField } from '@/components/Card';
 import { PartnerBadge } from '@/components/PartnerBadge';
 import { ApplicationOpenBadge } from '@/components/ApplicationOpenBadge';
 import { TagBadge } from '@/components/TagBadge';
+import { useTranslation } from '@/app/i18n/client';
 
 export type Props = {
   post: Post;
@@ -26,6 +27,7 @@ export type Props = {
 
 const PostDetails = ({ post, company }: Props) => {
   const { back, push } = useRouter();
+  const { t } = useTranslation();
   const session = useSession();
 
   const admin = !!session?.data?.user?.admin;
@@ -55,7 +57,7 @@ const PostDetails = ({ post, company }: Props) => {
       <div className="flex items-center mt-5 gap-3">
         <Button onClick={() => back()}>
           <ChevronLeftIcon className="h-5 w-5 -mr-1 -ml-1" />
-          Takaisin
+          {t('post.back')}
         </Button>
         {admin && (
           <>
@@ -64,10 +66,10 @@ const PostDetails = ({ post, company }: Props) => {
               secondary
               onClick={() => push(`/admin/posts/${post.id}/edit`)}
             >
-              Muokkaa <PencilSquareIcon className="h-4 w-4" />
+              {t('post.edit')} <PencilSquareIcon className="h-4 w-4" />
             </Button>
             <Button secondary onClick={handleDelete}>
-              Poista <TrashIcon className="h-4 w-4" />
+              {t('post.delete')} <TrashIcon className="h-4 w-4" />
             </Button>
           </>
         )}
@@ -91,14 +93,14 @@ const PostDetails = ({ post, company }: Props) => {
               {company.partner && <PartnerBadge />}
             </div>
 
-            <CardField label="Hakuaika">
+            <CardField label={t('post.applicationPeriod')}>
               {post.opensAt ? format(post.opensAt, 'dd.MM.yyyy') : ''} &ndash;{' '}
               {post.closesAt ? format(post.closesAt, 'dd.MM.yyyy') : ''}
               {isOpen && <ApplicationOpenBadge />}
             </CardField>
 
             {post.tags.length > 0 && (
-              <CardField label="Tunnisteet">
+              <CardField label={t('post.tags')}>
                 <div className="mt-1 flex flex-wrap gap-1">
                   {post.tags.map(tag => (
                     <TagBadge key={tag.id}>{tag.name}</TagBadge>

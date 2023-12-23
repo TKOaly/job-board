@@ -1,0 +1,38 @@
+lightMode: Vaalea teema
+darkMode: Tumma teema
+header:
+  organizationButton: Yhdistys
+  forCompaniesButton: Yrityksille
+  description: |-
+    Job Board on TKO-äly ry:n tarjoama Helsingin Yliopiston
+    tietojenkäsittely- ja datatieteen opiskelijoille suunnattu sivusto,
+    jossa alan yritykset voivat ilmoittaa avoimista työpaikoista.
+    Sivusto tavoittaa 900 Helsingin Yliopiston opiskelijaa ja välittää
+    ilmoituksia niin TKO-älyn yhteistöykumppaneilta kuin
+    ulkopuolisiltakin yrityksiltä.
+
+search:
+  placeholder: Hae ilmoituksia...
+  button: Hae
+
+list:
+  prevButton: Edellinen
+  nextButton: Seuraava
+  emailLists: Sähköpostilistat
+  telegram: Telegram
+  channelsInfo: |-
+    Voit saada tiedon uusista ilmoituksista liittymällä TKO-älyn
+    tiedotuskanavalle Telegramissa tai liittymällä
+    rekry-sähköpostilistalle.
+  emptyHeader:
+    open: Pahus, ei avoimia ilmoituksia.
+    closed: Pahus, ei ilmoituksia.
+  closedChip: Päättyneet
+  upcomingAndOpenChip: Tulevat ja avoimet
+
+post:
+  back: Takaisin
+  edit: Muokkaa
+  delete: Poista
+  applicationPeriod: Hakuaika
+  tags: Tunnisteet

@@ -1,6 +1,7 @@
 import { CompanyDetails } from '@/components/CompanyDetails';
 import client from '@/db';
 import { getCompany } from '@/lib/companies';
+import { getMultiLangStringValue } from '@/lib/multilang';
 import { getCompanyPosts } from '@/lib/posts';
 import minio from '@/minio';
 import { Metadata } from 'next';
@@ -13,7 +14,7 @@ export async function generateMetadata({ params }): Promise<Metadata> {
   if (!company) return {};
 
   return {
-    title: company.name,
+    title: getMultiLangStringValue(company.name as any),
     openGraph: {
       title: `Job postings: ${company.name}`,
       images: company?.logoUrl

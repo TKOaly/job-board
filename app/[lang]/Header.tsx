@@ -1,6 +1,6 @@
 'use client';
 
-import { UserCircleIcon, Cog6ToothIcon } from '@heroicons/react/24/outline';
+import { UserCircleIcon, Cog6ToothIcon, LanguageIcon } from '@heroicons/react/24/outline';
 import {
   ArrowLeftOnRectangleIcon,
   ArrowRightOnRectangleIcon,
@@ -10,9 +10,11 @@ import { Session } from 'next-auth';
 import { signIn, signOut } from 'next-auth/react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { Button } from '../components/Button';
+import { Button } from '@/components/Button';
 import { Logo } from './logo';
 import dynamic from 'next/dynamic';
+import { LanguageSelector } from '@/components/LanguageSelector';
+import { useTranslation } from '@/app/i18n/client';
 
 const DarkModeToggle = dynamic(() => import('@/components/DarkModeToggle'), {
   ssr: false,
@@ -23,12 +25,19 @@ type Props = {
 };
 
 const Header: React.FC<Props> = ({ session }) => {
+  const { t, i18n } = useTranslation();
+
+  console.log(i18n)
+
   const { push } = useRouter();
 
   return (
     <div className="bg-[#FFD54F] dark:bg-[#25231F] min-h-[20em] p-10 pt-3 relative">
       <div className="flex justify-between mb-3 -mx-5">
-        <DarkModeToggle />
+        <div className="flex gap-5">
+          <DarkModeToggle />
+          <LanguageSelector />
+        </div>
         {session && (
           <div className="flex items-center gap-2">
             <div className="hover:bg-black/10 p-2 rounded flex items-center gap-2">
@@ -61,12 +70,7 @@ const Header: React.FC<Props> = ({ session }) => {
             Job Board
           </h1>
           <p>
-            Job Board on TKO-äly ry:n tarjoama Helsingin Yliopiston
-            tietojenkäsittely- ja datatieteen opiskelijoille suunnattu sivusto,
-            jossa alan yritykset voivat ilmoittaa avoimista työpaikoista.
-            Sivusto tavoittaa 900 Helsingin Yliopiston opiskelijaa ja välittää
-            ilmoituksia niin TKO-älyn yhteistöykumppaneilta kuin
-            ulkopuolisiltakin yrityksiltä.
+            {t('header.description')}
           </p>
           <div className="flex gap-5 mt-8">
             <Button
@@ -74,7 +78,7 @@ const Header: React.FC<Props> = ({ session }) => {
               icon={<ChevronDoubleRightIcon className="h-5 w-5" />}
               onClick={() => push('https://tko-aly.fi/')}
             >
-              Yhdistys
+              {t('header.organizationButton')}
             </Button>
             <Button
               secondary
@@ -83,7 +87,7 @@ const Header: React.FC<Props> = ({ session }) => {
                 window.location.assign('https://tko-aly.fi/yrityksille');
               }}
             >
-              Yrityksille
+              {t('header.forCompaniesButton')}
             </Button>
           </div>
         </div>

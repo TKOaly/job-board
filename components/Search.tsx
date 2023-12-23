@@ -3,6 +3,7 @@
 import { Input } from '@/components/Input';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
+import { useTranslation } from '@/app/i18n/client';
 import { Button } from './Button';
 
 type Props = {
@@ -12,6 +13,7 @@ type Props = {
 
 export const Search = ({ type, initialSearch = '' }: Props) => {
   const { push } = useRouter();
+  const { t } = useTranslation();
 
   const [search, setSearch] = useState(initialSearch);
 
@@ -36,9 +38,9 @@ export const Search = ({ type, initialSearch = '' }: Props) => {
         onKeyDown={onKeyDown}
         onChange={evt => setSearch(evt.target.value)}
         className="h-9 max-w-[30ch]"
-        placeholder="Hae ilmoituksia..."
+        placeholder={t('search.placeholder')}
       />
-      <Button onClick={submit}>Hae</Button>
+      <Button onClick={submit}>{t('search.button')}</Button>
     </>
   );
 };

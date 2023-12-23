@@ -1,5 +1,5 @@
 import { getServerSession } from 'next-auth/next';
-import Header from '@/app/Header';
+import Header from '../Header';
 import { config } from '@/next-auth';
 import { DarkModeWrapper } from '@/components/DarkModeProvider';
 import { Metadata } from 'next';

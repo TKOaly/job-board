@@ -15,6 +15,7 @@ import Card from '@/components/Card';
 import { getPaginatedSearchResults, getPostCounts } from '@/lib/posts';
 import { getCompany } from '@/lib/companies';
 import { Metadata } from 'next';
+import { useTranslation } from '@/app/i18n';
 
 type ChipProps = {
   label: string;
@@ -71,6 +72,8 @@ export async function generateMetadata({ params }): Promise<Metadata> {
 };
 
 const ListPage = async ({ params, searchParams }) => {
+  const { t } = await useTranslation(params.lang)
+
   const search = searchParams.search
     ? searchParams.search.toString()
     : undefined;
@@ -94,7 +97,7 @@ const ListPage = async ({ params, searchParams }) => {
       <div className="mb-10 mt-5 flex gap-3 justify-center">
         <Link href={`/list/open/1?search=${encodeURIComponent(search ?? '')}`}>
           <Chip
-            label="Tulevat ja avoimet"
+            label={t('list.upcomingAndOpenChip')}
             count={open + upcoming}
             active={params.type === 'open'}
           />
@@ -103,7 +106,7 @@ const ListPage = async ({ params, searchParams }) => {
           href={`/list/closed/1?search=${encodeURIComponent(search ?? '')}`}
         >
           <Chip
-            label="Päättyneet"
+            label={t('list.closedChip')}
             count={closed}
             active={params.type === 'closed'}
           />
@@ -124,14 +127,11 @@ const ListPage = async ({ params, searchParams }) => {
       {posts.length === 0 && (
         <Card>
           <h3 className="text-xl flex items-center">
-            Pahus, ei{' '}
-            {params.type === 'open' ? 'avoimia ilmoituksia' : 'ilmoituksia'}.{' '}
+            {t(`list.emptyHeader.${params.type}`)}
             <FaceFrownIcon className="h-8 w-8 ml-2" />
           </h3>
           <p className="mt-5">
-            Voit saada tiedon uusista ilmoituksista liittymällä TKO-älyn
-            tiedotuskanavalle Telegramissa tai liittymällä
-            rekry-sähköpostilistalle.
+            {t('list.channelsInfo')}
           </p>
           <div className="flex gap-3 mt-10">
             <Link href="https://t.me/Tekis2023">
@@ -139,7 +139,7 @@ const ListPage = async ({ params, searchParams }) => {
                 secondary
                 icon={<ArrowTopRightOnSquareIcon className="h-4 w-4" />}
               >
-                Telegram
+                {t('list.telegram')}
               </Button>
             </Link>
             <Link href="https://www.tko-aly.fi/yhdistys/tiedotus">
@@ -147,7 +147,7 @@ const ListPage = async ({ params, searchParams }) => {
                 secondary
                 icon={<ArrowTopRightOnSquareIcon className="h-4 w-4" />}
               >
-                Sähköpostilistat
+                {t('list.emailLists')}
               </Button>
             </Link>
           </div>
@@ -162,7 +162,7 @@ const ListPage = async ({ params, searchParams }) => {
           >
             <Button secondary>
               <ChevronLeftIcon className="w-5 h-5 -mx-1" />
-              Edellinen
+              {t('list.prevButton')}
             </Button>
           </Link>
         )}
@@ -173,7 +173,8 @@ const ListPage = async ({ params, searchParams }) => {
             )}`}
           >
             <Button secondary>
-              Seuraava <ChevronRightIcon className="w-5 h-5 -ml-1" />
+              {t('list.nextButton')}
+              <ChevronRightIcon className="w-5 h-5 -ml-1" />
             </Button>
           </Link>
         )}

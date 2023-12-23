@@ -1,7 +1,8 @@
 import { DarkModeProvider } from '@/components/DarkModeProvider';
-import '../styles/globals.scss';
+import '@/styles/globals.scss';
 import { InnerLayout } from './InnerLayout';
 import { NextAuthProviders } from './NextAuthProviders';
+import { TranslationProvider } from './TranslationProvider';
 
 export default async function RootLayout({
   children,
