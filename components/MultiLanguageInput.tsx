@@ -7,6 +7,7 @@ export type Props = {
   component?: React.JSXElementConstructor<any>
   value?: Record<string, string>,
   onValueChange?: (value: Record<string, string>) => void,
+  open?: boolean,
 }
 
 const LANGUAGES = {
@@ -19,12 +20,13 @@ export const MultiLanguageInput = ({
   value: pValue,
   onValueChange,
   component: InputComponent = Input,
+  open: pOpen = false,
 }: Props) => {
   const value = pValue
     ? Object.fromEntries(Object.entries(pValue).filter(([key, value]) => value && value.length > 0))
     : {};
 
-  const [open, setOpen] = useState(true);
+  const [open, setOpen] = useState(pOpen);
   const [language, setLanguage] = useState('xx');
 
   const languageValue = value?.[language] ?? ''; 
