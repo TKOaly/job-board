@@ -27,7 +27,7 @@ export const MultiLanguageInput = ({
     : {};
 
   const [open, setOpen] = useState(pOpen);
-  const [language, setLanguage] = useState('xx');
+  const [language, setLanguage] = useState(Object.keys(value)[0] ?? 'xx');
 
   const languageValue = value?.[language] ?? ''; 
 
