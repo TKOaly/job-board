@@ -10,8 +10,8 @@ const querySchema = z.object({
 });
 
 const updateSchema = z.object({
-  title: z.record(z.enum(['fi', 'en']), z.string()),
-  body: z.record(z.enum(['fi', 'en']), z.string()),
+  title: z.record(z.enum(['fi', 'en', 'xx']), z.string()),
+  body: z.record(z.enum(['fi', 'en', 'xx']), z.string()),
   employingCompanyId: z.number().int().positive(),
   opensAt: z.string().datetime({ offset: true }),
   closesAt: z.string().datetime({ offset: true }),

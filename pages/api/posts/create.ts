@@ -3,8 +3,8 @@ import { z } from 'zod';
 import client from '@/db';
 
 const schema = z.object({
-  title: z.record(z.enum(['fi', 'en']), z.string()),
-  body: z.record(z.enum(['fi', 'en']), z.string()),
+  title: z.record(z.enum(['fi', 'en', 'xx']), z.string()),
+  body: z.record(z.enum(['fi', 'en', 'xx']), z.string()),
   company: z.number().int().positive(),
   opensAt: z.string().datetime({ offset: true }),
   closesAt: z.string().datetime({ offset: true }),

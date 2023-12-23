@@ -10,7 +10,7 @@ const querySchema = z.object({
 
 const bodySchema = z
   .object({
-    name: z.record(z.enum(['fi', 'en']), z.string()),
+    name: z.record(z.enum(['fi', 'en', 'xx']), z.string()),
     partner: z.boolean(),
     website: z.string().url().optional(),
   })

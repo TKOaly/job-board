@@ -5,7 +5,7 @@ import { getServerSession } from 'next-auth';
 import { z } from 'zod';
 
 const createSchema = z.object({
-  name: z.record(z.enum(['fi', 'en']), z.string()),
+  name: z.record(z.enum(['fi', 'en', 'xx']), z.string()),
   website: z.string().url().optional(),
   partner: z.boolean().default(false),
 });
