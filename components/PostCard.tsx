@@ -12,6 +12,7 @@ import Card, { CardField } from './Card';
 import { PartnerBadge } from './PartnerBadge';
 import { TagBadge } from './TagBadge';
 import { PencilIcon, PencilSquareIcon } from '@heroicons/react/24/outline';
+import { useTranslation } from '@/app/i18n/client';
 
 export type Props = {
   post: Post & { tags: Tag[] };
@@ -21,6 +22,7 @@ export type Props = {
 };
 
 export const PostCard = ({ post, company, className, editable }: Props) => {
+  const { t } = useTranslation()
   const { push } = useRouter();
 
   let isOpen = true;
@@ -39,7 +41,7 @@ export const PostCard = ({ post, company, className, editable }: Props) => {
         {editable && (
           <Link href={`/admin/posts/${post.id}/edit`}>
             <PencilSquareIcon className="h-5 w-5 absolute top-0 right-0 text-yellow-600 hover:text-yellow-800" />
-            <p className="sr-only">Muokkaa</p>
+            <p className="sr-only">{t('post.edit')}</p>
           </Link>
         )}
         <div className="grow">
@@ -52,16 +54,16 @@ export const PostCard = ({ post, company, className, editable }: Props) => {
           <Link href={`/posts/${post.id}`}>
             <h3 className="text-xl font-bold grow">{post.title}</h3>
           </Link>
-          <CardField label="Ilmoittaja">
+          <CardField label={t('post.submittedBy')}>
             <Link href={`/companies/${company.id}`}>{company.name}</Link>
             {company.partner && <PartnerBadge />}
           </CardField>
-          <CardField label="Ilmoitus jätetty">
+          <CardField label={t('post.submittedAt')}>
             <div suppressHydrationWarning>
               {format(post.createdAt, 'dd.MM.yyyy')}
             </div>
           </CardField>
-          <CardField label="Hakuaika">
+          <CardField label={t('post.applicationPeriod')}>
             <div suppressHydrationWarning>
               {post.opensAt ? format(post.opensAt, 'dd.MM.yyyy') : ''} &ndash;{' '}
               {post.closesAt ? format(post.closesAt, 'dd.MM.yyyy') : ''}
@@ -69,7 +71,7 @@ export const PostCard = ({ post, company, className, editable }: Props) => {
             </div>
           </CardField>
           {post.tags.length > 0 && (
-            <CardField label="Tunnisteet">
+            <CardField label={t('post.tags')}>
               <div className="mt-1 flex flex-wrap gap-1">
                 {post.tags.map(tag => (
                   <TagBadge key={tag.id}>{tag.name}</TagBadge>
@@ -78,7 +80,7 @@ export const PostCard = ({ post, company, className, editable }: Props) => {
             </CardField>
           )}
           <Button onClick={() => push(`/posts/${post.id}`)} className="mt-5">
-            Lue lisää
+            {t('post.readMore')}
           </Button>
         </div>
       </div>
