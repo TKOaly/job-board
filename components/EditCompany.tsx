@@ -36,7 +36,7 @@ export const EditCompany = ({ logoUploadUrl, company: originalCompany }: Props) 
       },
       body: JSON.stringify({
         name: company.name,
-        website: company.website,
+        website: company.website ?? undefined,
         partner: company.partner,
       }),
     });
