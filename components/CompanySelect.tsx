@@ -14,6 +14,7 @@ import {
 import { Popover, PopoverContent, PopoverTrigger } from './Popover';
 import { twMerge } from 'tailwind-merge';
 import { SparklesIcon } from '@heroicons/react/20/solid';
+import { useMultiLang } from '@/lib/multilang';
 
 export type Props = {
   value: number | null;
@@ -28,6 +29,7 @@ export const CompanySelect = ({
   companies,
   className,
 }: Props) => {
+  const getMultiLangValue = useMultiLang();
   const [open, setOpen] = useState(false);
 
   return (
@@ -40,7 +42,7 @@ export const CompanySelect = ({
           className={twMerge('w-[200px] justify-between', className)}
         >
           {value
-            ? companies.find(comapny => comapny.id === value)?.name
+            ? getMultiLangValue(companies.find(comapny => comapny.id === value)?.name)
             : 'Select company...'}
           <ChevronUpDownIcon className="ml-2 h-4 w-4 shrink-0 opacity-50" />
         </Button>
@@ -51,7 +53,7 @@ export const CompanySelect = ({
             const id = parseInt(value, 10);
             const company = companies.find(c => c.id === id);
 
-            if (company && company.name.includes(search)) {
+            if (company && getMultiLangValue(company.name).includes(search)) {
               return 1;
             }
 
@@ -76,7 +78,7 @@ export const CompanySelect = ({
                     value === company.id ? 'opacity-100' : 'opacity-0',
                   )}
                 />
-                {company.name}
+                {getMultiLangValue(company.name)}
                 {company.partner && (
                   <span className="text-sm rounded py-0.5 px-1.5 bg-yellow-100 text-yellow-600 inline-flex items-center ml-2">
                     <SparklesIcon className="h-4 w-4" />

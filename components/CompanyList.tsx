@@ -1,3 +1,5 @@
+'use client';
+
 import {
   ArrowTopRightOnSquareIcon,
   SparklesIcon,
@@ -6,6 +8,7 @@ import { Company } from '@/lib/companies';
 import Link from 'next/link';
 import Card from './Card';
 import { PencilSquareIcon } from '@heroicons/react/24/outline';
+import { useMultiLang } from '@/lib/multilang';
 
 export type Props = {
   companies: Company[];
@@ -13,6 +16,8 @@ export type Props = {
 };
 
 export const CompanyList = ({ companies }: Props) => {
+  const getMultiLangValue = useMultiLang();
+
   return (
     <div className="space-y-5">
       {companies.map(company => (
@@ -23,7 +28,7 @@ export const CompanyList = ({ companies }: Props) => {
           </Link>
           <Link href={`/companies/${company.id}`}>
             <h1 className="text-xl font-bold">
-              {company.name}
+              {getMultiLangValue(company.name)}
               {company.partner && (
                 <span className="text-sm ml-2 rounded py-0.5 px-1.5 bg-yellow-100 text-yellow-700 inline-flex items-center gap-1">
                   <SparklesIcon className="h-4 w-4" />

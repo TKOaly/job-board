@@ -2,6 +2,8 @@ import { Company } from '@prisma/client';
 import { Input } from '@/components/Input';
 import { produce } from 'immer';
 import { Checkbox } from './Checkbox';
+import { MultiLanguageInput } from './MultiLanguageInput';
+import { toMultiLangStringSet } from '@/lib/multilang';
 
 type EditorCompany = Partial<Pick<Company, 'name' | 'partner' | 'website'> & { logo: File }>;
 
@@ -28,9 +30,9 @@ const CompanyEditor = ({ company, onChange }: Props) => {
         <div className="uppercase text-xs font-bold mb-2 tracking-wide text-gray-600">
           Name
         </div>
-        <Input
-          value={company.name}
-          onChange={evt => setField('name', evt.target.value)}
+        <MultiLanguageInput
+          value={toMultiLangStringSet(company.name)}
+          onValueChange={value => setField('name', value)}
         />
       </div>
       <div className="mt-5">

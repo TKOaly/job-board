@@ -6,20 +6,24 @@ import Head from 'next/head';
 import { notFound } from 'next/navigation';
 import PostDetails from './PostDetails';
 import { stripHtml } from 'string-strip-html';
+import { getMultiLangStringValue } from '@/lib/multilang';
 
 export async function generateMetadata({ params }): Promise<Metadata> {
   const post = await getPost(parseInt(params.id, 10));
 
   if (!post) return {};
 
+  const body = getMultiLangStringValue(post.body, params.lang)
+  const title = getMultiLangStringValue(post.title, params.lang)
+
   const company = await getCompany(post.employingCompanyId);
 
-  const description = stripHtml(post.body).result.substring(0, 64) + ' ...';
+  const description = stripHtml(body).result.substring(0, 64) + ' ...';
 
   return {
-    title: `${post.title} - Job Board - TKO-äly` ,
+    title: `${title} - Job Board - TKO-äly` ,
     openGraph: {
-      title: post.title,
+      title: title,
       description,
       images: company?.logoUrl
         ? [

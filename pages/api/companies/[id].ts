@@ -10,9 +10,9 @@ const querySchema = z.object({
 
 const bodySchema = z
   .object({
-    name: z.string(),
+    name: z.record(z.enum(['fi', 'en']), z.string()),
     partner: z.boolean(),
-    website: z.string().url(),
+    website: z.string().url().optional(),
   })
   .partial();
 

@@ -13,6 +13,7 @@ import { PartnerBadge } from './PartnerBadge';
 import { TagBadge } from './TagBadge';
 import { PencilIcon, PencilSquareIcon } from '@heroicons/react/24/outline';
 import { useTranslation } from '@/app/i18n/client';
+import { useMultiLang } from '@/lib/multilang';
 
 export type Props = {
   post: Post & { tags: Tag[] };
@@ -23,6 +24,7 @@ export type Props = {
 
 export const PostCard = ({ post, company, className, editable }: Props) => {
   const { t } = useTranslation()
+  const getMultiLangValue = useMultiLang();
   const { push } = useRouter();
 
   let isOpen = true;
@@ -52,10 +54,10 @@ export const PostCard = ({ post, company, className, editable }: Props) => {
             ></div>
           )}
           <Link href={`/posts/${post.id}`}>
-            <h3 className="text-xl font-bold grow">{post.title}</h3>
+            <h3 className="text-xl font-bold grow">{getMultiLangValue(post.title)}</h3>
           </Link>
           <CardField label={t('post.submittedBy')}>
-            <Link href={`/companies/${company.id}`}>{company.name}</Link>
+            <Link href={`/companies/${company.id}`}>{getMultiLangValue(company.name)}</Link>
             {company.partner && <PartnerBadge />}
           </CardField>
           <CardField label={t('post.submittedAt')}>

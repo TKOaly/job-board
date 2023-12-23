@@ -14,6 +14,7 @@ import { useRouter } from 'next/navigation';
 import { Button } from './Button';
 import Card from './Card';
 import { PostCard } from './PostCard';
+import { getMultiLangStringValue, useMultiLang } from '@/lib/multilang';
 
 type Props = {
   company: Company;
@@ -22,6 +23,7 @@ type Props = {
 
 export const CompanyDetails = ({ company, posts }: Props) => {
   const { back, push } = useRouter();
+  const getMultiLangValue = useMultiLang();
   const session = useSession();
   const admin = !!session?.data?.user?.admin;
 
@@ -48,7 +50,7 @@ export const CompanyDetails = ({ company, posts }: Props) => {
         <div className="flex">
           <div className="grow">
             <h1 className="text-3xl font-bold">
-              {company.name}
+              {getMultiLangValue(company.name)}
               {company.partner && (
                 <span className="text-sm ml-2 rounded py-0.5 px-1.5 bg-yellow-100 text-yellow-700 inline-flex items-center gap-1">
                   <SparklesIcon className="h-4 w-4" />

@@ -5,6 +5,7 @@ import { TagSelect } from './TagSelect';
 import { DatePicker } from '@/components/DatePicker';
 import { CompanySelect } from './CompanySelect';
 import { produce } from 'immer';
+import { MultiLanguageInput } from './MultiLanguageInput';
 
 type EditorPost = Partial<
   Pick<
@@ -38,9 +39,9 @@ const PostEditor = ({ post, onChange, tags, companies }: Props) => {
         <div className="uppercase text-xs font-bold mb-2 tracking-wide text-gray-600">
           Title
         </div>
-        <Input
+        <MultiLanguageInput
           value={post.title}
-          onChange={evt => setField('title', evt.target.value)}
+          onValueChange={value => setField('title', value)}
         />
       </div>
       <div className="flex mt-5 gap-10">
@@ -91,8 +92,9 @@ const PostEditor = ({ post, onChange, tags, companies }: Props) => {
         <div className="uppercase text-xs font-bold mb-2 tracking-wide text-gray-600">
           Content
         </div>
-        <Textarea
-          onChange={evt => setField('body', evt.target.value)}
+        <MultiLanguageInput
+          component={Textarea}
+          onValueChange={value => setField('body', value)}
           value={post.body}
           className="font-[monospace] min-h-[20em]"
         />

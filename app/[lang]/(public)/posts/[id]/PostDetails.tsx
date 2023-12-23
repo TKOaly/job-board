@@ -19,6 +19,7 @@ import { PartnerBadge } from '@/components/PartnerBadge';
 import { ApplicationOpenBadge } from '@/components/ApplicationOpenBadge';
 import { TagBadge } from '@/components/TagBadge';
 import { useTranslation } from '@/app/i18n/client';
+import { useMultiLang } from '@/lib/multilang';
 
 export type Props = {
   post: Post;
@@ -27,6 +28,7 @@ export type Props = {
 
 const PostDetails = ({ post, company }: Props) => {
   const { back, push } = useRouter();
+  const getMultiLangValue = useMultiLang();
   const { t } = useTranslation();
   const session = useSession();
 
@@ -84,11 +86,11 @@ const PostDetails = ({ post, company }: Props) => {
               ></div>
             )}
 
-            <h1 className="text-3xl font-bold">{post.title}</h1>
+            <h1 className="text-3xl font-bold">{getMultiLangValue(post.title)}</h1>
 
             <div className="flex clear-both flex-col md:flex-row items-start md:items-center gap-2 mt-2">
               <span className="text-xl">
-                <Link href={`/companies/${company.id}`}>{company.name}</Link>
+                <Link href={`/companies/${company.id}`}>{getMultiLangValue(company.name)}</Link>
               </span>
               {company.partner && <PartnerBadge />}
             </div>
@@ -116,7 +118,7 @@ const PostDetails = ({ post, company }: Props) => {
         <div
           className="post-body"
           dangerouslySetInnerHTML={{
-            __html: sanitize(post.body, {
+            __html: sanitize(getMultiLangValue(post.body), {
               allowedTags: sanitize.defaults.allowedTags.concat([ 'img' ]),
               allowedAttributes: {
                 ...sanitize.defaults.allowedAttributes,

@@ -24,8 +24,8 @@ model Post {
   updatedAt DateTime @updatedAt
   tags      Tag[]
 
-  title String
-  body  String
+  title Json
+  body  Json
 
   opensAt  DateTime?
   closesAt DateTime?
@@ -41,7 +41,7 @@ model Post {
 
 model Company {
   id          Int      @id @default(autoincrement())
-  name        String
+  name        Json 
   bussinessId String?  @unique
   website     String?
   partner     Boolean  @default(false)
