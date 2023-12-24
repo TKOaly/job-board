@@ -84,7 +84,7 @@ const PostDetails = ({ post, company }: Props) => {
               ></div>
             )}
 
-            <h1 className="text-3xl font-bold">{getMultiLangValue(post.title)}</h1>
+            <h1 className="text-2xl mb-3 font-bold">{getMultiLangValue(post.title)}</h1>
 
             <div className="clear-both" />
 
@@ -111,7 +111,7 @@ const PostDetails = ({ post, company }: Props) => {
           </div>
         </div>
 
-        <div className="mt-10 mb-5 border-t dark:border-[#35322b] h-4 -mx-5 overflow-hidden shadow-[0px_10px_10px_-10px_#0000000a_inset]"></div>
+        <div className="mt-3 mb-2 border-t dark:border-[#35322b] h-4 -mx-5 overflow-hidden shadow-[0px_10px_10px_-10px_#0000000a_inset]"></div>
 
         <div
           className="post-body"
