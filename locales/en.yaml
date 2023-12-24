@@ -38,3 +38,7 @@ post:
   readMore: Read more 
   submittedAt: Posted at
   submittedBy: Posted by
+
+menu:
+  administration: Administration
+  logOut: Log out

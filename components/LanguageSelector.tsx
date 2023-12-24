@@ -24,7 +24,7 @@ export const LanguageSelector = () => {
   return (
     <div className="flex items-center gap-2 hover:bg-black/10 p-2 rounded cursor-pointer" onClick={onChange}>
       <LanguageIcon className="h-5 w-5" />{' '}
-      <span className="hidden md:inline">{label}</span>
+      <span>{label}</span>
     </div>
   );
 };

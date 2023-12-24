@@ -36,3 +36,7 @@ post:
   delete: Poista
   applicationPeriod: Hakuaika
   tags: Tunnisteet
+
+menu:
+  administration: Hallinta
+  logOut: Kirjaudu ulos 
