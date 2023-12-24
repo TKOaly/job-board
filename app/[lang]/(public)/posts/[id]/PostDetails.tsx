@@ -98,9 +98,11 @@ const PostDetails = ({ post, company }: Props) => {
             </CardField>
 
             <CardField label={t('post.applicationPeriod')}>
-              {post.opensAt ? format(post.opensAt, 'dd.MM.yyyy') : ''} &ndash;{' '}
-              {post.closesAt ? format(post.closesAt, 'dd.MM.yyyy') : ''}
-              {isOpen && <ApplicationOpenBadge />}
+              <div className="flex items-center gap-2">
+                {post.opensAt ? format(post.opensAt, 'dd.MM.yyyy') : ''} &ndash;{' '}
+                {post.closesAt ? format(post.closesAt, 'dd.MM.yyyy') : ''}
+                {isOpen && <ApplicationOpenBadge />}
+              </div>
             </CardField>
 
             {post.tags.length > 0 && (

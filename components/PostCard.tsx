@@ -63,7 +63,7 @@ export const PostCard = ({ post, company, className, editable }: Props) => {
             </div>
           </CardField>
           <CardField label={t('post.applicationPeriod')}>
-            <div suppressHydrationWarning>
+            <div suppressHydrationWarning className="flex items-center">
               {post.opensAt ? format(post.opensAt, 'dd.MM.yyyy') : ''} &ndash;{' '}
               {post.closesAt ? format(post.closesAt, 'dd.MM.yyyy') : ''}
               {isOpen && <ApplicationOpenBadge className="ml-2" />}
