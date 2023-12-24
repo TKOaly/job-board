@@ -40,6 +40,7 @@ post:
   submittedBy: Posted by
 
 partner: Partner
+applicationsOpen: Applications open
 
 company:
   edit: Edit
@@ -50,3 +51,4 @@ company:
 menu:
   administration: Administration
   logOut: Log out
+  frontPage: Frontpage

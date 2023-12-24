@@ -37,7 +37,7 @@ const Header: React.FC<Props> = ({ session }) => {
         </h1>
         <Link className="flex items-center gap-2 hover:bg-black/10 p-2 rounded cursor-pointer" href="/">
           <HomeIcon className="h-5 w-5" />{' '}
-          <span className="hidden md:inline">Frontpage</span>
+          <span className="hidden md:inline">{t('menu.frontPage')}</span>
         </Link>
         <DarkModeToggle />
         <LanguageSelector />

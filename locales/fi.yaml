@@ -41,6 +41,7 @@ post:
   submittedBy: Ilmoittaja
 
 partner: Yhteistyökumppani
+applicationsOpen: Haku auki
 
 company:
   edit: Muokkaa
@@ -51,3 +52,4 @@ company:
 menu:
   administration: Hallinta
   logOut: Kirjaudu ulos 
+  frontPage: Etusivu
