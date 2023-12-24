@@ -39,6 +39,14 @@ post:
   submittedAt: Posted at
   submittedBy: Posted by
 
+partner: Partner
+
+company:
+  edit: Edit
+  website: Website
+  postings: Postings
+  back: Takaisin
+
 menu:
   administration: Administration
   logOut: Log out

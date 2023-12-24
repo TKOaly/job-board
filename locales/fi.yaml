@@ -36,6 +36,17 @@ post:
   delete: Poista
   applicationPeriod: Hakuaika
   tags: Tunnisteet
+  readMore: Lue lisää
+  submittedAt: Ilmoitus jätetty
+  submittedBy: Ilmoittaja
+
+partner: Yhteistyökumppani
+
+company:
+  edit: Muokkaa
+  website: Verkkosivu
+  postings: Ilmoituksia
+  back: Back
 
 menu:
   administration: Hallinta

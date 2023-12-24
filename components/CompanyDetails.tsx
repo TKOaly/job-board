@@ -15,6 +15,7 @@ import { Button } from './Button';
 import Card from './Card';
 import { PostCard } from './PostCard';
 import { getMultiLangStringValue, useMultiLang } from '@/lib/multilang';
+import { useTranslation } from '@/app/i18n/client';
 
 type Props = {
   company: Company;
@@ -22,6 +23,7 @@ type Props = {
 };
 
 export const CompanyDetails = ({ company, posts }: Props) => {
+  const { t } = useTranslation()
   const { back, push } = useRouter();
   const getMultiLangValue = useMultiLang();
   const session = useSession();
@@ -32,7 +34,7 @@ export const CompanyDetails = ({ company, posts }: Props) => {
       <div className="flex items-center mt-5 gap-3">
         <Button onClick={() => back()}>
           <ChevronLeftIcon className="h-5 w-5 -mr-1 -ml-1" />
-          Takaisin
+          {t('company.back')}
         </Button>
         {admin && (
           <>
@@ -41,7 +43,7 @@ export const CompanyDetails = ({ company, posts }: Props) => {
               secondary
               onClick={() => push(`/admin/companies/${company.id}/edit`)}
             >
-              Muokkaa <PencilSquareIcon className="h-4 w-4" />
+              {t('company.edit')} <PencilSquareIcon className="h-4 w-4" />
             </Button>
           </>
         )}
@@ -54,14 +56,14 @@ export const CompanyDetails = ({ company, posts }: Props) => {
               {company.partner && (
                 <span className="text-sm ml-2 rounded py-0.5 px-1.5 bg-yellow-100 text-yellow-700 inline-flex items-center gap-1">
                   <SparklesIcon className="h-4 w-4" />
-                  Yhteistökumppani
+                  {t('partner')}
                 </span>
               )}
             </h1>
             {company.website && (
               <div className="my-3">
                 <span className="text-xs text-gray-600 uppercase font-bold">
-                  Verkkosivut
+                  {t('company.website')}
                 </span>
                 <div suppressHydrationWarning>
                   <Link
@@ -83,7 +85,7 @@ export const CompanyDetails = ({ company, posts }: Props) => {
           )}
         </div>
       </Card>
-      <h2 className="text-2xl font-bold mt-10">Ilmoitukset</h2>
+      <h2 className="text-2xl font-bold mt-10">{t('company.postings')}</h2>
       {posts.map(post => (
         <PostCard
           post={post}
