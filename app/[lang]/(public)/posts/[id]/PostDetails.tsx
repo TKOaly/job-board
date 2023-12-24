@@ -93,6 +93,10 @@ const PostDetails = ({ post, company }: Props) => {
               {company.partner && <PartnerBadge />}
             </CardField>
 
+            <CardField label={t('post.submittedAt')}>
+              {format(post.createdAt, 'dd.MM.yyyy')}
+            </CardField>
+
             <CardField label={t('post.applicationPeriod')}>
               {post.opensAt ? format(post.opensAt, 'dd.MM.yyyy') : ''} &ndash;{' '}
               {post.closesAt ? format(post.closesAt, 'dd.MM.yyyy') : ''}
