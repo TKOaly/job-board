@@ -1,15 +1,10 @@
 'use client';
 
-import { UserCircleIcon, Cog6ToothIcon, LanguageIcon, HomeIcon } from '@heroicons/react/24/outline';
-import {
-  ArrowLeftOnRectangleIcon,
-  ArrowRightOnRectangleIcon,
-  ChevronDoubleRightIcon,
-} from '@heroicons/react/24/solid';
+import { HomeIcon } from '@heroicons/react/24/outline';
+import { ChevronDoubleRightIcon } from '@heroicons/react/24/solid';
 import { Session } from 'next-auth';
-import { signIn, signOut } from 'next-auth/react';
-import Link from 'next/link';
-import { useRouter, useSelectedLayoutSegment } from 'next/navigation';
+import { useSelectedLayoutSegment } from 'next/navigation';
+import { Link, useRouter } from '@/app/i18n/client';
 import { Button } from '@/components/Button';
 import { Logo } from './logo';
 import dynamic from 'next/dynamic';
@@ -26,7 +21,7 @@ type Props = {
 };
 
 const Header: React.FC<Props> = ({ session }) => {
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
 
   const segment = useSelectedLayoutSegment();
 
@@ -40,10 +35,10 @@ const Header: React.FC<Props> = ({ session }) => {
         <h1 className="text-xl font-semibold items-center ml-3 mr-5 hidden lg:block">
           Job Board
         </h1>
-        <div className="flex items-center gap-2 hover:bg-black/10 p-2 rounded cursor-pointer">
+        <Link className="flex items-center gap-2 hover:bg-black/10 p-2 rounded cursor-pointer" href="/">
           <HomeIcon className="h-5 w-5" />{' '}
           <span className="hidden md:inline">Frontpage</span>
-        </div>
+        </Link>
         <DarkModeToggle />
         <LanguageSelector />
         <div className="flex-grow" />

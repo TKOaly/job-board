@@ -5,7 +5,7 @@ import { Button } from '@/components/Button';
 import { useState } from 'react';
 import { formatISO, isBefore } from 'date-fns';
 import PostEditor from './PostEditor';
-import { useRouter } from 'next/navigation';
+import { useRouter } from '@/app/i18n/client';
 
 export type Props = {
   post: Post & { tags: Tag[] };

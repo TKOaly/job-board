@@ -1,10 +1,10 @@
 'use client';
 
-import { Company, Post } from '@prisma/client';
+import { Company } from '@prisma/client';
 import { Button } from '@/components/Button';
 import { useState } from 'react';
 import CompanyEditor from './CompanyEditor';
-import { useRouter } from 'next/navigation';
+import { useRouter } from '@/app/i18n/client';
 
 export type Props = {
   company: Company;

@@ -2,7 +2,7 @@
 
 import { getLogoUploadUrl } from '@/actions';
 import { Company } from '@prisma/client';
-import { useRouter } from 'next/navigation';
+import { useRouter } from '@/app/i18n/client';
 import { useState } from 'react';
 import { Button } from './Button';
 import CompanyEditor from './CompanyEditor';

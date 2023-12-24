@@ -1,5 +1,4 @@
 import { LanguageIcon } from "@heroicons/react/24/solid";
-import { useTranslation } from "@/app/i18n/client";
 import { useParams, useRouter } from "next/navigation";
 import { useSelectedLayoutSegments } from "next/navigation";
 import { fallbackLang } from "@/app/i18n/settings";
@@ -18,7 +17,7 @@ export const LanguageSelector = () => {
   const { label, key } = options[(options.findIndex(({ key }) => key === language) + 1) % options.length];
 
   const onChange = () => {
-    router.push(`/${key}/${segments.join('/')}`)
+    router.replace(`/${key}/${segments.join('/')}`)
   };
 
   return (

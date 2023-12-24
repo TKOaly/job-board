@@ -3,9 +3,8 @@ import { ArrowRightOnRectangleIcon, Cog6ToothIcon, UserCircleIcon } from "@heroi
 import { ArrowLeftOnRectangleIcon } from "@heroicons/react/24/solid";
 import { Session } from "next-auth";
 import { signIn, signOut } from 'next-auth/react';
-import Link from "next/link";
 import { useState } from "react";
-import { useTranslation } from "@/app/i18n/client";
+import { useTranslation, Link } from "@/app/i18n/client";
 
 export type Props = {
   session: Session | null

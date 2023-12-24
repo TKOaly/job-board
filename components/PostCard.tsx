@@ -1,18 +1,15 @@
 'use client';
 
-import { SparklesIcon } from '@heroicons/react/20/solid';
 import { Post, Tag } from '@prisma/client';
 import { Company } from '@/lib/companies';
-import { format, isAfter, isBefore, isWithinInterval } from 'date-fns';
-import Link from 'next/link';
-import { useRouter } from 'next/navigation';
+import { format, isAfter, isBefore } from 'date-fns';
 import { ApplicationOpenBadge } from './ApplicationOpenBadge';
 import { Button } from './Button';
 import Card, { CardField } from './Card';
 import { PartnerBadge } from './PartnerBadge';
 import { TagBadge } from './TagBadge';
-import { PencilIcon, PencilSquareIcon } from '@heroicons/react/24/outline';
-import { useTranslation } from '@/app/i18n/client';
+import { PencilSquareIcon } from '@heroicons/react/24/outline';
+import { Link, useRouter, useTranslation } from '@/app/i18n/client';
 import { useMultiLang } from '@/lib/multilang';
 
 export type Props = {

@@ -8,14 +8,12 @@ import {
 } from '@heroicons/react/20/solid';
 import { ArrowTopRightOnSquareIcon } from '@heroicons/react/20/solid';
 import { useSession } from 'next-auth/react';
-import Link from 'next/link';
 import { Post } from '@/lib/posts';
-import { useRouter } from 'next/navigation';
 import { Button } from './Button';
 import Card from './Card';
 import { PostCard } from './PostCard';
-import { getMultiLangStringValue, useMultiLang } from '@/lib/multilang';
-import { useTranslation } from '@/app/i18n/client';
+import { useMultiLang } from '@/lib/multilang';
+import { Link, useRouter, useTranslation } from '@/app/i18n/client';
 
 type Props = {
   company: Company;

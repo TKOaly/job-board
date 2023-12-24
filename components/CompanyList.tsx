@@ -5,7 +5,7 @@ import {
   SparklesIcon,
 } from '@heroicons/react/20/solid';
 import { Company } from '@/lib/companies';
-import Link from 'next/link';
+import { Link } from '@/app/i18n/client';
 import Card from './Card';
 import { PencilSquareIcon } from '@heroicons/react/24/outline';
 import { useMultiLang } from '@/lib/multilang';

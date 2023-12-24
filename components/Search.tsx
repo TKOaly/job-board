@@ -1,9 +1,8 @@
 'use client';
 
 import { Input } from '@/components/Input';
-import { useRouter } from 'next/navigation';
 import { useState } from 'react';
-import { useTranslation } from '@/app/i18n/client';
+import { useTranslation, useRouter } from '@/app/i18n/client';
 import { Button } from './Button';
 
 type Props = {

@@ -6,7 +6,7 @@ import {
 } from '@heroicons/react/24/outline';
 import { Post } from '@prisma/client';
 import { cva } from 'class-variance-authority';
-import Link from 'next/link';
+import { Link } from '@/app/i18n';
 import { HTMLAttributes } from 'react';
 import { Button } from '@/components/Button';
 import { PostCard } from '@/components/PostCard';
@@ -72,6 +72,7 @@ export async function generateMetadata({ params }): Promise<Metadata> {
 };
 
 const ListPage = async ({ params, searchParams }) => {
+  const { lang } = params;
   const { t } = await useTranslation(params.lang)
 
   const search = searchParams.search
@@ -95,7 +96,7 @@ const ListPage = async ({ params, searchParams }) => {
         <Search type={type} initialSearch={search} />
       </div>
       <div className="mb-10 mt-5 flex gap-3 justify-center">
-        <Link href={`/list/open/1?search=${encodeURIComponent(search ?? '')}`}>
+        <Link href={`/list/open/1?search=${encodeURIComponent(search ?? '')}`} lang={lang}>
           <Chip
             label={t('list.upcomingAndOpenChip')}
             count={open + upcoming}
@@ -104,6 +105,7 @@ const ListPage = async ({ params, searchParams }) => {
         </Link>
         <Link
           href={`/list/closed/1?search=${encodeURIComponent(search ?? '')}`}
+          lang={lang}
         >
           <Chip
             label={t('list.closedChip')}
@@ -134,7 +136,7 @@ const ListPage = async ({ params, searchParams }) => {
             {t('list.channelsInfo')}
           </p>
           <div className="flex gap-3 mt-10">
-            <Link href="https://t.me/Tekis2023">
+            <Link href="https://t.me/Tekis2023" lang={lang}>
               <Button
                 secondary
                 icon={<ArrowTopRightOnSquareIcon className="h-4 w-4" />}
@@ -142,7 +144,7 @@ const ListPage = async ({ params, searchParams }) => {
                 {t('list.telegram')}
               </Button>
             </Link>
-            <Link href="https://www.tko-aly.fi/yhdistys/tiedotus">
+            <Link href="https://www.tko-aly.fi/yhdistys/tiedotus" lang={lang}>
               <Button
                 secondary
                 icon={<ArrowTopRightOnSquareIcon className="h-4 w-4" />}
@@ -159,6 +161,7 @@ const ListPage = async ({ params, searchParams }) => {
             href={`/list/${type}/${page - 1}?search=${encodeURIComponent(
               search ?? '',
             )}`}
+            lang={lang}
           >
             <Button secondary>
               <ChevronLeftIcon className="w-5 h-5 -mx-1" />
@@ -171,6 +174,7 @@ const ListPage = async ({ params, searchParams }) => {
             href={`/list/${type}/${page + 1}?search=${encodeURIComponent(
               search ?? '',
             )}`}
+            lang={lang}
           >
             <Button secondary>
               {t('list.nextButton')}

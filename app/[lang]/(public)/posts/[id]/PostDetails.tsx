@@ -9,16 +9,14 @@ import {
 import { Company } from '@/lib/companies';
 import { Post } from '@/lib/posts';
 import { format, isAfter, isBefore } from 'date-fns';
-import { useRouter } from 'next/navigation';
 import sanitize from 'sanitize-html';
 import { Button } from '@/components/Button';
 import { useSession } from 'next-auth/react';
-import Link from 'next/link';
 import Card, { CardField } from '@/components/Card';
 import { PartnerBadge } from '@/components/PartnerBadge';
 import { ApplicationOpenBadge } from '@/components/ApplicationOpenBadge';
 import { TagBadge } from '@/components/TagBadge';
-import { useTranslation } from '@/app/i18n/client';
+import { Link, useTranslation, useRouter } from '@/app/i18n/client';
 import { useMultiLang } from '@/lib/multilang';
 
 export type Props = {
