@@ -1,12 +1,13 @@
 'use client'
 
 import i18next from 'i18next'
-import { useParams } from 'next/navigation'
+import { useParams, usePathname, useSelectedLayoutSegments } from 'next/navigation'
 import { initReactI18next } from 'react-i18next'
 import { fallbackLang, getOptions } from './settings'
 import { useRouter as useRouterOrig } from 'next/navigation'
 import LinkOrig from 'next/link';
 import { forwardRef, ComponentProps } from 'react'
+import { Url } from 'next/dist/shared/lib/router/router'
 
 i18next
   .use(initReactI18next)
@@ -19,6 +20,7 @@ export const useTranslation = () => {
   return {
     t: i18next.getFixedT(lang, 'translations'),
     i18n: i18next,
+    lang,
   }
 };
 
@@ -39,14 +41,27 @@ export const useRouter = (): ReturnType<typeof useRouterOrig> => {
   }
 };
 
-export const Link: React.FC<ComponentProps<typeof LinkOrig>> = forwardRef((props, ref) => {
+export const Link: React.FC<Omit<ComponentProps<typeof LinkOrig>, 'href'> & { href?: ComponentProps<typeof LinkOrig>['href'], lang?: string }> = forwardRef((props, ref) => {
+  const pathname = usePathname();
   const params = useParams(); 
+  
+  let href: string | Url
 
-  let href = props.href;
-
-  if (params?.lang) {
-    href = `/${params.lang}${href}`;
+  if (props.href) {
+    href = props.href;
+  } else if (params?.lang && pathname) {
+    href = '/' + pathname.split('/').slice(2).join('/');
+  } else if (pathname) {
+    href = pathname;
+  } else {
+    href = '/';
   }
 
-  return <><LinkOrig {...props} href={href} ref={ref} /></>
+  let lang = props.lang ?? params?.lang;
+
+  if (lang) {
+    href = `/${lang}${href}`;
+  }
+
+  return <LinkOrig {...props} href={href} ref={ref} />
 });

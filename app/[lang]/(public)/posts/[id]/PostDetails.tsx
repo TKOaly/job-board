@@ -18,6 +18,7 @@ import { ApplicationOpenBadge } from '@/components/ApplicationOpenBadge';
 import { TagBadge } from '@/components/TagBadge';
 import { Link, useTranslation, useRouter } from '@/app/i18n/client';
 import { useMultiLang } from '@/lib/multilang';
+import { Trans } from 'react-i18next';
 
 export type Props = {
   post: Post;
@@ -27,7 +28,7 @@ export type Props = {
 const PostDetails = ({ post, company }: Props) => {
   const { back, push } = useRouter();
   const getMultiLangValue = useMultiLang();
-  const { t } = useTranslation();
+  const { t, i18n, lang: currentLanguage } = useTranslation();
   const session = useSession();
 
   const admin = !!session?.data?.user?.admin;
@@ -75,7 +76,7 @@ const PostDetails = ({ post, company }: Props) => {
         )}
       </div>
       <Card className="mt-5">
-        <div className="flex">
+        <div className="flex mb-2">
           <div className="grow">
             {company.partner && company.logoUrl && (
               <div
@@ -117,7 +118,19 @@ const PostDetails = ({ post, company }: Props) => {
           </div>
         </div>
 
-        <div className="mt-3 mb-2 border-t dark:border-[#35322b] h-4 -mx-5 overflow-hidden shadow-[0px_10px_10px_-10px_#0000000a_inset]"></div>
+        {
+          Object.keys(post.body)
+            .filter(lang => lang !== 'xx' && lang !== currentLanguage)
+            .map((lang) => (
+              <div className="border-t px-5 py-3 dark:border-[#35322b] -mx-5 overflow-hidden">
+                <Trans i18nKey="post.alsoAvailableIn" t={t} tOptions={{ lng: lang }}>
+                  This post is also available in <Link lang={lang} className="text-blue-500 font-bold">Language</Link>.
+                </Trans>
+              </div>
+            ))
+        }
+
+        <div className="mb-2 border-t dark:border-[#35322b] h-4 -mx-5 overflow-hidden shadow-[0px_10px_10px_-10px_#0000000a_inset]"></div>
 
         <div
           className="post-body"

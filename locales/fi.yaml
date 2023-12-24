@@ -39,6 +39,7 @@ post:
   readMore: Lue lisää
   submittedAt: Ilmoitus jätetty
   submittedBy: Ilmoittaja
+  alsoAvailableIn: Tämä ilmoitus on saatavilla myös <1>suomeksi</1>.
 
 partner: Yhteistyökumppani
 applicationsOpen: Haku auki
