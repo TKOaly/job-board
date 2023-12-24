@@ -86,12 +86,12 @@ const PostDetails = ({ post, company }: Props) => {
 
             <h1 className="text-3xl font-bold">{getMultiLangValue(post.title)}</h1>
 
-            <div className="flex clear-both flex-col md:flex-row items-start md:items-center gap-2 mt-2">
-              <span className="text-xl">
-                <Link href={`/companies/${company.id}`}>{getMultiLangValue(company.name)}</Link>
-              </span>
+            <div className="clear-both" />
+
+            <CardField label={t('post.submittedBy')}>
+              <Link href={`/companies/${company.id}`}>{getMultiLangValue(company.name)}</Link>
               {company.partner && <PartnerBadge />}
-            </div>
+            </CardField>
 
             <CardField label={t('post.applicationPeriod')}>
               {post.opensAt ? format(post.opensAt, 'dd.MM.yyyy') : ''} &ndash;{' '}
