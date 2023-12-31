@@ -3,7 +3,7 @@
 import i18next from 'i18next'
 import { useParams, usePathname, useSelectedLayoutSegments } from 'next/navigation'
 import { initReactI18next } from 'react-i18next'
-import { fallbackLang, getOptions } from './settings'
+import { fallbackLang, getOptions, languages } from './settings'
 import { useRouter as useRouterOrig } from 'next/navigation'
 import LinkOrig from 'next/link';
 import { forwardRef, ComponentProps } from 'react'
@@ -59,9 +59,14 @@ export const Link: React.FC<Omit<ComponentProps<typeof LinkOrig>, 'href'> & { hr
 
   let lang = props.lang ?? params?.lang;
 
-  if (lang) {
-    href = `/${lang}${href}`;
+  const resolvedHref = new URL(href.toString(), document.baseURI)
+  const isSameOrigin = new URL(document.baseURI).origin === resolvedHref.origin;
+
+  if (isSameOrigin && lang) {
+    if (!languages.some((lang) => resolvedHref.pathname.startsWith(`/${lang}`))) {
+      resolvedHref.pathname = `/${lang}${resolvedHref.pathname}`;
+    }
   }
 
-  return <LinkOrig {...props} href={href} ref={ref} />
+  return <LinkOrig {...props} href={resolvedHref} ref={ref} />
 });
