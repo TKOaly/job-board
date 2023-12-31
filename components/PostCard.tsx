@@ -2,7 +2,7 @@
 
 import { Post, Tag } from '@prisma/client';
 import { Company } from '@/lib/companies';
-import { format, isAfter, isBefore } from 'date-fns';
+import { format, isAfter, isBefore, isSameDay } from 'date-fns';
 import { ApplicationOpenBadge } from './ApplicationOpenBadge';
 import { Button } from './Button';
 import Card, { CardField } from './Card';
@@ -27,11 +27,11 @@ export const PostCard = ({ post, company, className, editable }: Props) => {
   let isOpen = true;
 
   if (post.opensAt) {
-    isOpen = isOpen && isAfter(new Date(), post.opensAt);
+    isOpen = isOpen && (isAfter(new Date(), post.opensAt) || isSameDay(new Date(), post.opensAt));
   }
 
   if (post.closesAt) {
-    isOpen = isOpen && isBefore(new Date(), post.closesAt);
+    isOpen = isOpen && (isBefore(new Date(), post.closesAt) || isSameDay(new Date(), post.closesAt));
   }
 
   return (

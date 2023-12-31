@@ -1,6 +1,7 @@
 import prisma from "@/db";
 import tsquery from 'pg-tsquery';
 import { Post as PrismaPost, Tag } from '@prisma/client';
+import { startOfDay, subDays, subHours, subMinutes } from "date-fns";
 
 export type Post = PrismaPost & { tags: Tag[] };
 
@@ -47,18 +48,22 @@ export const getPostCounts = async (params: { search: string }): Promise<PostCou
         search,
       },
     };
+
   const open = await prisma.post.count({
     where: {
       ...where,
       opensAt: { lte: new Date() },
-      closesAt: { gte: new Date() },
+      closesAt: { gte: subHours(startOfDay(new Date()), 2) },
     },
   });
 
   const closed = await prisma.post.count({
     where: {
       ...where,
-      OR: [{ opensAt: { gt: new Date() } }, { closesAt: { lt: new Date() } }],
+      OR: [
+        { opensAt: { gt: new Date() } },
+        { closesAt: { lt: subHours(startOfDay(new Date()), 2) } },
+      ],
     },
   });
 
@@ -90,12 +95,12 @@ export const getPaginatedSearchResults = async (params: SearchOpts): Promise<Arr
   if (type === 'open') {
     where = {
       ...where,
-      closesAt: { gte: new Date() },
+      closesAt: { gte: subHours(startOfDay(new Date()), 2) },
     };
   } else if (type === 'closed') {
     where = {
       ...where,
-      closesAt: { lt: new Date() },
+      closesAt: { lt: subHours(startOfDay(new Date()), 2) },
     };
   }
 

@@ -8,7 +8,7 @@ import {
 } from '@heroicons/react/20/solid';
 import { Company } from '@/lib/companies';
 import { Post } from '@/lib/posts';
-import { format, isAfter, isBefore } from 'date-fns';
+import { format, isAfter, isBefore, isSameDay } from 'date-fns';
 import sanitize from 'sanitize-html';
 import { Button } from '@/components/Button';
 import { useSession } from 'next-auth/react';
@@ -36,11 +36,11 @@ const PostDetails = ({ post, company }: Props) => {
   let isOpen = true;
 
   if (post.opensAt) {
-    isOpen = isOpen && isAfter(new Date(), post.opensAt);
+    isOpen = isOpen && (isAfter(new Date(), post.opensAt) || isSameDay(new Date(), post.opensAt));
   }
 
   if (post.closesAt) {
-    isOpen = isOpen && isBefore(new Date(), post.closesAt);
+    isOpen = isOpen && (isBefore(new Date(), post.closesAt) || isSameDay(new Date(), post.closesAt));
   }
 
   const handleDelete = async () => {
