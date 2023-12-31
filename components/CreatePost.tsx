@@ -47,6 +47,7 @@ export const CreatePost = ({ companies, tags }: Props) => {
         closesAt: post.closesAt ? formatISO(post.closesAt) : null,
         opensAt: post.opensAt ? formatISO(post.opensAt) : null,
         company: post.employingCompanyId,
+        applicationLink: post.applicationLink,
         body: post.body,
         tags: (post.tags ?? []).map(tag => tag.id),
       }),

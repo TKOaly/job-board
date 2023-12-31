@@ -19,6 +19,7 @@ import { TagBadge } from '@/components/TagBadge';
 import { Link, useTranslation, useRouter } from '@/app/i18n/client';
 import { useMultiLang } from '@/lib/multilang';
 import { Trans } from 'react-i18next';
+import ChevronDoubleRightIcon from '@heroicons/react/24/solid/ChevronDoubleRightIcon';
 
 export type Props = {
   post: Post;
@@ -28,7 +29,7 @@ export type Props = {
 const PostDetails = ({ post, company }: Props) => {
   const { back, push } = useRouter();
   const getMultiLangValue = useMultiLang();
-  const { t, i18n, lang: currentLanguage } = useTranslation();
+  const { t, lang: currentLanguage } = useTranslation();
   const session = useSession();
 
   const admin = !!session?.data?.user?.admin;
@@ -114,6 +115,16 @@ const PostDetails = ({ post, company }: Props) => {
                   ))}
                 </div>
               </CardField>
+            )}
+            { post.applicationLink && (
+              <Link href={post.applicationLink}>
+                <Button
+                  className="mt-5 mb-3"
+                  icon={<ChevronDoubleRightIcon className="h-5 w-5" />}
+                >
+                  {t('post.applyHere')}
+                </Button>
+              </Link>
             )}
           </div>
         </div>

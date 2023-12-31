@@ -49,6 +49,7 @@ export const EditPost = ({ companies, post: originalPost, tags }: Props) => {
         opensAt: post.opensAt ? formatISO(post.opensAt) : null,
         employingCompanyId: post.employingCompanyId,
         body: post.body,
+        applicationLink: post.applicationLink,
         tags: post.tags.map(t => t.id),
       }),
     });

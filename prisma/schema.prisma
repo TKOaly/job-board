@@ -26,6 +26,7 @@ model Post {
 
   title Json
   body  Json
+  applicationLink String?
 
   opensAt  DateTime?
   closesAt DateTime?

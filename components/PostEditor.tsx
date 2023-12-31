@@ -90,6 +90,15 @@ const PostEditor = ({ post, onChange, tags, companies }: Props) => {
       </div>
       <div className="mt-5">
         <div className="uppercase text-xs font-bold mb-2 tracking-wide text-gray-600">
+          Application link
+        </div>
+        <Input
+          value={post.applicationLink}
+          onChange={evt => setField('applicationLink', evt.target.value)}
+        />
+      </div>
+      <div className="mt-5">
+        <div className="uppercase text-xs font-bold mb-2 tracking-wide text-gray-600">
           Content
         </div>
         <MultiLanguageInput

@@ -8,6 +8,7 @@ const schema = z.object({
   company: z.number().int().positive(),
   opensAt: z.string().datetime({ offset: true }),
   closesAt: z.string().datetime({ offset: true }),
+  applicationLink: z.string().url().optional(),
   tags: z.array(z.number()),
 });
 
@@ -21,6 +22,7 @@ export default async function handler(req, res) {
       employingCompanyId: body.company,
       opensAt: parseISO(body.opensAt),
       closesAt: parseISO(body.closesAt),
+      applicationLink: body.applicationLink,
       tags: {
         connect: body.tags.map(id => ({ id })),
       },
