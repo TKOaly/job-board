@@ -64,9 +64,11 @@ export default async function handler(
         id: parseInt(id, 10),
       },
       data: {
+        employingCompany: {
+          connect: { id: body.employingCompanyId },
+        },
         title: body.title,
         body: body.body,
-        employingCompanyId: body.employingCompanyId,
         opensAt: parseISO(body.opensAt),
         closesAt: parseISO(body.closesAt),
         applicationLink: body.applicationLink,
