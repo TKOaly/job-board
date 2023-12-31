@@ -7,8 +7,6 @@ const createMinioSingleton = () => {
   const port = parseInt(minioUrl.port, 10);
   const useSSL = minioUrl.protocol === 'https:';
 
-  console.log(`Connecting to MinIO: endPoint=${JSON.stringify(endPoint)} port=${JSON.stringify(port)} useSSL=${JSON.stringify(useSSL)}`);
-
   const minio = new Minio.Client({
     endPoint,
     port,
@@ -16,8 +14,6 @@ const createMinioSingleton = () => {
     accessKey: process.env.MINIO_ACCESS_KEY!,
     secretKey: process.env.MINIO_SECRET_KEY!,
   });
-
-  minio.traceOn(process.stdout);
 
   return minio;
 };
