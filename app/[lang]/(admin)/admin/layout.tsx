@@ -1,9 +1,18 @@
 import { Button } from '@/components/Button';
 import { ChevronRightIcon } from '@heroicons/react/20/solid';
 import { Link } from '@/app/i18n';
+import { redirect } from 'next/navigation';
+import { getServerSession } from 'next-auth/next';
+import { config } from '@/next-auth';
 
-const AdminLayout = ({ children, params }) => {
+const AdminLayout = async ({ children, params }) => {
   const { lang } = params;
+
+  const session = await getServerSession(config);
+
+  if (session?.user?.admin !== true) {
+    redirect('/');
+  }
 
   return (
     <div>
