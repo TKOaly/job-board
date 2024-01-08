@@ -59,8 +59,14 @@ export const Link: React.FC<Omit<ComponentProps<typeof LinkOrig>, 'href'> & { hr
 
   let lang = props.lang ?? params?.lang;
 
-  const resolvedHref = new URL(href.toString(), document.baseURI)
-  const isSameOrigin = new URL(document.baseURI).origin === resolvedHref.origin;
+  let baseURI = pathname ?? '/'
+
+  if (typeof document !== undefined) {
+    baseURI = document.baseURI
+  }
+
+  const resolvedHref = new URL(href.toString(), baseURI)
+  const isSameOrigin = new URL(baseURI).origin === resolvedHref.origin;
 
   if (isSameOrigin && lang) {
     if (!languages.some((lang) => resolvedHref.pathname.startsWith(`/${lang}`))) {
