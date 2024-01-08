@@ -1,6 +1,8 @@
 import { parseISO } from 'date-fns';
 import { z } from 'zod';
 import client from '@/db';
+import { getServerSession } from 'next-auth/next';
+import { config } from '@/next-auth';
 
 const schema = z.object({
   title: z.record(z.enum(['fi', 'en', 'xx']), z.string()),
@@ -14,6 +16,17 @@ const schema = z.object({
 
 export default async function handler(req, res) {
   const body = schema.parse(req.body);
+
+  const session = await getServerSession(req, res, config);
+
+  if (!session?.user?.admin) {
+    res.status(403).json({
+      result: 'error',
+      message: 'Unauthorized.',
+    });
+
+    return;
+  }
 
   const post = await client.post.create({
     data: {
