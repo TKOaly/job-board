@@ -55,10 +55,12 @@ export const SessionMenu = ({ session }: Props) => {
               <UserCircleIcon className="h-6 w-6" />
               {session.user?.name}
             </div>
-            <Link href="/admin" className="hover:bg-black/10 p-2 rounded flex items-center gap-2 whitespace-nowrap">
-              <Cog6ToothIcon className="h-6 w-6 flip" />
-              {t('menu.administration')}
-            </Link>
+            { session.user?.admin && (
+              <Link href="/admin" className="hover:bg-black/10 p-2 rounded flex items-center gap-2 whitespace-nowrap">
+                <Cog6ToothIcon className="h-6 w-6 flip" />
+                {t('menu.administration')}
+              </Link>
+            )}
             <div
               className="hover:bg-black/10 cursor-pointer p-2 rounded flex items-center gap-2 whitespace-nowrap"
               onClick={() => signOut()}
@@ -74,9 +76,11 @@ export const SessionMenu = ({ session }: Props) => {
           <UserCircleIcon className="h-6 w-6" />
           {session.user?.name}
         </div>
-        <Link href="/admin">
-          <Cog6ToothIcon className="h-10 w-10 flip hover:bg-black/10 p-2 rounded" />
-        </Link>
+        { session.user?.admin && (
+          <Link href="/admin">
+            <Cog6ToothIcon className="h-10 w-10 flip hover:bg-black/10 p-2 rounded" />
+          </Link>
+        )}
         <ArrowRightOnRectangleIcon
           className="h-10 w-10 flip hover:bg-black/10 p-2 rounded cursor-pointer"
           onClick={() => signOut()}
