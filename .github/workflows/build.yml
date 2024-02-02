@@ -50,6 +50,8 @@ jobs:
 
       - name: Build and push the server Docker image
         uses: docker/build-push-action@ad44023a93711e3deb337508980b4b5e9bcdc5dc
+        env:
+          NEXT_PUBLIC_O2_CLIENT_TOKEN: ${{ secrets.O2_CLIENT_TOKEN }}
         with:
           context: .
           target: runner
