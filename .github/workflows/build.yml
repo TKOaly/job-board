@@ -48,10 +48,11 @@ jobs:
             type=ref,event=pr
             type=raw,value=sha-${{ steps.sha.outputs.value }}
 
+      - name: Set OpenObserve client token
+        run: 'echo "${{ secrets.O2_CLIENT_TOKEN }}" >> .env.production'
+
       - name: Build and push the server Docker image
         uses: docker/build-push-action@ad44023a93711e3deb337508980b4b5e9bcdc5dc
-        env:
-          NEXT_PUBLIC_O2_CLIENT_TOKEN: ${{ secrets.O2_CLIENT_TOKEN }}
         with:
           context: .
           target: runner
