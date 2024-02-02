@@ -1968,6 +1968,33 @@
     "@nodelib/fs.scandir" "2.1.5"
     fastq "^1.6.0"
 
+"@openobserve/browser-core@0.2.11":
+  version "0.2.11"
+  resolved "https://registry.yarnpkg.com/@openobserve/browser-core/-/browser-core-0.2.11.tgz#1723d2c2bb8cb98862caaf7c03d23fdfb9624d33"
+  integrity sha512-vbMECRL7q7dnuKreEmpsosy7zHqxMpW2I550v9L1sMxGx/4ES7nZ3oddaj3zwUh8uvjAdBtpnfDWIlUc9C/3Xw==
+
+"@openobserve/browser-logs@^0.2.11":
+  version "0.2.11"
+  resolved "https://registry.yarnpkg.com/@openobserve/browser-logs/-/browser-logs-0.2.11.tgz#300a36ea563f53bf0f36957fe2b6a2572ac646a8"
+  integrity sha512-m3WGMe7qh+MMEFcorQoaXet2WNl1opK08La96TYR64JzTYWdwo/ct3EDn9tRuwMo7tgk0B7sHvFX1DpoB386Mw==
+  dependencies:
+    "@openobserve/browser-core" "0.2.11"
+
+"@openobserve/browser-rum-core@0.2.11":
+  version "0.2.11"
+  resolved "https://registry.yarnpkg.com/@openobserve/browser-rum-core/-/browser-rum-core-0.2.11.tgz#283c7e83b7f76dc041f9aaa5ef64e664df5b7555"
+  integrity sha512-ecyO/AfmMDvaPeCR/GNQbHnbn6MY2EaPc4vEIiUw5gCKPJMlr3cfXqwvCDW1EpVCnJb8veDnAsz4+Biu1vz9lw==
+  dependencies:
+    "@openobserve/browser-core" "0.2.11"
+
+"@openobserve/browser-rum@^0.2.11":
+  version "0.2.11"
+  resolved "https://registry.yarnpkg.com/@openobserve/browser-rum/-/browser-rum-0.2.11.tgz#1baf203302a44fbe5a5e313fb69271a31a0c5f05"
+  integrity sha512-TehsRwOz4eGsTftY5b6nXzrZxhwRuPOT0IM/jO9Smr/E0YdB/YZsM6EmMp1/QYZzdIUcBL2jD+kMpknepipCLQ==
+  dependencies:
+    "@openobserve/browser-core" "0.2.11"
+    "@openobserve/browser-rum-core" "0.2.11"
+
 "@opentelemetry/api@^1.4.1":
   version "1.7.0"
   resolved "https://registry.yarnpkg.com/@opentelemetry/api/-/api-1.7.0.tgz#b139c81999c23e3c8d3c0a7234480e945920fc40"

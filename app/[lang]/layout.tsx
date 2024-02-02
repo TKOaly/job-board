@@ -1,3 +1,4 @@
+import './openobserve';
 import { DarkModeProvider } from '@/components/DarkModeProvider';
 import '@/styles/globals.scss';
 import { InnerLayout } from './InnerLayout';
