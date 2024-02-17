@@ -65,7 +65,7 @@ const Header: React.FC<Props> = ({ session }) => {
                 <Button
                   secondary
                   icon={<ChevronDoubleRightIcon className="h-5 w-5" />}
-                  onClick={() => push('https://tko-aly.fi/')}
+                  onClick={() => {window.location.assign('https://tko-aly.fi/');}}
                 >
                   {t('header.organizationButton')}
                 </Button>
