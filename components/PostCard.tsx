@@ -20,18 +20,24 @@ export type Props = {
 };
 
 export const PostCard = ({ post, company, className, editable }: Props) => {
-  const { t } = useTranslation()
+  const { t } = useTranslation();
   const getMultiLangValue = useMultiLang();
   const { push } = useRouter();
 
   let isOpen = true;
 
   if (post.opensAt) {
-    isOpen = isOpen && (isAfter(new Date(), post.opensAt) || isSameDay(new Date(), post.opensAt));
+    isOpen =
+      isOpen &&
+      (isAfter(new Date(), post.opensAt) ||
+        isSameDay(new Date(), post.opensAt));
   }
 
   if (post.closesAt) {
-    isOpen = isOpen && (isBefore(new Date(), post.closesAt) || isSameDay(new Date(), post.closesAt));
+    isOpen =
+      isOpen &&
+      (isBefore(new Date(), post.closesAt) ||
+        isSameDay(new Date(), post.closesAt));
   }
 
   return (
@@ -43,25 +49,34 @@ export const PostCard = ({ post, company, className, editable }: Props) => {
             <p className="sr-only">{t('post.edit')}</p>
           </Link>
         )}
+
         <div className="grow">
           {company.partner && company.logoUrl && (
             <div
-              className="w-[10rem] float-right h-[7rem] text-gray-500 text-xl flex items-center justify-center bg-center bg-no-repeat bg-contain bg-transparent"
+              className="w-[10rem] float-right h-[7rem] text-gray-500 text-xl flex items-center justify-center bg-center bg-no-repeat bg-contain bg-transparent absolute right-6"
               style={{ backgroundImage: `url('${company.logoUrl}')` }}
             ></div>
           )}
+
           <Link href={`/posts/${post.id}`}>
-            <h3 className="text-xl font-bold grow">{getMultiLangValue(post.title)}</h3>
+            <h3 className="text-xl font-bold grow">
+              {getMultiLangValue(post.title)}
+            </h3>
           </Link>
+
           <CardField label={t('post.submittedBy')}>
-            <Link href={`/companies/${company.id}`}>{getMultiLangValue(company.name)}</Link>
+            <Link href={`/companies/${company.id}`}>
+              {getMultiLangValue(company.name)}
+            </Link>
             {company.partner && <PartnerBadge />}
           </CardField>
+
           <CardField label={t('post.submittedAt')}>
             <div suppressHydrationWarning>
               {format(post.createdAt, 'dd.MM.yyyy')}
             </div>
           </CardField>
+
           <CardField label={t('post.applicationPeriod')}>
             <div suppressHydrationWarning className="flex items-center">
               {post.opensAt ? format(post.opensAt, 'dd.MM.yyyy') : ''} &ndash;{' '}
@@ -69,6 +84,7 @@ export const PostCard = ({ post, company, className, editable }: Props) => {
               {isOpen && <ApplicationOpenBadge className="ml-2" />}
             </div>
           </CardField>
+
           {post.tags.length > 0 && (
             <CardField label={t('post.tags')}>
               <div className="mt-1 flex flex-wrap gap-1">
@@ -78,6 +94,7 @@ export const PostCard = ({ post, company, className, editable }: Props) => {
               </div>
             </CardField>
           )}
+
           <Button onClick={() => push(`/posts/${post.id}`)} className="mt-5">
             {t('post.readMore')}
           </Button>
