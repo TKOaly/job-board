@@ -34,7 +34,7 @@ const formatCompany = async (
 };
 
 export const getCompanies = async (
-  partnersFirst = false,
+  partnersFirst = true,
 ): Promise<Array<Company>> => {
   const companies = await prisma.company.findMany({
     include: {
@@ -45,10 +45,10 @@ export const getCompanies = async (
       },
     },
     orderBy: partnersFirst
-      ? {
-          partner: 'desc',
-        }
-      : {},
+      ? [{ partner: 'desc' }, { name: 'asc' }]
+      : {
+          name: 'asc',
+        },
   });
 
   return Promise.all(companies.map(formatCompany));

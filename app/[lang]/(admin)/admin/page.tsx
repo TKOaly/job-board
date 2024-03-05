@@ -5,7 +5,7 @@ import client from '@/db';
 import { getCompanies, getCompany } from '@/lib/companies';
 
 const AdminFrontPage = async () => {
-  const companies = await getCompanies(true);
+  const companies = await getCompanies();
 
   const openPosts = await client.post.findMany({
     where: {
