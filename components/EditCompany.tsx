@@ -5,28 +5,48 @@ import { Button } from '@/components/Button';
 import { useState } from 'react';
 import CompanyEditor from './CompanyEditor';
 import { useRouter } from '@/app/i18n/client';
+import { validateCompany } from '@/lib/client/company';
+import { Spinner } from './Spinner';
 
 export type Props = {
-  company: Company;
+  company: Company & { logo?: File };
   logoUploadUrl: string;
 };
 
-export const EditCompany = ({ logoUploadUrl, company: originalCompany }: Props) => {
+export const EditCompany = ({
+  logoUploadUrl,
+  company: originalCompany,
+}: Props) => {
   const [error, setError] = useState<string | null>(null);
+  const [errors, setErrors] = useState<Record<string, string> | null>(null);
+  const [loading, setLoading] = useState(false);
+
   const { push } = useRouter();
   const [company, setCompany] = useState(originalCompany);
 
   const handleSubmit = async () => {
-    if (company.name && company.name.length <= 1) {
-      setError('Name must be 1 characters or longer.');
+    setLoading(true);
+    const foundErrors = await validateCompany(company);
+
+    if (foundErrors) {
+      setErrors(foundErrors);
+      setLoading(false);
       return;
     }
+    setErrors(null);
 
     if (company.logo) {
-      await fetch(logoUploadUrl, {
-        method: 'PUT',
-        body: company.logo,
-      });
+      try {
+        await fetch(logoUploadUrl, {
+          method: 'PUT',
+          body: company.logo,
+        });
+      } catch (e) {
+        console.log(e);
+        setErrors({ logo: 'Failed to upload logo.' });
+        setLoading(false);
+        return;
+      }
     }
 
     const response = await fetch(`/api/companies/${company.id}`, {
@@ -41,13 +61,19 @@ export const EditCompany = ({ logoUploadUrl, company: originalCompany }: Props) 
       }),
     });
 
-    const json = await response.json();
+    try {
+      const json = await response.json();
 
-    if (!response.ok) {
-      setError(json.message ?? 'Unknown error occurred.');
-    } else {
-      setError(null);
-      push(`/companies/${json.payload.id}`);
+      if (!response.ok) {
+        setError(json.message ?? 'Unknown error occurred.');
+        setLoading(false);
+      } else {
+        setError(null);
+        push(`/companies/${json.payload.id}`);
+      }
+    } catch (e) {
+      setError('Unknown error occurred.');
+      setLoading(false);
     }
   };
 
@@ -63,9 +89,13 @@ export const EditCompany = ({ logoUploadUrl, company: originalCompany }: Props) 
       <CompanyEditor
         company={company}
         onChange={newCompany => setCompany({ ...company, ...newCompany })}
+        errors={errors ?? {}}
       />
-      <div className="mt-5">
-        <Button onClick={handleSubmit}>Save</Button>
+      <div className="flex items-center mt-5 gap-4">
+        <Button disabled={loading} onClick={handleSubmit}>
+          Publish
+        </Button>
+        {loading && <Spinner />}
       </div>
     </div>
   );

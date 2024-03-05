@@ -3,7 +3,6 @@ import prisma from '@/db';
 import minio from '@/minio';
 
 export type Company = PrismaCompany & {
-  logoUrl?: string;
   employerPostCount: number;
 };
 
@@ -28,7 +27,7 @@ const formatCompany = async (
 
   return {
     ...company,
-    logoUrl,
+    logoUrl: logoUrl ?? null,
     employerPostCount: company?._count?.employerPosts,
   };
 };

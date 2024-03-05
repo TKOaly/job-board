@@ -3,9 +3,11 @@
 import { Company, Post, Tag } from '@prisma/client';
 import { Button } from '@/components/Button';
 import { useState } from 'react';
-import { formatISO, isBefore } from 'date-fns';
-import PostEditor from './PostEditor';
+import { formatISO } from 'date-fns';
 import { useRouter } from '@/app/i18n/client';
+import { validatePost } from '@/lib/client/post';
+import { Spinner } from './Spinner';
+import PostEditor from './PostEditor';
 
 export type Props = {
   post: Post & { tags: Tag[] };
@@ -15,28 +17,21 @@ export type Props = {
 
 export const EditPost = ({ companies, post: originalPost, tags }: Props) => {
   const [error, setError] = useState<string | null>(null);
+  const [errors, setErrors] = useState<Record<string, string> | null>(null);
+  const [loading, setLoading] = useState(false);
   const { push } = useRouter();
   const [post, setPost] = useState(originalPost);
 
   const handleSubmit = async () => {
-    if (post.title && post.title.length <= 3) {
-      setError('Title must be 4 characters or longer.');
-      return;
-    }
+    setLoading(true);
+    const foundErrors = await validatePost(post);
 
-    if (
-      post.closesAt &&
-      post.opensAt &&
-      isBefore(post.closesAt, post.opensAt)
-    ) {
-      setError('Post cannot close before it opens.');
+    if (foundErrors) {
+      setErrors(foundErrors);
+      setLoading(false);
       return;
     }
-
-    if (post.employingCompanyId === null) {
-      setError('Company is required.');
-      return;
-    }
+    setErrors(null);
 
     const response = await fetch(`/api/posts/${post.id}`, {
       method: 'PUT',
@@ -54,13 +49,19 @@ export const EditPost = ({ companies, post: originalPost, tags }: Props) => {
       }),
     });
 
-    const json = await response.json();
+    try {
+      const json = await response.json();
 
-    if (!response.ok) {
-      setError(json.message ?? 'Unknown error occurred.');
-    } else {
-      setError(null);
-      push(`/posts/${json.payload.id}`);
+      if (!response.ok) {
+        setError(json.message ?? 'Unknown error occurred.');
+        setLoading(false);
+      } else {
+        setError(null);
+        push(`/posts/${json.payload.id}`);
+      }
+    } catch (e) {
+      setError('The server did not accept the request.');
+      setLoading(false);
     }
   };
 
@@ -78,9 +79,13 @@ export const EditPost = ({ companies, post: originalPost, tags }: Props) => {
         onChange={newPost => setPost({ ...post, ...newPost })}
         companies={companies}
         tags={tags}
+        errors={errors ?? {}}
       />
-      <div className="mt-5">
-        <Button onClick={handleSubmit}>Save</Button>
+      <div className="mt-5 flex items-center space-x-2">
+        <Button disabled={loading} onClick={handleSubmit}>
+          Save
+        </Button>
+        {loading && <Spinner />}
       </div>
     </div>
   );
