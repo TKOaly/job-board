@@ -1,13 +1,15 @@
-import prisma from "@/db";
+import prisma from '@/db';
 import tsquery from 'pg-tsquery';
 import { Post as PrismaPost, Tag } from '@prisma/client';
-import { startOfDay, subDays, subHours, subMinutes } from "date-fns";
+import { startOfDay, subDays, subHours, subMinutes } from 'date-fns';
 
 export type Post = PrismaPost & { tags: Tag[] };
 
-const formatPost = async (post: PrismaPost & { tags: Tag[] }): Promise<Post> => {
+const formatPost = async (
+  post: PrismaPost & { tags: Tag[] },
+): Promise<Post> => {
   return post;
-}
+};
 
 export const getCompanyPosts = async (id: number): Promise<Post[]> => {
   const posts = await prisma.post.findMany({
@@ -23,18 +25,20 @@ export const getCompanyPosts = async (id: number): Promise<Post[]> => {
 };
 
 export type SearchOpts = {
-  type: 'open' | 'closed'
-  page?: number
-  search?: string
-}
+  type: 'open' | 'closed';
+  page?: number;
+  search?: string;
+};
 
 export type PostCounts = {
-  upcoming: number
-  closed: number
-  open: number
-}
+  upcoming: number;
+  closed: number;
+  open: number;
+};
 
-export const getPostCounts = async (params: { search: string }): Promise<PostCounts> => {
+export const getPostCounts = async (params: {
+  search: string;
+}): Promise<PostCounts> => {
   const { search: textSearch } = params;
 
   const search = textSearch ? tsquery()(textSearch) : undefined;
@@ -75,9 +79,11 @@ export const getPostCounts = async (params: { search: string }): Promise<PostCou
   });
 
   return { upcoming, open, closed };
-}
+};
 
-export const getPaginatedSearchResults = async (params: SearchOpts): Promise<Array<Post>> => {
+export const getPaginatedSearchResults = async (
+  params: SearchOpts,
+): Promise<Array<Post>> => {
   const { search: textSearch, page, type } = params;
 
   const search = textSearch ? tsquery()(textSearch) : undefined;
@@ -111,9 +117,16 @@ export const getPaginatedSearchResults = async (params: SearchOpts): Promise<Arr
     include: {
       tags: true,
     },
-    orderBy: {
-      createdAt: 'desc',
-    },
+    orderBy:
+      type === 'open'
+        ? // Show open listings with partner companies first, then by how soon they close
+          [
+            { employingCompany: { partner: 'desc' } },
+            { closesAt: 'asc' },
+            { createdAt: 'desc' },
+          ]
+        : // Show closed listings with the most recently closed first
+          [{ closesAt: 'desc' }, { createdAt: 'desc' }],
     take: 10,
     skip,
   });
