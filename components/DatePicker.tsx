@@ -11,9 +11,15 @@ type Props = {
   className?: string;
   date: Date | null;
   onDateChanged: (newDate: Date) => void;
+  calendarProps?: Partial<React.ComponentProps<typeof Calendar>>;
 };
 
-export function DatePicker({ className, date, onDateChanged }: Props) {
+export function DatePicker({
+  className,
+  date,
+  onDateChanged,
+  calendarProps,
+}: Props) {
   return (
     <Popover>
       <PopoverTrigger asChild>
@@ -32,6 +38,7 @@ export function DatePicker({ className, date, onDateChanged }: Props) {
       </PopoverTrigger>
       <PopoverContent className="w-auto p-0">
         <Calendar
+          {...calendarProps}
           mode="single"
           selected={date ?? undefined}
           onSelect={onDateChanged}

@@ -2,7 +2,7 @@
 
 import { Company, Post, Tag } from '@prisma/client';
 import { Button } from '@/components/Button';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { formatISO, isBefore } from 'date-fns';
 import PostEditor from './PostEditor';
 import { useRouter } from '@/app/i18n/client';
@@ -12,30 +12,95 @@ export type Props = {
   tags: Tag[];
 };
 
+const validatePost = async (post: Partial<Post & { tags: Tag[] }>) => {
+  const foundErrors: Record<string, string> = {};
+  const addError = async (field: string, error: string) => {
+    foundErrors[field] = error;
+  };
+
+  if (!post.title) {
+    await addError('title', 'is required.');
+  } else {
+    const languages = Object.keys(post.title);
+
+    if (!languages.includes('fi')) {
+      await addError('title', 'should be translated in Finnish.');
+    }
+
+    if (!languages.includes('en')) {
+      await addError('title', 'should be translated in English.');
+    }
+  }
+
+  if (!post.opensAt) {
+    await addError('opensAt', 'is required.');
+  }
+  if (!post.closesAt) {
+    await addError('closesAt', 'is required.');
+  }
+
+  if (post.closesAt && post.opensAt && isBefore(post.closesAt, post.opensAt)) {
+    await addError('closesAt', 'cannot be before opens at.');
+  }
+
+  if (
+    !Object.hasOwn(post, 'employingCompanyId') ||
+    post.employingCompanyId === undefined ||
+    post.employingCompanyId === null
+  ) {
+    await addError('employingCompanyId', 'is required.');
+  }
+
+  if (post.applicationLink) {
+    try {
+      new URL(post.applicationLink);
+    } catch (e) {
+      await addError('applicationLink', 'is not a valid URL.');
+    }
+  }
+
+  if (!post.body) {
+    await addError('body', 'is required.');
+  } else {
+    const languages = Object.keys(post.body);
+
+    if (!languages.includes('fi')) {
+      await addError('body', 'should be translated in Finnish.');
+    }
+
+    if (!languages.includes('en')) {
+      await addError('body', 'should be translated in English.');
+    }
+  }
+
+  if (Object.keys(foundErrors).length > 0) {
+    return foundErrors;
+  }
+
+  return null;
+};
+
 export const CreatePost = ({ companies, tags }: Props) => {
   const [error, setError] = useState<string | null>(null);
+  const [errors, setErrors] = useState<Record<string, string> | null>(null);
+
   const [post, setPost] = useState<Partial<Post & { tags: Tag[] }>>({});
+  const [postTouched, setPostTouched] = useState(false);
+  useEffect(() => {
+    setPostTouched(true);
+  }, [post]);
+
   const { push } = useRouter();
 
-  const handleSubmit = async () => {
-    if (post.title && post.title.length <= 3) {
-      setError('Title must be 4 characters or longer.');
-      return;
-    }
+  const handleSubmit = async (post: Partial<Post & { tags: Tag[] }>) => {
+    setPostTouched(false);
+    const foundErrors = await validatePost(post);
 
-    if (
-      post.closesAt &&
-      post.opensAt &&
-      isBefore(post.closesAt, post.opensAt)
-    ) {
-      setError('Post cannot close before it opens.');
+    if (foundErrors) {
+      setErrors(foundErrors);
       return;
     }
-
-    if (post.employingCompanyId === null) {
-      setError('Company is required.');
-      return;
-    }
+    setErrors(null);
 
     const response = await fetch('/api/posts/create', {
       method: 'POST',
@@ -53,13 +118,17 @@ export const CreatePost = ({ companies, tags }: Props) => {
       }),
     });
 
-    const json = await response.json();
+    try {
+      const json = await response.json();
 
-    if (!response.ok) {
-      setError(json.message ?? 'Unknown error occurred.');
-    } else {
-      setError(null);
-      push(`/posts/${json.payload.id}`);
+      if (!response.ok) {
+        setError(json.message ?? 'Unknown error occurred.');
+      } else {
+        setError(null);
+        push(`/posts/${json.payload.id}`);
+      }
+    } catch (e) {
+      setError('The server did not accept the request.');
     }
   };
 
@@ -77,9 +146,15 @@ export const CreatePost = ({ companies, tags }: Props) => {
         onChange={setPost}
         companies={companies}
         tags={tags}
+        errors={errors ?? {}}
       />
       <div className="mt-5">
-        <Button onClick={handleSubmit}>Publish</Button>
+        <Button
+          disabled={!postTouched && errors !== null}
+          onClick={() => handleSubmit(post)}
+        >
+          Publish
+        </Button>
       </div>
     </div>
   );

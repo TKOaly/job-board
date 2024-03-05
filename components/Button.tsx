@@ -41,6 +41,14 @@ const buttonCva = cva(
           'border border-input bg-background hover:bg-accent hover:text-accent-foreground h-10 px-4 py-2',
           'inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50',
         ],
+        disabled: [
+          'bg-gray-200',
+          'border-gray-300',
+          'text-gray-500',
+          'active:top-0',
+          'active:border-b-0',
+          'active:shadow-sm',
+        ],
       },
     },
   },
@@ -54,7 +62,7 @@ export interface Props extends React.ButtonHTMLAttributes<HTMLButtonElement> {
 
 export const Button = React.forwardRef<HTMLButtonElement, Props>(
   ({ children, secondary = false, icon = null, outline, ...rest }, ref) => {
-    let variant: 'primary' | 'secondary' | 'outline' = 'primary';
+    let variant: 'primary' | 'secondary' | 'outline' | 'disabled' = 'primary';
 
     if (secondary) {
       variant = 'secondary';
@@ -62,6 +70,10 @@ export const Button = React.forwardRef<HTMLButtonElement, Props>(
 
     if (outline) {
       variant = 'outline';
+    }
+
+    if (rest.disabled) {
+      variant = 'disabled';
     }
 
     return (
