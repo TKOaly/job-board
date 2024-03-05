@@ -4,15 +4,20 @@ import { produce } from 'immer';
 import { Checkbox } from './Checkbox';
 import { MultiLanguageInput } from './MultiLanguageInput';
 import { toMultiLangStringSet } from '@/lib/multilang';
+import { EditField } from './EditField';
+import { Button } from './Button';
 
-type EditorCompany = Partial<Pick<Company, 'name' | 'partner' | 'website'> & { logo: File }>;
+type EditorCompany = Partial<
+  Pick<Company, 'name' | 'partner' | 'website'> & { logo: File }
+>;
 
 export type Props = {
   company: EditorCompany;
   onChange: (newCompany: EditorCompany) => void;
+  errors?: Record<string, string>;
 };
 
-const CompanyEditor = ({ company, onChange }: Props) => {
+const CompanyEditor = ({ company, onChange, errors = {} }: Props) => {
   const setField = <K extends keyof EditorCompany>(
     field: K,
     value: EditorCompany[K],
@@ -26,19 +31,13 @@ const CompanyEditor = ({ company, onChange }: Props) => {
 
   return (
     <div>
-      <div className="mt-5">
-        <div className="uppercase text-xs font-bold mb-2 tracking-wide text-gray-600">
-          Name
-        </div>
+      <EditField label="Name" error={errors.name}>
         <MultiLanguageInput
           value={toMultiLangStringSet(company.name)}
           onValueChange={value => setField('name', value)}
         />
-      </div>
-      <div className="mt-5">
-        <div className="uppercase text-xs font-bold mb-2 tracking-wide text-gray-600">
-          Website
-        </div>
+      </EditField>
+      <EditField label="Website" error={errors.website}>
         <Input
           value={company.website ?? undefined}
           onChange={evt => {
@@ -49,16 +48,22 @@ const CompanyEditor = ({ company, onChange }: Props) => {
             }
           }}
         />
-      </div>
-      <div className="mt-5">
-        <div className="uppercase text-xs font-bold mb-2 tracking-wide text-gray-600">
-          Logo
+      </EditField>
+      <EditField label="Logo" error={errors.logo}>
+        <div className="flex mt-5 gap-2">
+          <Input
+            type="file"
+            onChange={evt => setField('logo', evt.target.files?.[0])}
+          />
+          <Button
+            disabled={!company.logo}
+            onClick={() => setField('logo', undefined)}
+            className="h-full"
+          >
+            Clear
+          </Button>
         </div>
-        <Input
-          type="file"
-          onChange={evt => setField('logo', evt.target.files?.[0])}
-        />
-      </div>
+      </EditField>
       <div className="mt-5 flex items-center space-x-2">
         <Checkbox
           checked={company.partner === true}

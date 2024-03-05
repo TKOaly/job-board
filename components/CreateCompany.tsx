@@ -3,31 +3,63 @@
 import { getLogoUploadUrl } from '@/actions';
 import { Company } from '@prisma/client';
 import { useRouter } from '@/app/i18n/client';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Button } from './Button';
 import CompanyEditor from './CompanyEditor';
+import { Spinner } from './Spinner';
+
+const validateCompany = async (company: Partial<Company>) => {
+  const foundErrors: Record<string, string> = {};
+  const addError = async (field: string, error: string) => {
+    foundErrors[field] = error;
+  };
+
+  if (!company.name) {
+    await addError('name', 'is required.');
+  }
+
+  if (company.website) {
+    try {
+      new URL(company.website);
+    } catch (e) {
+      await addError('website', 'must be a valid URL.');
+    }
+  }
+
+  if (Object.keys(foundErrors).length > 0) {
+    return foundErrors;
+  }
+
+  return null;
+};
 
 export const CreateCompany = () => {
   const { push } = useRouter();
+
   const [error, setError] = useState<string | null>(null);
-  const [company, setCompany] = useState<Partial<Company>>({
+  const [errors, setErrors] = useState<Record<string, string> | null>(null);
+  const [loading, setLoading] = useState(false);
+
+  const [company, setCompany] = useState<Partial<Company & { logo?: File }>>({
     partner: false,
   });
 
+  const [touched, setTouched] = useState(false);
+  useEffect(() => {
+    setTouched(true);
+  }, [company]);
+
   const handleSubmit = async () => {
-    if (company.name && company.name.length <= 1) {
-      setError('Name must be 1 characters or longer.');
+    setTouched(false);
+    setLoading(true);
+    const errors = await validateCompany(company);
+
+    if (errors) {
+      setErrors(errors);
+      setLoading(false);
       return;
     }
-
-    if (company.website) {
-      try {
-        new URL(company.website)
-      } catch (e) {
-        setError('Website must be a valid URL!');
-        return;
-      }
-    }
+    setErrors(null);
 
     const response = await fetch('/api/companies', {
       method: 'POST',
@@ -41,25 +73,38 @@ export const CreateCompany = () => {
       }),
     });
 
-    const json = await response.json();
+    try {
+      const json = await response.json();
 
-    if (!response.ok) {
-      setError(json.message ?? 'Unknown error occurred.');
-      return;
+      if (!response.ok) {
+        setError(json.message ?? 'Unknown error occurred.');
+        setLoading(false);
+
+        return;
+      }
+
+      if (company.logo) {
+        const url = await getLogoUploadUrl(json.payload);
+
+        try {
+          await fetch(url, {
+            method: 'PUT',
+            body: company.logo,
+          });
+        } catch (e) {
+          setErrors({ logo: 'Failed to upload the company logo.' });
+          setLoading(false);
+
+          return;
+        }
+      }
+
+      setError(null);
+      setLoading(false);
+      push(`/companies/${json.payload.id}`);
+    } catch (e) {
+      setError('The server did not accept the request.');
     }
-
-    if (company.logo) {
-      const url = await getLogoUploadUrl(json.payload);
-
-      await fetch(url, {
-        method: 'PUT',
-        body: company.logo,
-      });
-    }
-
-    setError(null);
-    push(`/companies/${json.payload.id}`);
-
   };
 
   return (
@@ -71,9 +116,19 @@ export const CreateCompany = () => {
           <p>{error}</p>
         </div>
       )}
-      <CompanyEditor company={company} onChange={setCompany} />
-      <div className="mt-5">
-        <Button onClick={handleSubmit}>Publish</Button>
+      <CompanyEditor
+        company={company}
+        onChange={setCompany}
+        errors={errors ?? {}}
+      />
+      <div className="flex items-center mt-5 gap-4">
+        <Button
+          disabled={loading || (!touched && errors !== null)}
+          onClick={handleSubmit}
+        >
+          Publish
+        </Button>
+        {loading && <Spinner />}
       </div>
     </div>
   );
