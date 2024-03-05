@@ -52,9 +52,9 @@ export const PostPreview = ({ post, company, className, editable }: Props) => {
         <div className="grow flex flex-wrap gap-y-2 gap-x-8">
           {company.partner && company.logoUrl && (
             <div
-              className="w-[10rem] float-right h-[7rem] text-gray-500 text-xl flex items-center justify-center bg-center bg-no-repeat bg-contain bg-transparent"
+              className="w-[10rem] h-[7rem] text-gray-500 text-xl flex items-center justify-center bg-center bg-no-repeat bg-contain bg-transparent absolute right-6"
               style={{ backgroundImage: `url('${company.logoUrl}')` }}
-            ></div>
+            />
           )}
           <Link href={`/posts/${post.id}`} className="w-full">
             <h3 className="text-xl font-bold grow">
