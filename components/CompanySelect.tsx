@@ -1,9 +1,14 @@
 'use client';
 
-import { CheckIcon, ChevronUpDownIcon } from '@heroicons/react/24/outline';
+import {
+  ArrowPathIcon,
+  CheckIcon,
+  ChevronUpDownIcon,
+} from '@heroicons/react/24/outline';
 import { Company } from '@prisma/client';
 import { useState } from 'react';
 import { Button } from './Button';
+import { useCommandState } from 'cmdk';
 import {
   Command,
   CommandEmpty,
@@ -13,7 +18,7 @@ import {
 } from './Command';
 import { Popover, PopoverContent, PopoverTrigger } from './Popover';
 import { twMerge } from 'tailwind-merge';
-import { SparklesIcon } from '@heroicons/react/20/solid';
+import { PlusIcon, SparklesIcon } from '@heroicons/react/20/solid';
 import { useMultiLang } from '@/lib/multilang';
 
 export type Props = {
@@ -21,6 +26,63 @@ export type Props = {
   companies: Company[];
   onChange: (value: number | null) => void;
   className?: string;
+};
+
+const CreateCompanyCommandItem = ({
+  onCreated,
+  companies,
+}: {
+  companies: Company[];
+  onCreated: (company: Company) => void;
+}) => {
+  const [state, setState] = useState('idle');
+  const search = useCommandState(state => state.search);
+  const getMultiLangValue = useMultiLang();
+
+  if (
+    search === '' ||
+    companies.some(
+      company =>
+        getMultiLangValue(company.name).toLowerCase() === search.toLowerCase(),
+    )
+  ) {
+    return null;
+  }
+
+  const handleCreate = async () => {
+    setState('loading');
+
+    const response = await fetch('/api/companies', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        name: {
+          xx: search,
+        },
+      }),
+    });
+
+    if (!response.ok) {
+      setState('error');
+      return;
+    }
+
+    const { payload: company } = await response.json();
+    onCreated(company);
+    setState('idle');
+  };
+
+  return (
+    <CommandItem value="create" onSelect={handleCreate}>
+      {state === 'idle' && <PlusIcon className="h-4 w-4 mr-2" />}
+      {state === 'loading' && (
+        <ArrowPathIcon className="h-4 w-4 animate-spin mr-2" />
+      )}
+      Create company &quot;{search}&quot;
+    </CommandItem>
+  );
 };
 
 export const CompanySelect = ({
@@ -31,6 +93,7 @@ export const CompanySelect = ({
 }: Props) => {
   const getMultiLangValue = useMultiLang();
   const [open, setOpen] = useState(false);
+  const [allCompanies, setAllCompanies] = useState(companies);
 
   return (
     <Popover open={open} onOpenChange={setOpen}>
@@ -42,28 +105,39 @@ export const CompanySelect = ({
           className={twMerge('w-[200px] justify-between', className)}
         >
           {value
-            ? getMultiLangValue(companies.find(comapny => comapny.id === value)?.name)
+            ? getMultiLangValue(
+                allCompanies.find(company => company.id === value)?.name,
+              )
             : 'Select company...'}
           <ChevronUpDownIcon className="ml-2 h-4 w-4 shrink-0 opacity-50" />
         </Button>
       </PopoverTrigger>
-      <PopoverContent className="w-[30em] p-0">
+      <PopoverContent className="w-[80ch] p-0">
         <Command
           filter={(value, search) => {
-            const id = parseInt(value, 10);
-            const company = companies.find(c => c.id === id);
+            if (value === 'create') {
+              return 2;
+            }
 
-            if (company && getMultiLangValue(company.name).includes(search)) {
+            const id = parseInt(value, 10);
+            const company = allCompanies.find(c => c.id === id);
+
+            if (
+              company &&
+              getMultiLangValue(company.name)
+                .toLowerCase()
+                .includes(search.toLowerCase())
+            ) {
               return 1;
             }
 
             return 0;
           }}
         >
-          <CommandInput placeholder="Search company..." />
+          <CommandInput placeholder="Search companies or create a new one" />
           <CommandEmpty>No company found.</CommandEmpty>
           <CommandGroup className="max-h-[40em] overflow-y-scroll">
-            {companies.map(company => (
+            {allCompanies.map(company => (
               <CommandItem
                 key={company.id}
                 value={company.id.toString()}
@@ -86,6 +160,16 @@ export const CompanySelect = ({
                 )}
               </CommandItem>
             ))}
+          </CommandGroup>
+          <CommandGroup>
+            <CreateCompanyCommandItem
+              companies={companies}
+              onCreated={company => {
+                setAllCompanies([...allCompanies, company]);
+                onChange(company.id);
+                setOpen(false);
+              }}
+            />
           </CommandGroup>
         </Command>
       </PopoverContent>

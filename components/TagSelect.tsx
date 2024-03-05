@@ -19,7 +19,6 @@ import {
 } from './Command';
 import { Popover, PopoverContent, PopoverTrigger } from './Popover';
 import { twMerge } from 'tailwind-merge';
-import { SparklesIcon } from '@heroicons/react/20/solid';
 import { ArrowPathIcon } from '@heroicons/react/24/outline';
 
 export type Props = {
@@ -113,7 +112,7 @@ export const TagSelect = ({ value, onChange, tags, className }: Props) => {
           <ChevronUpDownIcon className="ml-2 h-4 w-4 shrink-0 opacity-50" />
         </Button>
       </PopoverTrigger>
-      <PopoverContent className="w-[30em] p-0">
+      <PopoverContent className="w-[80ch] p-0">
         <Command
           filter={(value, search) => {
             if (value === 'create') {
