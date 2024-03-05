@@ -145,7 +145,7 @@ export const CompanySelect = ({
         >
           <CommandInput placeholder="Search companies or create a new one" />
           <CommandEmpty>No company found.</CommandEmpty>
-          <CommandGroup className="max-h-[40em] overflow-y-scroll">
+          <CommandGroup className="max-h-[30vh] overflow-y-scroll">
             {allCompanies.map(company => (
               <CommandItem
                 key={company.id}
