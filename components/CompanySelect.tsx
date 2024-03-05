@@ -95,6 +95,10 @@ export const CompanySelect = ({
   const [open, setOpen] = useState(false);
   const [allCompanies, setAllCompanies] = useState(companies);
 
+  const selectedCompany = value
+    ? allCompanies.find(c => c.id === value)
+    : undefined;
+
   return (
     <Popover open={open} onOpenChange={setOpen}>
       <PopoverTrigger asChild>
@@ -104,11 +108,16 @@ export const CompanySelect = ({
           aria-expanded={open}
           className={twMerge('w-[200px] justify-between', className)}
         >
-          {value
-            ? getMultiLangValue(
-                allCompanies.find(company => company.id === value)?.name,
-              )
-            : 'Select company...'}
+          <div className="inline-flex items-center">
+            {selectedCompany?.partner && (
+              <span className="text-sm rounded py-0.5 px-1.5 bg-yellow-100 text-yellow-600 inline-flex items-center mr-2">
+                <SparklesIcon className="h-4 w-4" />
+              </span>
+            )}
+            {selectedCompany
+              ? getMultiLangValue(selectedCompany.name)
+              : 'Select company...'}
+          </div>
           <ChevronUpDownIcon className="ml-2 h-4 w-4 shrink-0 opacity-50" />
         </Button>
       </PopoverTrigger>
