@@ -1,5 +1,5 @@
-lightMode: Dark mode 
-darkMode: Light mode 
+lightMode: Dark mode
+darkMode: Light mode
 header:
   organizationButton: Organization
   forCompaniesButton: For companies
@@ -27,7 +27,7 @@ list:
     open: Bummer, no current job openings.
     closed: Bummer, no postings found.
   closedChip: Closed
-  upcomingAndOpenChip: Current and upcoming 
+  upcomingAndOpenChip: Current and upcoming
 
 post:
   back: Back
@@ -35,11 +35,12 @@ post:
   edit: Edit
   applicationPeriod: Application period
   tags: Keywords
-  readMore: Read more 
+  readMore: Read more
   submittedAt: Posted at
   submittedBy: Posted by
-  alsoAvailableIn: This post is also available in <1>English</1>. 
-  applyHere: Apply here! 
+  closesAt: Closes at
+  alsoAvailableIn: This post is also available in <1>English</1>.
+  applyHere: Apply here!
 
 partner: Partner
 applicationsOpen: Applications open

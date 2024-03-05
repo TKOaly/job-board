@@ -2,10 +2,10 @@ import { Accordion } from '@/components/Accordion';
 import { CompanyList } from '@/components/CompanyList';
 import { PostList } from '@/components/PostList';
 import client from '@/db';
-import { getCompanies } from '@/lib/companies';
+import { getCompanies, getCompany } from '@/lib/companies';
 
 const AdminFrontPage = async () => {
-  const companies = await getCompanies();
+  const companies = await getCompanies(true);
 
   const openPosts = await client.post.findMany({
     where: {
@@ -15,15 +15,21 @@ const AdminFrontPage = async () => {
       createdAt: 'desc',
     },
     include: {
-      employingCompany: true,
       tags: true,
     },
   });
 
+  const postsWithCompanies = await Promise.all(
+    openPosts.map(async post => ({
+      ...post,
+      company: (await getCompany(post.employingCompanyId))!,
+    })),
+  );
+
   return (
     <>
       <Accordion title={`Open posts (${openPosts.length})`} open>
-        <PostList posts={openPosts} />
+        <PostList posts={postsWithCompanies} />
       </Accordion>
 
       <Accordion title={`Companies (${companies.length})`} open>

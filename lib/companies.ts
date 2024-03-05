@@ -2,9 +2,14 @@ import { Company as PrismaCompany } from '@prisma/client';
 import prisma from '@/db';
 import minio from '@/minio';
 
-export type Company = PrismaCompany & { logoUrl?: string, employerPostCount: number };
+export type Company = PrismaCompany & {
+  logoUrl?: string;
+  employerPostCount: number;
+};
 
-const formatCompany = async (company: PrismaCompany & { _count: { employerPosts: number } }): Promise<Company> => {
+const formatCompany = async (
+  company: PrismaCompany & { _count: { employerPosts: number } },
+): Promise<Company> => {
   let logoUrl: string | undefined = undefined;
 
   try {
@@ -19,17 +24,18 @@ const formatCompany = async (company: PrismaCompany & { _count: { employerPosts:
     if (prefix) {
       logoUrl = `${prefix}/jobboard-logos/${company.id}`;
     }
-  } catch (err) {
-  }
+  } catch (err) {}
 
   return {
     ...company,
     logoUrl,
     employerPostCount: company?._count?.employerPosts,
   };
-}
+};
 
-export const getCompanies = async (): Promise<Array<Company>> => {
+export const getCompanies = async (
+  partnersFirst = false,
+): Promise<Array<Company>> => {
   const companies = await prisma.company.findMany({
     include: {
       _count: {
@@ -38,6 +44,11 @@ export const getCompanies = async (): Promise<Array<Company>> => {
         },
       },
     },
+    orderBy: partnersFirst
+      ? {
+          partner: 'desc',
+        }
+      : {},
   });
 
   return Promise.all(companies.map(formatCompany));

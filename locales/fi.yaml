@@ -39,8 +39,9 @@ post:
   readMore: Lue lisää
   submittedAt: Ilmoitus jätetty
   submittedBy: Ilmoittaja
+  closesAt: Ilmoitus sulkeutuu
   alsoAvailableIn: Tämä ilmoitus on saatavilla myös <1>suomeksi</1>.
-  applyHere: Tee hakemus tästä! 
+  applyHere: Tee hakemus tästä!
 
 partner: Yhteistyökumppani
 applicationsOpen: Haku auki
@@ -53,5 +54,5 @@ company:
 
 menu:
   administration: Hallinta
-  logOut: Kirjaudu ulos 
+  logOut: Kirjaudu ulos
   frontPage: Etusivu

@@ -5,7 +5,13 @@ export type Props = PropsWithChildren<{
   className?: string;
 }>;
 
-export const CardField = ({ label, children }) => (
+export const CardField = ({
+  label,
+  children,
+}: {
+  label?: string;
+  children: React.ReactNode;
+}) => (
   <div className="my-3 clear-both">
     <span className="text-xs text-gray-600 dark:text-[#938e86] uppercase font-bold">
       {label}
