@@ -137,7 +137,7 @@ const ListPage = async ({ params, searchParams }) => {
             {t('list.channelsInfo')}
           </p>
           <div className="flex gap-3 mt-10">
-            <NonI18nLink href="https://t.me/Tekis2023">
+            <NonI18nLink href="https://tko-aly.fi/telegram">
               <Button
                 secondary
                 icon={<ArrowTopRightOnSquareIcon className="h-4 w-4" />}
