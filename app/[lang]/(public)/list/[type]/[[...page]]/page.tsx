@@ -7,6 +7,7 @@ import {
 import { Post } from '@prisma/client';
 import { cva } from 'class-variance-authority';
 import { Link } from '@/app/i18n';
+import NonI18nLink from 'next/link';
 import { HTMLAttributes } from 'react';
 import { Button } from '@/components/Button';
 import { PostCard } from '@/components/PostCard';
@@ -136,22 +137,22 @@ const ListPage = async ({ params, searchParams }) => {
             {t('list.channelsInfo')}
           </p>
           <div className="flex gap-3 mt-10">
-            <Link href="https://t.me/Tekis2023" lang={lang}>
+            <NonI18nLink href="https://tko-aly.fi/telegram">
               <Button
                 secondary
                 icon={<ArrowTopRightOnSquareIcon className="h-4 w-4" />}
               >
                 {t('list.telegram')}
               </Button>
-            </Link>
-            <Link href="https://www.tko-aly.fi/yhdistys/tiedotus" lang={lang}>
+            </NonI18nLink>
+            <NonI18nLink href="https://www.tko-aly.fi/yhdistys/tiedotus">
               <Button
                 secondary
                 icon={<ArrowTopRightOnSquareIcon className="h-4 w-4" />}
               >
                 {t('list.emailLists')}
               </Button>
-            </Link>
+            </NonI18nLink>
           </div>
         </Card>
       )}
