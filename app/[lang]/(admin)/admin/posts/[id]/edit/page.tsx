@@ -1,19 +1,13 @@
 import { EditPost } from '@/components/EditPost';
-import client from '@/db';
 import { getCompanies } from '@/lib/companies';
+import { getPost } from '@/lib/posts';
+import { getTags } from '@/lib/tags';
 import { notFound } from 'next/navigation';
 
 export default async function EditPostPage({ params }) {
   const companies = await getCompanies();
-  const tags = await client.tag.findMany();
-  const post = await client.post.findUnique({
-    where: {
-      id: parseInt(params.id, 10),
-    },
-    include: {
-      tags: true,
-    },
-  });
+  const tags = await getTags();
+  const post = await getPost(parseInt(params.id, 10));
 
   if (!post) {
     return notFound();

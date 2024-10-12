@@ -1,5 +1,5 @@
+import { createTag } from '@/lib/tags';
 import { config } from '@/next-auth';
-import client from '@/db';
 import { NextApiRequest, NextApiResponse } from 'next';
 import { getServerSession } from 'next-auth';
 import { z } from 'zod';
@@ -26,11 +26,7 @@ export default async function handler(
 
     const body = createSchema.parse(req.body);
 
-    const newTag = await client.tag.create({
-      data: {
-        name: body.name,
-      },
-    });
+    const newTag = await createTag(body);
 
     res.status(200).json({
       result: 'success',

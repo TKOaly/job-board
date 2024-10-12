@@ -1,6 +1,6 @@
 import { getCompanies } from '@/lib/companies';
+import { getPosts } from '@/lib/posts';
 import { MetadataRoute } from 'next';
-import prisma from '@/db';
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const pages: Array<{ url: string; lastModified: Date }> = [];
@@ -14,7 +14,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     })),
   );
 
-  const posts = await prisma.post.findMany();
+  const posts = await getPosts();
 
   pages.push(
     ...posts.map(post => ({

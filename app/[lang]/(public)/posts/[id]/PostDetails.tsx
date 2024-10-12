@@ -7,7 +7,7 @@ import {
   SparklesIcon,
 } from '@heroicons/react/20/solid';
 import { Company } from '@/lib/companies';
-import { Post } from '@/lib/posts';
+import { PostWithTags, type Post } from '@/lib/db/schema';
 import { format, isAfter, isBefore, isSameDay } from 'date-fns';
 import sanitize from 'sanitize-html';
 import { Button } from '@/components/Button';
@@ -22,7 +22,7 @@ import { Trans } from 'react-i18next';
 import ChevronDoubleRightIcon from '@heroicons/react/24/solid/ChevronDoubleRightIcon';
 
 export type Props = {
-  post: Post;
+  post: PostWithTags;
   company: Company;
 };
 
@@ -110,7 +110,7 @@ const PostDetails = ({ post, company }: Props) => {
             {post.tags.length > 0 && (
               <CardField label={t('post.tags')}>
                 <div className="mt-1 flex flex-wrap gap-1">
-                  {post.tags.map(tag => (
+                  {post.tags.map(({ tag }) => (
                     <TagBadge key={tag.id}>{tag.name}</TagBadge>
                   ))}
                 </div>

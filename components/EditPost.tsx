@@ -1,6 +1,6 @@
 'use client';
 
-import { Company, Post, Tag } from '@prisma/client';
+import { Company, PostWithTags, Tag } from '@/lib/db/schema';
 import { Button } from '@/components/Button';
 import { useState } from 'react';
 import { formatISO } from 'date-fns';
@@ -10,7 +10,7 @@ import { Spinner } from './Spinner';
 import PostEditor from './PostEditor';
 
 export type Props = {
-  post: Post & { tags: Tag[] };
+  post: PostWithTags;
   companies: Company[];
   tags: Tag[];
 };
@@ -45,7 +45,7 @@ export const EditPost = ({ companies, post: originalPost, tags }: Props) => {
         employingCompanyId: post.employingCompanyId,
         body: post.body,
         applicationLink: post.applicationLink,
-        tags: post.tags.map(t => t.id),
+        tags: post.tags.map(t => t.tag.id),
       }),
     });
 

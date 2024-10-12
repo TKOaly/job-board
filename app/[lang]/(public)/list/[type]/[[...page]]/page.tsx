@@ -4,7 +4,6 @@ import {
   ChevronRightIcon,
   FaceFrownIcon,
 } from '@heroicons/react/24/outline';
-import { Post } from '@prisma/client';
 import { cva } from 'class-variance-authority';
 import { Link } from '@/app/i18n';
 import NonI18nLink from 'next/link';
@@ -86,11 +85,6 @@ const ListPage = async ({ params, searchParams }) => {
 
   const posts = await getPaginatedSearchResults({ type, page, search });
 
-  const postsWithCompanies = await Promise.all(posts.map(async (post) => ({
-    post,
-    company: (await getCompany(post.employingCompanyId))!,
-  })));
-
   return (
     <div>
       <div className="flex gap-2 mt-10 px-10 justify-center">
@@ -117,11 +111,11 @@ const ListPage = async ({ params, searchParams }) => {
       </div>
       {posts.length > 0 && (
         <div>
-          {postsWithCompanies.map(({ post, company }) => (
+          {posts.map((post) => (
             <PostCard
               key={post.id}
               post={post}
-              company={company}
+              company={post.employingCompany}
               className="mt-5"
             />
           ))}

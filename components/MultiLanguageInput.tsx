@@ -1,3 +1,4 @@
+import { isMultiLangStringSet, MultiLangStringSet } from '@/lib/multilang';
 import {
   autoUpdate,
   offset,
@@ -19,8 +20,9 @@ import { Input } from './Input';
 export type Props = {
   component?: React.JSXElementConstructor<any>;
   value?: Record<string, string>;
-  onValueChange?: (value: Record<string, string>) => void;
+  onValueChange?: (value: MultiLangStringSet) => void;
   open?: boolean;
+  className?: string;
 };
 
 const LANGUAGES = {
@@ -73,7 +75,9 @@ export const MultiLanguageInput = ({
       value[language] = langValue;
     });
 
-    onValueChange?.(newValue);
+    if (isMultiLangStringSet(newValue)) {
+      onValueChange?.(newValue);
+    }
   };
 
   const { refs, floatingStyles, context } = useFloating({

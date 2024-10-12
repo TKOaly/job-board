@@ -10,9 +10,6 @@ WORKDIR /app
 COPY package.json yarn.lock* ./
 RUN yarn --frozen-lockfile
 
-COPY prisma ./prisma/
-RUN yarn prisma generate
-
 # Rebuild the source code only when needed
 FROM deps AS builder
 WORKDIR /app
@@ -31,7 +28,7 @@ CMD yarn dev
 # Run Prisma migration scripts
 FROM deps AS migrate
 
-CMD yarn prisma migrate deploy 
+CMD yarn drizzle-kit migrate
 
 # Production image, copy all the files and run next
 FROM base AS runner

@@ -1,6 +1,6 @@
 'use client';
 
-import { Company, Post, Tag } from '@prisma/client';
+import { Company, Post, PostWithTags, Tag } from '@/lib/db/schema';
 import { Button } from '@/components/Button';
 import { useEffect, useState } from 'react';
 import { formatISO } from 'date-fns';
@@ -19,7 +19,7 @@ export const CreatePost = ({ companies, tags }: Props) => {
   const [errors, setErrors] = useState<Record<string, string> | null>(null);
   const [loading, setLoading] = useState(false);
 
-  const [post, setPost] = useState<Partial<Post & { tags: Tag[] }>>({});
+  const [post, setPost] = useState<Partial<Post & { tags: { tag: Tag }[] }>>({});
   const [postTouched, setPostTouched] = useState(false);
   useEffect(() => {
     setPostTouched(true);
@@ -27,7 +27,7 @@ export const CreatePost = ({ companies, tags }: Props) => {
 
   const { push } = useRouter();
 
-  const handleSubmit = async (post: Partial<Post & { tags: Tag[] }>) => {
+  const handleSubmit = async (post: Partial<PostWithTags>) => {
     setLoading(true);
     setPostTouched(false);
     const foundErrors = await validatePost(post);
@@ -51,7 +51,7 @@ export const CreatePost = ({ companies, tags }: Props) => {
         company: post.employingCompanyId,
         applicationLink: post.applicationLink,
         body: post.body,
-        tags: (post.tags ?? []).map(tag => tag.id),
+        tags: (post.tags ?? []).map(tag => tag.tag.id),
       }),
     });
 

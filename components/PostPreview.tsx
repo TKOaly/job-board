@@ -1,6 +1,6 @@
 'use client';
 
-import { Post, Tag } from '@prisma/client';
+import { Post, Tag } from '@/lib/db/schema';
 import { Company } from '@/lib/companies';
 import { format, isAfter, isBefore, isSameDay } from 'date-fns';
 import { ApplicationOpenBadge } from './ApplicationOpenBadge';
