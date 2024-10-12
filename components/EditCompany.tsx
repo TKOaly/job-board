@@ -1,6 +1,6 @@
 'use client';
 
-import { Company } from '@prisma/client';
+import { Company } from '@/lib/db/schema';
 import { Button } from '@/components/Button';
 import { useState } from 'react';
 import CompanyEditor from './CompanyEditor';

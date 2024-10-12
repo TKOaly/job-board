@@ -1,6 +1,6 @@
 import { parseISO } from 'date-fns';
+import { createPost } from '@/lib/posts';
 import { z } from 'zod';
-import client from '@/db';
 import { getServerSession } from 'next-auth/next';
 import { config } from '@/next-auth';
 
@@ -28,18 +28,14 @@ export default async function handler(req, res) {
     return;
   }
 
-  const post = await client.post.create({
-    data: {
-      title: body.title,
-      body: body.body,
-      employingCompanyId: body.company,
-      opensAt: parseISO(body.opensAt),
-      closesAt: parseISO(body.closesAt),
-      applicationLink: body.applicationLink,
-      tags: {
-        connect: body.tags.map(id => ({ id })),
-      },
-    },
+  const post = await createPost({
+    title: body.title,
+    body: body.body,
+    employingCompanyId: body.company,
+    opensAt: parseISO(body.opensAt),
+    closesAt: parseISO(body.closesAt),
+    applicationLink: body.applicationLink,
+    tags: body.tags,
   });
 
   res.status(200).json({

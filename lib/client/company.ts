@@ -1,4 +1,4 @@
-import { Company } from '@prisma/client';
+import type { Company } from '@/lib/db/schema';
 
 export const validateCompany = async (company: Partial<Company>) => {
   const foundErrors: Record<string, string> = {};

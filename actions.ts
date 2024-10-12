@@ -1,6 +1,6 @@
 'use server';
 
-import { Company } from "@prisma/client";
+import { Company } from "@/lib/db/schema";
 import minio from "./minio";
 
 const BUCKET_NAME = 'jobboard-logos';
@@ -12,6 +12,7 @@ export async function getLogoUploadUrl(company: Company): Promise<string> {
     const publicUrl = new URL(process.env.MINIO_PUBLIC_URL);
 
     logoUploadUrl.host = publicUrl.host;
+    logoUploadUrl.port = publicUrl.port;
     logoUploadUrl.protocol = publicUrl.protocol;
   }
 

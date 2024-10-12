@@ -1,6 +1,5 @@
 'use client';
 
-import { Post, Tag } from '@prisma/client';
 import { Company } from '@/lib/companies';
 import { format, isAfter, isBefore, isSameDay } from 'date-fns';
 import { ApplicationOpenBadge } from './ApplicationOpenBadge';
@@ -11,10 +10,11 @@ import { TagBadge } from './TagBadge';
 import { PencilSquareIcon } from '@heroicons/react/24/outline';
 import { Link, useRouter, useTranslation } from '@/app/i18n/client';
 import { useMultiLang } from '@/lib/multilang';
+import { PostWithTags } from '@/lib/db/schema';
 
 export type Props = {
-  post: Post & { tags: Tag[] };
-  company: Company;
+  post: PostWithTags;
+  company: Omit<Company, 'employerPostCount'>;
   className?: string;
   editable?: boolean;
 };
@@ -88,7 +88,7 @@ export const PostCard = ({ post, company, className, editable }: Props) => {
           {post.tags.length > 0 && (
             <CardField label={t('post.tags')}>
               <div className="mt-1 flex flex-wrap gap-1">
-                {post.tags.map(tag => (
+                {post.tags.map(({ tag }) => (
                   <TagBadge key={tag.id}>{tag.name}</TagBadge>
                 ))}
               </div>

@@ -1,5 +1,5 @@
+import { updateCompany } from '@/lib/companies';
 import { config } from '@/next-auth';
-import client from '@/db';
 import { NextApiRequest, NextApiResponse } from 'next';
 import { getServerSession } from 'next-auth';
 import { z } from 'zod';
@@ -35,11 +35,9 @@ export default async function handler(
     const { id } = querySchema.parse(req.query);
     const body = bodySchema.parse(req.body);
 
-    const newCompany = await client.company.update({
-      where: {
-        id: parseInt(id, 10),
-      },
-      data: body,
+    const newCompany = await updateCompany({
+      id: parseInt(id, 10),
+      ...body,
     });
 
     res.status(200).json({

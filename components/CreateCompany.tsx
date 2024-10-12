@@ -1,7 +1,7 @@
 'use client';
 
 import { getLogoUploadUrl } from '@/actions';
-import { Company } from '@prisma/client';
+import { Company } from '@/lib/db/schema';
 import { useRouter } from '@/app/i18n/client';
 import { useEffect, useState } from 'react';
 import { Button } from './Button';

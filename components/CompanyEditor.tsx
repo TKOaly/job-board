@@ -1,4 +1,4 @@
-import { Company } from '@prisma/client';
+import { Company } from '@/lib/db/schema';
 import { Input } from '@/components/Input';
 import { produce } from 'immer';
 import { Checkbox } from './Checkbox';

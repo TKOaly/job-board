@@ -1,7 +1,7 @@
-import { Post, Tag } from '@prisma/client';
 import { isBefore } from 'date-fns';
+import type { PostWithTags } from '@/lib/db/schema';
 
-export const validatePost = async (post: Partial<Post & { tags: Tag[] }>) => {
+export const validatePost = async (post: Partial<PostWithTags>) => {
   const foundErrors: Record<string, string> = {};
   const addError = async (field: string, error: string) => {
     foundErrors[field] = error;
@@ -12,13 +12,13 @@ export const validatePost = async (post: Partial<Post & { tags: Tag[] }>) => {
   } else {
     const languages = Object.keys(post.title);
 
-    if (!languages.includes('fi')) {
+    /*if (!languages.includes('fi')) {
       await addError('title', 'should be translated in Finnish.');
     }
 
     if (!languages.includes('en')) {
       await addError('title', 'should be translated in English.');
-    }
+    }*/
   }
 
   if (!post.opensAt) {
@@ -53,13 +53,13 @@ export const validatePost = async (post: Partial<Post & { tags: Tag[] }>) => {
   } else {
     const languages = Object.keys(post.body);
 
-    if (!languages.includes('fi')) {
+    /*if (!languages.includes('fi')) {
       await addError('body', 'should be translated in Finnish.');
     }
 
     if (!languages.includes('en')) {
       await addError('body', 'should be translated in English.');
-    }
+    }*/
   }
 
   if (Object.keys(foundErrors).length > 0) {

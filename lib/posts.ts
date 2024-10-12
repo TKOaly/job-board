@@ -1,27 +1,16 @@
-import prisma from '@/db';
-import tsquery from 'pg-tsquery';
-import { Post as PrismaPost, Tag } from '@prisma/client';
-import { startOfDay, subDays, subHours, subMinutes } from 'date-fns';
+import db from './db';
+import type { Post, PostWithTags, PostWithTagsAndCompany } from './db/schema';
+import * as s from './db/schema';
+import { and, asc, desc, eq, or, sql, SQLWrapper } from 'drizzle-orm';
+import { MultiLangStringSet } from './multilang';
 
-export type Post = PrismaPost & { tags: Tag[] };
-
-const formatPost = async (
-  post: PrismaPost & { tags: Tag[] },
-): Promise<Post> => {
-  return post;
-};
-
-export const getCompanyPosts = async (id: number): Promise<Post[]> => {
-  const posts = await prisma.post.findMany({
-    where: {
-      employingCompanyId: id,
-    },
-    include: {
-      tags: true,
+export const getCompanyPosts = async (id: number): Promise<PostWithTags[]> => {
+  return db.query.post.findMany({
+    where: (post) => eq(post.employingCompanyId, id),
+    with: {
+      tags: { with: { tag: true } },
     },
   });
-
-  return await Promise.all(posts.map(formatPost));
 };
 
 export type SearchOpts = {
@@ -36,112 +25,113 @@ export type PostCounts = {
   open: number;
 };
 
+const countFilter = (filter: any) => sql`count(*) filter (where ${filter})`.mapWith(Number);
+
 export const getPostCounts = async (params: {
   search: string;
 }): Promise<PostCounts> => {
-  const { search: textSearch } = params;
+  const fields = {
+    closed: countFilter(sql`${s.post.closesAt} <= NOW()`),
+    open: countFilter(sql`NOW() BETWEEN ${s.post.opensAt} AND ${s.post.closesAt}`),
+    upcoming: countFilter(sql`${s.post.opensAt} > NOW()`),
+  };
 
-  const search = textSearch ? tsquery()(textSearch) : undefined;
+  const select = db.select(fields).from(s.post).limit(1);
 
-  let where: NonNullable<Parameters<typeof prisma.post.findMany>[0]>['where'] =
-    {
-      title: {
-        search,
-      },
-      body: {
-        search,
-      },
-    };
+  if (!params.search) {
+    const [counts] = await select;
 
-  const open = await prisma.post.count({
-    where: {
-      ...where,
-      opensAt: { lte: new Date() },
-      closesAt: { gte: subHours(startOfDay(new Date()), 2) },
-    },
-  });
+    return counts;
+  }
 
-  const closed = await prisma.post.count({
-    where: {
-      ...where,
-      OR: [
-        { opensAt: { gt: new Date() } },
-        { closesAt: { lt: subHours(startOfDay(new Date()), 2) } },
-      ],
-    },
-  });
+  const where = or(
+    sql`to_tsvector('simple', ${s.post.title}) @@ to_tsquery('simple', ${params.search ?? ''})`,
+    sql`to_tsvector('simple', ${s.post.body}) @@ to_tsquery('simple', ${params.search ?? ''})`,
+  );
 
-  const upcoming = await prisma.post.count({
-    where: {
-      ...where,
-      opensAt: { gt: new Date() },
-    },
-  });
-
-  return { upcoming, open, closed };
+  const stmt = select.where(where);
+  console.log(stmt.toSQL());
+  const [counts] = await stmt;
+  return counts;
 };
 
 export const getPaginatedSearchResults = async (
   params: SearchOpts,
-): Promise<Array<Post>> => {
-  const { search: textSearch, page, type } = params;
+): Promise<Array<PostWithTagsAndCompany>> => {
+  const { search, page, type } = params;
+  let offset = ((page ?? 1) - 1) * 10;
 
-  const search = textSearch ? tsquery()(textSearch) : undefined;
+  let conditions: (SQLWrapper | undefined)[] = [];
 
-  let where: NonNullable<Parameters<typeof prisma.post.findMany>[0]>['where'] =
-    {
-      title: {
-        search,
-      },
-      body: {
-        search,
-      },
-    };
-
-  if (type === 'open') {
-    where = {
-      ...where,
-      closesAt: { gte: subHours(startOfDay(new Date()), 2) },
-    };
-  } else if (type === 'closed') {
-    where = {
-      ...where,
-      closesAt: { lt: subHours(startOfDay(new Date()), 2) },
-    };
+  if (search) {
+    conditions.push(or(
+      sql`to_tsvector('simple', ${s.post.title}) @@ to_tsquery('simple', ${params.search ?? ''})`,
+      sql`to_tsvector('simple', ${s.post.body}) @@ to_tsquery('simple', ${params.search ?? ''})`,
+    ));
   }
 
-  let skip = ((page ?? 1) - 1) * 10;
+  if (type === 'open') {
+    conditions.push(sql`${s.post.closesAt} >= NOW()`);
+  } else if (type === 'closed') {
+    conditions.push(sql`${s.post.closesAt} < NOW()`);
+  }
 
-  const posts = await prisma.post.findMany({
-    where,
-    include: {
-      tags: true,
-    },
-    orderBy:
-      type === 'open'
-        ? // Show open listings with partner companies first, then by how soon they close
-          [
-            { employingCompany: { partner: 'desc' } },
-            { closesAt: 'asc' },
-            { createdAt: 'desc' },
-          ]
-        : // Show closed listings with the most recently closed first
-          [{ closesAt: 'desc' }, { createdAt: 'desc' }],
-    take: 10,
-    skip,
-  });
-
-  return await Promise.all(posts.map(formatPost));
-};
-
-export const getPost = async (id: number): Promise<Post | null> => {
-  const result = await prisma.post.findUnique({
-    where: { id },
-    include: {
+  return db.query.post.findMany({
+    with: {
+      tags: { with: { tag: true } },
       employingCompany: true,
-      tags: true,
     },
+    limit: 10,
+    offset,
+    where: and(...conditions),
+    orderBy: type === 'open'
+      ? [asc(s.post.closesAt), desc(s.post.createdAt)]
+      : [desc(s.post.closesAt), desc(s.post.createdAt)],
+  });
+};
+
+export const getPost = async (id: number): Promise<PostWithTags | null> => {
+  const post = await db.query.post.findFirst({
+    with: {
+      recruitingCompany: true,
+      tags: { with: { tag: true } },
+    },
+    where: eq(s.post.id, id),
   });
 
-  return result && formatPost(result);
+  return post ?? null;
 };
+
+export const getPosts = async (): Promise<PostWithTags[]> => {
+  return db.query.post.findMany({
+    with: {
+      recruitingCompany: true,
+      tags: { with: { tag: true } },
+    },
+  });
+};
+
+export type NewPost = {
+  title: MultiLangStringSet,
+  body: MultiLangStringSet,
+  tags: number[],
+  opensAt?: Date,
+  closesAt?: Date,
+  employingCompanyId: number,
+  recruitingCompanyId?: number,
+  applicationLink?: string,
+};
+
+export const createPost = async (details: NewPost) => {
+  const [post] = await db
+    .insert(s.post)
+    .values({
+      ...details,
+      updatedAt: new Date(),
+    })
+    .returning();
+
+  await db.insert(s.postToTag).values(details.tags.map(tagId => ({ tagId, postId: post.id })));
+
+  return post;
+}

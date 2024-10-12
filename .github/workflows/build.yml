@@ -75,9 +75,10 @@ jobs:
 
       - name: Trigger deployment
         uses: aurelien-baudet/workflow-dispatch@v2
+        if: ${{ github.event_name == 'release' }}
         with:
           token: ${{ secrets.DEPLOYMENT_PAT }}
           workflow: Bump Service
-          inputs: '{"service": "job-board", "tag": "sha-${{ steps.sha.outputs.value }}"}'
+          inputs: '{"service": "job-board", "tag": "${{ github.event.release.tag_name }}"}'
           repo: TKOaly/tko-aly-k8s-configs
           ref: main

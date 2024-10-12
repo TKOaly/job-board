@@ -6,7 +6,7 @@ import {
   PlusIcon,
 } from '@heroicons/react/20/solid';
 import * as R from 'ramda';
-import { Company, Tag } from '@prisma/client';
+import { Tag } from '@/lib/db/schema';
 import { useState } from 'react';
 import { Button } from './Button';
 import { useCommandState } from 'cmdk';

@@ -1,5 +1,5 @@
+import { createCompany } from '@/lib/companies';
 import { config } from '@/next-auth';
-import client from '@/db';
 import { NextApiRequest, NextApiResponse } from 'next';
 import { getServerSession } from 'next-auth';
 import { z } from 'zod';
@@ -28,12 +28,10 @@ export default async function handler(
 
     const body = createSchema.parse(req.body);
 
-    const newCompany = await client.company.create({
-      data: {
-        name: body.name,
-        partner: body.partner,
-        website: body.website,
-      },
+    const newCompany = await createCompany({
+      name: body.name,
+      partner: body.partner,
+      website: body.website,
     });
 
     res.status(200).json({

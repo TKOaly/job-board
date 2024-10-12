@@ -5,7 +5,7 @@ import {
   CheckIcon,
   ChevronUpDownIcon,
 } from '@heroicons/react/24/outline';
-import { Company } from '@prisma/client';
+import type { Company } from '@/lib/db/schema';
 import { useState } from 'react';
 import { Button } from './Button';
 import { useCommandState } from 'cmdk';

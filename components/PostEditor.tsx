@@ -1,4 +1,4 @@
-import { Company, Post, Tag } from '@prisma/client';
+import { Company, Post, Tag } from '@/lib/db/schema';
 import { Input } from '@/components/Input';
 import { Textarea } from '@/components/TextArea';
 import { TagSelect } from './TagSelect';
@@ -17,7 +17,7 @@ type EditorPost = Partial<
     | 'opensAt'
     | 'closesAt'
     | 'applicationLink'
-  > & { tags: Tag[] }
+  > & { tags?: { tag: Tag }[] }
 >;
 
 export type Props = {
@@ -85,15 +85,15 @@ const PostEditor = ({
       </EditField>
       <EditField label="Tags" error={errors.tags}>
         <TagSelect
-          value={post.tags ?? []}
-          onChange={id => setField('tags', id)}
+          value={(post.tags ?? []).map(join => join.tag)}
+          onChange={tags => setField('tags', tags.map(tag => ({ tag })))}
           tags={tags}
           className="w-full"
         />
       </EditField>
       <EditField label="Application link" error={errors.applicationLink}>
         <Input
-          value={post.applicationLink}
+          value={post.applicationLink ?? ''}
           onChange={evt => setField('applicationLink', evt.target.value)}
         />
       </EditField>

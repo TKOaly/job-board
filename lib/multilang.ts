@@ -2,9 +2,11 @@ import { fallbackLang } from "@/app/i18n/settings";
 import { useParams } from "next/navigation";
 
 export type LanguageKey = 'fi' | 'en' | 'xx';
-export type MultiLangStringSet = Record<LanguageKey, string>;
+export type MultiLangStringSet = Partial<Record<LanguageKey, string>>;
 
 const LANGUAGE_PREFERENCE: LanguageKey[] = ['fi', 'en', 'xx']
+
+export const isMultiLangStringSet = (value: unknown): value is MultiLangStringSet => typeof value === 'object' && value !== null && Object.keys(value).every(key => LANGUAGE_PREFERENCE.includes(key as LanguageKey))
 
 export const getMultiLangStringValue = (value: unknown, pLang: string) => {
   if (typeof value !== 'object' || value === null) {
