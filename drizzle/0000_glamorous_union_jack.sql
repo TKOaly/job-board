@@ -1,17 +1,5 @@
 -- Current sql file was generated after introspecting the database
 -- If you want to run this migration please uncomment this code before executing migrations
-/*
-CREATE TABLE IF NOT EXISTS "_prisma_migrations" (
-	"id" varchar(36) PRIMARY KEY NOT NULL,
-	"checksum" varchar(64) NOT NULL,
-	"finished_at" timestamp with time zone,
-	"migration_name" varchar(255) NOT NULL,
-	"logs" text,
-	"rolled_back_at" timestamp with time zone,
-	"started_at" timestamp with time zone DEFAULT now() NOT NULL,
-	"applied_steps_count" integer DEFAULT 0 NOT NULL
-);
---> statement-breakpoint
 CREATE TABLE IF NOT EXISTS "_PostToTag" (
 	"A" integer NOT NULL,
 	"B" integer NOT NULL
@@ -75,4 +63,3 @@ CREATE UNIQUE INDEX IF NOT EXISTS "_PostToTag_AB_unique" ON "_PostToTag" USING b
 CREATE INDEX IF NOT EXISTS "_PostToTag_B_index" ON "_PostToTag" USING btree ("B");--> statement-breakpoint
 CREATE UNIQUE INDEX IF NOT EXISTS "Tag_name_key" ON "Tag" USING btree ("name");--> statement-breakpoint
 CREATE UNIQUE INDEX IF NOT EXISTS "Company_bussinessId_key" ON "Company" USING btree ("bussinessId");
-*/
