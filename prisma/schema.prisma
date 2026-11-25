@@ -4,6 +4,7 @@
 generator client {
   provider        = "prisma-client-js"
   previewFeatures = ["postgresqlExtensions", "fullTextSearch"]
+  binaryTargets = ["native", "linux-musl"]
 }
 
 datasource db {
