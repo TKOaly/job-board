@@ -14,15 +14,7 @@ const formatCompany = async (
   try {
     await minio.statObject('jobboard-logos', `${company.id}`);
 
-    let prefix = process.env.MINIO_URL;
-
-    if (!prefix) {
-      prefix = process.env.MINIO_PUBLIC_URL;
-    }
-
-    if (prefix) {
-      logoUrl = `${prefix}/jobboard-logos/${company.id}`;
-    }
+    logoUrl = `${process.env.PUBLIC_URL ?? ''}/api/logos/${company.id}`;
   } catch (err) {}
 
   return {
