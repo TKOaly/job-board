@@ -13,6 +13,7 @@ const createMinioSingleton = () => {
     useSSL,
     accessKey: process.env.MINIO_ACCESS_KEY!,
     secretKey: process.env.MINIO_SECRET_KEY!,
+    region: process.env.MINIO_REGION!
   });
 
   return minio;
